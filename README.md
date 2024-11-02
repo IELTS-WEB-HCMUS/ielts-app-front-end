@@ -47,9 +47,9 @@ Khi phát triển một ứng dụng web, sẽ có nhiều thành phần như Na
 - Không thể cứ code đi code lại nếu có nhiều page hoặc copy-paste các thành phần đó (boilerplate).
 - Chính vì thế, ta nên tách nó thành các components và tái sử dụng.
 
-Vue.js giúp render và binding các components này. Mặc dù bạn vẫn có thể làm điều này thông qua JavaScript hoặc jQuery nếu không có framework, nhưng sẽ khiến code trở nên dài dòng.
+Vue.js giúp render và binding các components này. Mặc dù vẫn có thể làm điều này thông qua JavaScript hoặc jQuery nếu không có framework, nhưng sẽ khiến code trở nên dài dòng.
 
-## Route
+## Router
 Để giúp các file biết đường gọi nhau, ta sử dụng router.
 
 ## Khả năng sử dụng
