@@ -1,0 +1,114 @@
+body{
+    background-color: #BDE3F2;
+}
+
+#container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+img{
+    margin-top: 100px;
+    width: 500px;
+    height: 500px;
+    grid-column: 1;
+}
+
+h3{
+    margin-top: 120px;
+    margin-left: 150px;
+    z-index: 1000;
+    position: absolute;
+    font-size: 24px;;
+}
+
+h4{
+    margin-top: -50px;
+    margin-left: 150px;
+    z-index: 1000;
+    position: absolute;
+    font-size: 14px;
+    font-style: italic;
+    color: white;
+}
+
+#container-image{
+    grid-column: 1;
+    text-align: center;
+}
+
+#container-form{
+    grid-column: 2;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-right: 100px;
+    margin-top: 70px;
+}
+
+#tag-sign{
+    display: flex;
+    background-color: #81D3E5;
+    width: 200px;
+    height: 40px;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 20px;
+    margin-left: 230px;
+}
+
+.input-text{
+    width: 200px;
+    height: 30px;
+    border-radius: 20px;
+    border: none;
+    margin-top: 10px;
+    text-align: center;
+    margin: 20px;
+}
+
+button{
+    width: 80px;
+    height: 25px;
+    border-radius: 20px;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.forget{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.checkbox{
+    grid-column: 1;
+    text-align: right;
+}
+
+#forget-pass{
+    grid-column: 2;
+    cursor: pointer;
+}
+
+#forget-pass:hover{
+    color: #81D3E5;
+    cursor: pointer;
+}
+
+hr{
+    width: 200px;
+    margin-right: 200px;
+}
+
+#log{
+    width: 200px;
+    height: 30px;
+    border-radius: 20px;
+    border: none;
+    margin-top: 10px;
+    text-align: center;
+    margin-left: 50px;
+    background-color: #81D3E5;
+}
