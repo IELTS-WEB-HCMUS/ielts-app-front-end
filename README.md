@@ -1,6 +1,7 @@
 # ielts-app-front-end
 
 ## Project Structure
+```bash
 project/
 ├── public/
 │   └── index.html                   # File HTML chính của ứng dụng
@@ -24,7 +25,7 @@ project/
 │   ├── App.vue                      # Component chính của ứng dụng
 │   └── main.js                      # File JavaScript chính để khởi động ứng dụng
 └── package.json                     # Cấu hình dự án và phụ thuộc
-
+```
 
 ## Tech Stack
 - **Front-end**:
