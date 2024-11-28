@@ -7,7 +7,7 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'views/loginpage.html'));
+  res.sendFile(path.join(__dirname, 'public', 'views/homepage.html'));
 });
 
 app.get('/login', (req, res) => {
