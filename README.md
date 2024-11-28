@@ -20,5 +20,5 @@ nodemon
 
 ### 4. Open in browser 
 ```bash
-Link: localhost:3000
+localhost:3000
 ```
