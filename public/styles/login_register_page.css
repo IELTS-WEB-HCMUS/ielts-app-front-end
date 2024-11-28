@@ -1,44 +1,49 @@
-body{
-    background-color: #BDE3F2;
+body {
+    background-color: var(--background-color);
 }
 
-#container{
+#container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 }
 
-img{
+h1{
+    margin-left: 80px;
+}
+
+img {
     margin-top: 100px;
     width: 500px;
     height: 500px;
     grid-column: 1;
 }
 
-h3{
+h3 {
     margin-top: 120px;
     margin-left: 150px;
     z-index: 1000;
     position: absolute;
-    font-size: 24px;;
+    font-size: 24px;
+    color: var(--text-color);
 }
 
-h4{
+h4 {
     margin-top: -50px;
     margin-left: 150px;
     z-index: 1000;
     position: absolute;
     font-size: 14px;
     font-style: italic;
-    color: white;
+    color: var(--highlight-color);
 }
 
-#container-image{
+#container-image {
     grid-column: 1;
     text-align: center;
 }
 
-#container-form{
+#container-form {
     grid-column: 2;
     justify-content: center;
     text-align: center;
@@ -47,9 +52,9 @@ h4{
     margin-top: 70px;
 }
 
-#tag-sign{
+#tag-sign {
     display: flex;
-    background-color: #81D3E5;
+    background-color: var(--primary-color);
     width: 200px;
     height: 40px;
     justify-content: space-around;
@@ -58,51 +63,52 @@ h4{
     margin-left: 230px;
 }
 
-.input-text{
+.input-text {
     width: 200px;
     height: 30px;
     border-radius: 20px;
     border: none;
     margin-top: 10px;
-    text-align: center;
     margin: 20px;
+    padding-left: 15px;
 }
 
-button{
+button {
     width: 80px;
     height: 25px;
     border-radius: 20px;
     border: none;
-    background-color: #fff;
+    background-color: var(--secondary-color);
     cursor: pointer;
 }
 
-.forget{
+.forget {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
-.checkbox{
+.checkbox {
     grid-column: 1;
     text-align: right;
 }
 
-#forget-pass{
+#forget-pass {
     grid-column: 2;
     cursor: pointer;
+    color: var(--text-color);
 }
 
-#forget-pass:hover{
-    color: #81D3E5;
+#forget-pass:hover {
+    color: var(--hover-color);
     cursor: pointer;
 }
 
-hr{
+hr {
     width: 200px;
     margin-right: 200px;
 }
 
-#log{
+#log {
     width: 200px;
     height: 30px;
     border-radius: 20px;
@@ -110,5 +116,35 @@ hr{
     margin-top: 10px;
     text-align: center;
     margin-left: 50px;
-    background-color: #81D3E5;
+    background-color: var(--primary-color);
+}
+
+#togglePassword {
+    color: var(--eye-color1);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#togglePassword:hover {
+    color: var(--eye-color2);
+}
+
+#togglePassword1 {
+    color: var(--eye-color1);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#togglePassword1:hover {
+    color: var(--eye-color2);
+}
+
+#togglePassword2 {
+    color: var(--eye-color1);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#togglePassword2:hover {
+    color: var(--eye-color2);
 }

@@ -1,0 +1,15 @@
+{
+  "name": "ielts-app-front-end",
+  "version": "1.0.0",
+  "description": "```bash\r project/\r ├── public/\r │   └── index.html                   # File HTML chính của ứng dụng\r │   └── favicon.ico                  # Biểu tượng trang\r ├── src/\r │   ├── assets/                      # Thư mục chứa hình ảnh, font, file media\r │   ├── components/                  # Thư mục chứa các thành phần tái sử dụng\r │   │   ├── Header.vue               # Header dùng chung\r │   │   ├── Footer.vue               # Footer dùng chung\r │   │   └── Sidebar.vue              # Sidebar điều hướng, nếu có\r │   ├── views/                       # Thư mục chứa các màn hình\r │   │   ├── Home.vue                 # Trang chủ\r │   │   ├── Login.vue                # Trang đăng nhập\r │   │   ├── Dashboard.vue            # Trang bảng điều khiển\r │   │   ├── Profile.vue              # Trang thông tin cá nhân\r │   │   └── ...                      # Các màn hình khác\r │   ├── router/                      # Quản lý định tuyến\r │   │   └── index.js                 # Cấu hình Vue Router cho ứng dụng\r │   ├── store/                       # Vuex để quản lý state, nếu có\r │   │   └── index.js                 # Khởi tạo Vuex store, có thể không sử dụng --> Sử dụng khi các thành phần dùng chung chia sẻ tài nguyên phức tạp\r │   ├── App.vue                      # Component chính của ứng dụng\r │   └── main.js                      # File JavaScript chính để khởi động ứng dụng\r └── package.json                     # Cấu hình dự án và phụ thuộc\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
