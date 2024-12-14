@@ -18,6 +18,14 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views/registerpage.html'));
 });
 
+app.get('/aboutus', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views/aboutuspage.html'));
+});
+
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views/homepage.html'));
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
