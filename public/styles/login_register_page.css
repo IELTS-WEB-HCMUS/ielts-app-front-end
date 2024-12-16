@@ -117,33 +117,3 @@ hr {
     margin-left: 50px;
     background-color: var(--primary-color);
 }
-
-#togglePassword {
-    color: var(--eye-color1);
-    font-size: 12px;
-    cursor: pointer;
-}
-
-#togglePassword:hover {
-    color: var(--eye-color2);
-}
-
-#togglePassword1 {
-    color: var(--eye-color1);
-    font-size: 12px;
-    cursor: pointer;
-}
-
-#togglePassword1:hover {
-    color: var(--eye-color2);
-}
-
-#togglePassword2 {
-    color: var(--eye-color1);
-    font-size: 12px;
-    cursor: pointer;
-}
-
-#togglePassword2:hover {
-    color: var(--eye-color2);
-}
