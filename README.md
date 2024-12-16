@@ -1,5 +1,9 @@
 # IELTS App Front-End Setup
 
+# Thay đổi cái gì đó trên branch
+Nhớ tạo branch mới để git checkout từ main nha mấy ní ơi!!!!!
+
+  
 ## Project Setup
 
 ### 1. Install Node.js
