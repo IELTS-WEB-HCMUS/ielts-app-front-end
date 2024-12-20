@@ -35,18 +35,6 @@ app.get('/about_us', (req, res) => {
 const userRouter = require('./routes/user.r');
 app.use('/user', userRouter);
 
-// app.get('/login', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'views/loginpage.html'));
-// });
-
-// app.get('/register', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'views/registerpage.html'));
-// });
-
-// app.get('/aboutus', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'views/aboutuspage.html'));
-// });
-
 app.get('/dashboard', (req, res) => {
     res.render('dashboard', { layout : 'dashboard', title: "Dashboard" });
 });
@@ -57,6 +45,14 @@ app.get('/vocals', (req, res) => {
 
 app.get('/filter', (req, res) => {
     res.render('filterpage', { layout : 'filter', title: "Dashboard" });
+});
+
+app.get('/resetpassword', (req, res) => {
+    res.render('verify_otp_code_page');
+});
+
+app.get('/setnewpassword', (req, res) => {
+    res.render('set_new_password');
 });
 
 app.use(session({   
