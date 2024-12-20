@@ -1,40 +1,40 @@
 body {
     background-color: var(--background-color);
+    font-size: 16px;
 }
 
 #container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    grid-gap: 0.625em;
 }
 
-h1{
-    margin-left: 80px;
+h1 {
+    margin-left: 5em;
 }
 
 img {
-    margin-top: 100px;
-    width: 500px;
-    height: 500px;
+    margin-top: 6.25em;
+    width: 31.25em;
+    height: 31.25em;
     grid-column: 1;
 }
 
 h3 {
-    margin-top: 120px;
-    margin-left: 150px;
+    margin-top: 6em;
+    margin-left: 9.375em;
     z-index: 1000;
     position: absolute;
-    font-size: 24px;
+    font-size: 1.5em;
     color: var(--text-color);
 }
 
 h4 {
-    margin-top: -50px;
-    margin-left: 150px;
+    margin-top: -3.125em;
+    margin-left: 9.375em;
     z-index: 1000;
     position: absolute;
-    font-size: 14px;
-    font-style: italic;
+    font-size: 0.875em;
     color: var(--highlight-color);
 }
 
@@ -48,34 +48,34 @@ h4 {
     justify-content: center;
     text-align: center;
     align-items: center;
-    margin-right: 100px;
-    margin-top: 70px;
+    margin-right: 6.25em;
+    margin-top: 4.375em;
 }
 
 #tag-sign {
     display: flex;
     background-color: var(--primary-color);
-    width: 200px;
-    height: 40px;
+    width: 12.5em;
+    height: 2.5em;
     justify-content: space-around;
     align-items: center;
-    border-radius: 20px;
-    margin-left: 230px;
+    border-radius: 1.25em;
+    margin-left: 14.375em;
 }
 
 .input-text {
-    width: 200px;
-    height: 30px;
-    border-radius: 20px;
+    width: 12.5em;
+    height: 1.875em;
+    border-radius: 1.25em;
     border: none;
-    margin: 20px;
-    padding-left: 15px;
+    margin: 1.25em;
+    padding-left: 0.9375em;
 }
 
 button {
-    width: 80px;
-    height: 25px;
-    border-radius: 20px;
+    width: 5em;
+    height: 1.5625em;
+    border-radius: 1.25em;
     border: none;
     background-color: var(--secondary-color);
     cursor: pointer;
@@ -103,17 +103,17 @@ button {
 }
 
 hr {
-    width: 200px;
-    margin-right: 200px;
+    width: 12.5em;
+    margin-right: 12.5em;
 }
 
 #log {
-    width: 200px;
-    height: 30px;
-    border-radius: 20px;
+    width: 12.5em;
+    height: 1.875em;
+    border-radius: 1.25em;
     border: none;
-    margin-top: 10px;
+    margin-top: 0.625em;
     text-align: center;
-    margin-left: 50px;
+    margin-left: 3.125em;
     background-color: var(--primary-color);
 }
