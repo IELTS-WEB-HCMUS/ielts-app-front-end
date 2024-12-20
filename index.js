@@ -18,6 +18,10 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views/registerpage.html'));
 });
 
+app.get('/payment', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views/payment_page.html'));
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

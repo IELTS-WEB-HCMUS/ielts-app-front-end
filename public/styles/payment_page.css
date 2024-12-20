@@ -1,0 +1,179 @@
+.title-text {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+.half-page-background {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 350px;
+    padding-bottom: 32px;
+    background: #1B76A1;
+    vertical-align: bottom;
+    align-items: center;
+    justify-content: center;
+    z-index: -1;
+}
+
+.blockquote-footer {
+    color: whitesmoke;
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+.card-container {
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+    /* Add padding to avoid overlap */
+    z-index: 1;
+    /* Ensure it is above any other overlapping elements */
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    position: relative;
+    top: -140px;
+    width: 20%;
+    height: 400px;
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: whitesmoke;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    overflow: hidden;
+}
+
+.price {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #1B76A1;
+}
+
+.status-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.status-list li {
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.status-list .tick::before,
+.status-list .cross::before {
+    margin-right: 8px;
+    content: '';
+    display: inline-block;
+    width: 16px;
+}
+
+.status-list .tick::before {
+    content: '✔';
+    color: green;
+    font-weight: bold;
+}
+
+.status-list .cross::before {
+    content: '✘';
+    color: red;
+    font-weight: bold;
+}
+
+.card button {
+    margin-top: 16px;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.advertised-text {
+    font-size: 3em;
+    font-weight: bold;
+    color: #2F327D;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    .card {
+        width: 30%;
+        height: auto;
+        /* Allow height to adjust automatically */
+    }
+
+    .advertised-text {
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 992px) {
+    .card {
+        width: 40%;
+        height: auto;
+    }
+
+    .advertised-text {
+        font-size: 2.2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+        /* Ensure the container has padding on small screens */
+    }
+
+    .card {
+        width: 80%;
+        top: 0;
+        height: auto;
+        margin-bottom: 16px;
+        padding: 16px;
+    }
+
+    .title-text {
+        font-size: 1.2em;
+    }
+
+    .advertised-text {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        width: 100%;
+        height: auto;
+    }
+
+    .advertised-text {
+        font-size: 1em;
+    }
+}
