@@ -19,69 +19,42 @@
 
 <body>
     <div id="container">
-        <div id="container-image">
-            <div id="logo">
-            </div>
-            <div id="name-web">
-                <h3>
-                    <img src="../assets/logo.png" alt="MePass Logo"
-                        style="width: 5em; height: 2em; margin-left: -4em; margin-top: -10em;">
-                </h3>
-            </div>
-            <div id="image">
-                <img src=".././assets/background_login.png" alt="MePass" />
-            </div>
-            <div id="paragraph">
-                <h4>
-                    In the world of English learning, MePass is the best choice for you.
-                </h4>
-            </div>
-        </div>
+        <img src=".././assets/background_login.png" alt="MePass" class="img-fluid"/>
         <div id="container-form" style="border: 3px solid rgb(156, 160, 163); border-radius: 20px;">
-            <h1 style="margin-left: 0em;">Welcome to MePass</h1>
+            <h1 style="margin-left: 0em;">MePass chào bạn !</h1>
             <div id="tag-sign">
-                <button id="login-mode">Login</button>
-                <button id="signup-mode">Register</button>
+                <button id="login-mode">Đăng nhập</button>
+                <button id="signup-mode">Đăng ký</button>
             </div>
-            <p>
-                This is a website that helps you fully improve your
+            <p style="text-align: center;">
+                Trang web của chúng tôi được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh một cách toàn diện và hiệu quả.
             </p>
-            <p>
-                English skills in the most comprehensive way.
-            </p>
-            <div id="login-form">
-                <form action="#" method="POST">
-                    <div>
-                        <label for="username">Username</label>
-                        <input type="text" class="input-text" name="username" required />
-                    </div>
-                    <div style="position: relative;">
-                        <label for="password">Password</label>
-                        <input type="password" class="input-text" id="password" name="password" required />
-                    </div>
-
-                    <div class="forget">
-                        <div class="checkbox">
-                            <label for="remember">Remember me</label>
-                            <input type="checkbox" name="remember" />
-                        </div>
-                        <div>
-                            <a id="forget-pass" href="/user/forgetpassword">Forgot password?</a>
-                        </div>
-                    </div>
-                    <div>
-                        <button id="log" type="submit">Login</button>
-                    </div>
-                </form>
-                <hr style="margin-left: -3$;" />
-                <div>
-                    <button id="log" onclick="window.location.href='/user/login/gg'">
-                        <img src=".././assets/google_icon.png" alt="Google Icon"
-                            style="width: 15px; height: 15px; margin-top: -50%;" />
-                        Sign in with Google
-                    </button>
+            <form action="#" method="POST">
+                <div class="input-group">
+                    <label for="username">Email</label>
+                    <input type="email" class="input-text" name="username" required placeholder="Nhập email"/>
                 </div>
-            </div>
+                <div class="input-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" class="input-text" id="password" name="password" required placeholder="Nhập mật khẩu"/>
+                </div>
+                <div class="forget">
+                    <div class="checkbox">
+                        <input type="checkbox" name="remember" />
+                        <label for="remember">Nhớ mật khẩu</label>
+                    </div>
+                    <div class="forget-pass">
+                        <a id="forget-pass" href="/user/forgetpassword" style="text-decoration: none;">Quên mật khẩu?</a>
+                    </div>
+                </div>
+            </form>
+            <button id="log" type="submit" style="margin-top: 5%; height:3em; width:50%;">Đăng nhập</button>
+            <hr/> 
+            <button id="log" onclick="window.location.href='/user/login/gg'" style="height:3em; width:50%;">
+                <img src=".././assets/google_icon.png" alt="Google Icon"
+                    style="width: 15px; height: 15px;" />
+                Đăng nhập với Google
+            </button>
         </div>
 </body>
 <script>
