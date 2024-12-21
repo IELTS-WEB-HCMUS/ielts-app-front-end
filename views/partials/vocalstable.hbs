@@ -21,7 +21,7 @@
     <div class="container">
       <table id="fresh-table" class="table table-bordered">
         <thead class="thead-dark">
-          <th data-field="id">.No</th>
+          <th data-field="id">STT</th>
           <th data-field="name" data-sortable="true">Từng vựng</th>
           <th data-field="salary" data-sortable="true">Trạng thái</th>
           <th data-field="country" data-sortable="true">Nghĩa của từ</th>
@@ -217,7 +217,7 @@
         return '';
       },
       formatRecordsPerPage: function (pageNumber) {
-        return pageNumber + ' rows visible';
+        return pageNumber;
       }
     });
   });
