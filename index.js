@@ -65,6 +65,10 @@ app.use(function (err, req, res, next){
     res.status(500).send(err.stack);
 });
 
+app.get('/payment', (req, res) => {
+    res.render('payment_page', {layout: 'payment', title: "Payment"});
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
