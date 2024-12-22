@@ -1,149 +1,224 @@
 body {
     background-color: var(--background-color);
+    font-size: 16px;
 }
 
 #container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1%;
 }
 
-h1{
-    margin-left: 80px;
+h1 {
+    margin-left: 5em;
 }
 
 img {
-    margin-top: 100px;
-    width: 500px;
-    height: 500px;
+    width: 44%;
+    height: auto;
     grid-column: 1;
 }
 
 h3 {
-    margin-top: 120px;
-    margin-left: 150px;
+    margin-top: 6em;
+    margin-left: 9.375em;
     z-index: 1000;
     position: absolute;
-    font-size: 24px;
+    font-size: 1.5em;
     color: var(--text-color);
 }
 
 h4 {
-    margin-top: -50px;
-    margin-left: 150px;
+    margin-top: -3.125em;
+    margin-left: 9.375em;
     z-index: 1000;
     position: absolute;
-    font-size: 14px;
-    font-style: italic;
+    font-size: 0.875em;
     color: var(--highlight-color);
 }
 
-#container-image {
-    grid-column: 1;
-    text-align: center;
+form {
+    width: 80%;
 }
 
 #container-form {
-    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 5%;
     justify-content: center;
-    text-align: center;
     align-items: center;
-    margin-right: 100px;
-    margin-top: 70px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background: whitesmoke;
 }
 
 #tag-sign {
     display: flex;
     background-color: var(--primary-color);
-    width: 200px;
-    height: 40px;
+    width: 50%;
+    height: 3em;
     justify-content: space-around;
     align-items: center;
-    border-radius: 20px;
-    margin-left: 230px;
+    border-radius: 1.25em;
 }
 
 .input-text {
-    width: 200px;
-    height: 30px;
-    border-radius: 20px;
-    border: none;
-    margin: 20px;
-    padding-left: 15px;
+    width: 100%;
+    height: 2em;
+    border-radius: 1.25em;
+    border: 1px solid black;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+}
+
+label {
+    width: 40%;
+    white-space: nowrap;
 }
 
 button {
-    width: 80px;
-    height: 25px;
-    border-radius: 20px;
+    width: 45%;
+    height: 80%;
+    border-radius: 1.25em;
     border: none;
     background-color: var(--secondary-color);
     cursor: pointer;
 }
 
 .forget {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .checkbox {
-    grid-column: 1;
-    text-align: right;
+    opacity: 0.7;
+    text-align: left;
+    width: 60%;
 }
 
 #forget-pass {
-    grid-column: 2;
     cursor: pointer;
+    width: 40%;
     color: var(--text-color);
+    opacity: 0.7;
 }
 
 #forget-pass:hover {
-    color: var(--hover-color);
+    color: red;
     cursor: pointer;
 }
 
 hr {
-    width: 200px;
-    margin-right: 200px;
+    width: 80%;
 }
 
 #log {
-    width: 200px;
-    height: 30px;
-    border-radius: 20px;
+    width: 12.5em;
+    height: 1.875em;
+    border-radius: 1.25em;
     border: none;
-    margin-top: 10px;
+    margin-top: 0.625em;
     text-align: center;
-    margin-left: 50px;
     background-color: var(--primary-color);
 }
 
-#togglePassword {
-    color: var(--eye-color1);
-    font-size: 12px;
-    cursor: pointer;
+@media only screen and (max-width: 1024px) {
+    #container {
+        flex-direction: column;
+        padding: 0%;
+    }
+
+    #container-form {
+        width: 80%;
+        /* Adjust form width for smaller screens */
+        padding: 2%;
+    }
+
+    #tag-sign {
+        width: 80%;
+        /* Adjust button group width for smaller screens */
+    }
+
+    h1 {
+        margin-left: 0;
+        /* Adjust h1 position */
+        font-size: 1.5em;
+        /* Adjust title size for small screens */
+    }
+
+    img {
+        width: 60%;
+        /* Adjust image width for smaller screens */
+    }
+
+    .input-group {
+        flex-direction: column;
+        /* Stack label and input vertically on smaller screens */
+        align-items: stretch;
+        /* Allow input fields to stretch */
+    }
+
+    label {
+        width: 100%;
+        /* Labels will take full width on smaller screens */
+        text-align: left;
+        /* Align label text to the left */
+    }
+
+    .forget {
+        flex-direction: column;
+        /* Stack checkbox and link vertically */
+        align-items: flex-start;
+        /* Align items to the left */
+    }
+
+    #forget-pass {
+        width: 100%;
+        /* Make the forget password link take full width */
+        text-align: left;
+    }
+
+    hr {
+        width: 100%;
+        /* Full width horizontal line for small screens */
+    }
 }
 
-#togglePassword:hover {
-    color: var(--eye-color2);
-}
+@media only screen and (max-width: 768px) {
+    h1 {
+        font-size: 1.25em;
+        /* Further decrease title font size for very small screens */
+    }
 
-#togglePassword1 {
-    color: var(--eye-color1);
-    font-size: 12px;
-    cursor: pointer;
-}
+    .input-text {
+        font-size: 1em;
+        /* Adjust input field font size */
+    }
 
-#togglePassword1:hover {
-    color: var(--eye-color2);
-}
+    button {
+        width: 100%;
+        /* Buttons take full width on very small screens */
+    }
 
-#togglePassword2 {
-    color: var(--eye-color1);
-    font-size: 12px;
-    cursor: pointer;
-}
-
-#togglePassword2:hover {
-    color: var(--eye-color2);
+    #log {
+        width: 100%;
+        /* Full-width login button */
+    }
 }

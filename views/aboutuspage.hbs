@@ -1,0 +1,135 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit/css/mdb.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="../styles/homepage.css" />
+<link rel="stylesheet" href="../styles/colors.css" />
+<style>
+  .spaced-text {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FF7426;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 15px;
+  }
+
+  .row {
+    padding: 5%;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .column {
+    width: 48%;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .column img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .column img:hover {
+    transform: scale(1.05);
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f9fc;
+  }
+
+  .section-text {
+    margin-top: 20px;
+    line-height: 1.6;
+    color: #555;
+    font-size: 18px;
+    text-align: justify;
+  }
+
+  .background-image {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .column {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <img src="../assets/color1.png" class="background-image" alt="Background" />
+
+  <div class="row">
+    <div class="column">
+      <h4 class="spaced-text">Chúng tôi là ai ?</h4>
+      <img src="../assets/background_homepage_2.png" class="img-fluid" alt="Chúng tôi là ai ?">
+      <p class="section-text">
+        Chào mừng bạn đến với MePass, nơi học tập kết hợp với sự đổi mới. Kể từ khi ra mắt, chúng tôi đã cam kết mang đến cho
+        người học những trải nghiệm phù hợp nhất. Tại MePass, chúng tôi tái định nghĩa việc đạt được các
+        mục tiêu cá nhân và nghề nghiệp của bạn.
+      </p>
+    </div>
+
+    <div class="column">
+      <h4 class="spaced-text">Tại sao nên chọn MePass ?</h4>
+      <img src="../assets/background_homepage_1.png" class="img-fluid" alt="Tại sao nên chọn MePass ?">
+      <p class="section-text">
+        MePass không chỉ là một nền tảng — đó là người bạn đồng hành trên con đường thành công của bạn. Với công nghệ tiên tiến,
+        khóa học được cá nhân hóa và hỗ trợ 24/7, chúng tôi luôn sẵn sàng giúp bạn khai phá tiềm năng và vươn lên trong thế giới
+        cạnh tranh ngày nay.
+      </p>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: -10%;">
+    <div class="column">
+      <h4 class="spaced-text">Bắt đầu hành trình của bạn !</h4>
+      <p class="section-text">
+        Sẵn sàng thay đổi cách bạn học tập? Tham gia MePass ngay hôm nay và trải nghiệm nền tảng tối ưu cho sự phát triển và
+        khám phá. Dù bạn là sinh viên, chuyên gia hay đơn giản chỉ là người yêu thích học hỏi — luôn có điều gì đó dành cho bạn
+        tại đây.
+      </p>
+      <button onclick="window.location.href='/dashboard'" class="btn btn-primary mt-3"
+        style="background-color: #FF7426; border: none;">
+        Bắt đầu ngay
+      </button>
+    </div>
+    <div class="column">
+      <h4 class="spaced-text">Tính năng của chúng tôi</h4>
+      <img src="../assets/background_dashboard.png" class="img-fluid" alt="Features">
+      <p class="section-text">
+        MePass mang đến cho bạn <b>Lộ Trình Học Tập Cá Nhân Hóa</b>, giúp bạn tiếp cận kiến thức theo cách phù hợp nhất với mục tiêu và
+        khả năng của mình. Với tính năng <b>Theo Dõi Tiến Độ Theo Thời Gian Thực</b>, bạn có thể dễ dàng nắm bắt sự tiến bộ của bản
+        thân và điều chỉnh kế hoạch học tập một cách linh hoạt. Ngoài ra, MePass còn <b>Ứng Dụng Công Nghệ AI</b> để cung cấp những gợi
+        ý thông minh, tối ưu hóa trải nghiệm học tập và giúp bạn đạt được kết quả tốt nhất.
+      </p>
+    </div>
+  </div>
