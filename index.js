@@ -66,7 +66,7 @@ app.use(function (err, req, res, next){
 });
 
 app.get('/payment', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'views/payment_page.html'));
+    res.render('payment_page', {layout: 'payment', title: "Payment"});
 });
 
 app.listen(port, () => {
