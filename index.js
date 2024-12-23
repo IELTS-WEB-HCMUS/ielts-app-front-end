@@ -25,11 +25,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.render('homepage', { layout: 'homepage', title: "Homepage" });
+    res.render('homepage', { layout: 'homepage', title: "Trang chủ" });
 });
 
 app.get('/about_us', (req, res) => {
-    res.render('aboutuspage', {layout: 'aboutus', title: "About us"});
+    res.render('aboutuspage', {layout: 'aboutus', title: "Giới thiệu"});
 });
 
 const userRouter = require('./routes/user.r');
@@ -40,7 +40,7 @@ app.get('/dashboard', (req, res) => {
 });
 
 app.get('/vocals', (req, res) => {
-    res.render('vocals', { layout : 'vocals', title: "vocals" });
+    res.render('vocals', { layout : 'vocals', title: "Từ vựng" });
 });
 
 app.get('/filter', (req, res) => {
@@ -66,7 +66,11 @@ app.use(function (err, req, res, next){
 });
 
 app.get('/payment', (req, res) => {
-    res.render('payment_page', {layout: 'payment', title: "Payment"});
+    res.render('payment_page', {layout: 'payment', title: "Thanh toán"});
+});
+
+app.get('/quiz-result', (req, res) => {
+    res.render('quiz_result', {layout: 'quiz_result', title: "Kết quả làm bài"});
 });
 
 app.listen(port, () => {
