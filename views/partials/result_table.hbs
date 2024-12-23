@@ -1,0 +1,242 @@
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.css">
+
+    <style>
+        .fixed-table-loading {
+            display: none !important;
+        }
+
+        /* General Table Styling */
+        table {
+            table-layout: fixed; /* Fixed layout for consistent column sizes */
+            width: 100%; /* Full width */
+            border-collapse: collapse; /* Remove extra spacing between borders */
+        }
+
+        /* Header and Cell Alignment */
+        th, td {
+            text-align: center; /* Center-align content */
+            vertical-align: middle; /* Middle-align vertically */
+            padding: 8px; /* Add padding for better spacing */
+            word-wrap: break-word; /* Ensure words wrap properly */
+            overflow-wrap: break-word; /* Alternative for better compatibility */
+        }
+
+        /* Header Styling */
+        th {
+            background-color: #f8f9fa; /* Light gray header background */
+            font-weight: bold;
+            white-space: normal; /* Allow text to wrap */
+            word-wrap: break-word; /* Wrap long words */
+            overflow-wrap: break-word;
+            text-overflow: clip; /* Prevent ellipsis */
+        }
+
+        /* Fixed Column Styling */
+        .fixed-column {
+            width: 90px; /* Fixed width */
+            max-width: 120px;
+            white-space: normal; /* Allow wrapping */
+            overflow-wrap: break-word;
+        }
+
+        /* Wider Column Styling */
+        .fixed-column-wider {
+            width: 150px; /* Fixed width */
+            max-width: 180px;
+            white-space: normal; /* Allow wrapping */
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .fixed-column-widest {
+            width: 400px; /* Fixed width */
+            max-width: 500px;
+            white-space: normal; /* Allow wrapping */
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        /* Scrollbar styling for smaller screens */
+        @media (max-width: 768px) {
+            .table-container {
+                -ms-overflow-style: scrollbar; /* For Internet Explorer */
+                overflow-x: auto; /* Enable scrolling on small screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper" style="width: 100%; display: flex; justify-content: center;">
+        <div class="table-container">
+            <table id="fresh-table" class="table table-bordered">
+                <thead class="thead-dark">
+                    <th data-field="id" data-sortable="true" class="fixed-column">STT</th>
+                    <th data-field="question" class="fixed-column-widest">Câu hỏi</th>
+                    <th data-field="type" data-sortable="true" class="fixed-column-wider">Loại câu hỏi</th>
+                    <th data-field="right" class="fixed-column">Đúng</th>
+                    <th data-field="wrong" class="fixed-column">Sai</th>
+                    <th data-field="skip" class="fixed-column">Bỏ qua</th>
+                    <th data-field="actions" class="fixed-column"></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>I like _____ ?</td>
+                        <td>Gap Filling</td>
+                        <td><strong>✔</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var $table = $('#fresh-table');
+
+    $(function () {
+        $table.bootstrapTable({
+            classes: 'table table-hover table-striped',
+            search: true,
+            showColumns: true,
+            pagination: true,
+            striped: true,
+            sortable: true,
+            pageSize: 8,
+            pageList: [8, 10, 25, 50, 100],
+            toolbar: '.toolbar',
+            iconsPrefix: 'fa',
+            icons: {
+                sort: 'fa-sort',
+                plus: 'fa-plus',
+                columns: 'fa-filter',
+                detailOpen: 'fa-plus',
+                detailClose: 'fa-minus'
+            },
+            formatLoadingMessage: function () {
+                return '';
+            },
+            formatShowingRows: function (pageFrom, pageTo, totalRows) {
+                return '';
+            },
+            formatRecordsPerPage: function (pageNumber) {
+                return pageNumber;
+            }
+        });
+    });
+</script>
