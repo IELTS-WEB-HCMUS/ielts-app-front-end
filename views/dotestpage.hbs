@@ -25,11 +25,9 @@
 
         .middle { 
             flex-grow: 1;
-            overflow-y: auto;  
             width: 100%;
             max-height: 80%;  
             padding: 0%;
-            grid-template-columns: 1fr 0.5% 1fr;
         }
 
         .header{
@@ -38,6 +36,12 @@
             display: flex; 
             flex-direction: row; 
             align-items: center;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
 
     </style>
@@ -49,14 +53,14 @@
             <div class="header">
                 <img src="../assets/book_icon.png" alt="book" style="height: 80%; width: auto; object-fit: contain; margin-right: 10px;">
                 <h1 id="quiz-type-label" style="align-items: center;"></h1>
-                <div class="header" style="justify-content: flex-end; margin-left: auto;">
+                <div class="header" style="justify-content: flex-end; margin-left: auto; align-items: center;">
                     <img src="../assets/clock_icon.png" alt="clock" style="height: 80%; width: auto; object-fit: contain; margin-right: 10px;">
-                    <div id="timer"></div>
+                    <div class="time" id="timer"></div>
                 </div>
             </div>
         </div>
         <div class="row middle" style="padding: 1%;">
-            <div class="col" style="border-right: 1px solid black; min-height: 100vh;">
+            <div class="col" style="border-right: 1px solid black;">
                 <h1 id="quiz-title"></h1>
                 <p id="quiz-content"></p>
             </div>
@@ -68,7 +72,12 @@
             </div>
         </div>
         <div class="row" style=" height: 10%; background-color: var(--footer-dotest-color);">
-            
+            <div id="question-buttons" style="height: 100%; display: flex; flex-direction:row; flex-wrap: wrap; width: 50%; align-items: center;">
+            </div>
+            <div style="height: 100%; display: flex; flex-direction:row; width: 50%; justify-content: flex-end">
+                <button class="button-footer">Thoát</button>
+                <button class="button-footer">Nộp bài</button>
+            </div>
         </div>
     </div>
 </body> 

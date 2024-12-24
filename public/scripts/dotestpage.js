@@ -155,6 +155,10 @@ let quiz = new Quiz(
     [part1, part2, part3]
 );
 
+// function showWordIndex(index, word) {
+//     alert(`The word "${word}" is at index ${index} in the paragraph.`);
+// }
+
 function makeWordsClickable(paragraph) {
     // Get the text content of the paragraph and normalize spaces
     const text = paragraph.textContent.trim().replace(/\s+/g, ' ');  // Normalize multiple spaces
@@ -202,15 +206,14 @@ function loadQuiz(quiz){
     const quizType = document.getElementById('quiz-type-label');
     quizType.innerHTML = `MePass - ${quiz.type} Practice`;
     startCountdown(quiz); 
+    loadButtonQuestion(quiz);
 
     const quizTitle = document.getElementById('quiz-title');
     quizTitle.innerHTML = quiz.title;
-    console.log(quiz.title);
 
     const quizContent = document.getElementById('quiz-content');
     quizContent.innerHTML = quiz.content;
     makeWordsClickable(quizContent);
-    console.log(quizContent.textContent);
 
     const container = document.getElementById('question-area');
     container.innerHTML = ''; // Clear previous UI
@@ -220,7 +223,6 @@ function loadQuiz(quiz){
         uiElement += partUI;
     });
     container.innerHTML = uiElement;
-    
 }
 
 function loadPart(part){
@@ -270,9 +272,9 @@ function loadQuestion(question) {
         case 'FILL-IN-THE-BLANK':
             uiElement += `
             <div style="display: flex; flex-direction: row; align-items: center;">
-                <div class="question-order-number" style="font-size: 2%; font-weight: bold; color: var(--question-order-color); margin-left: 2%">${question.order}</div>
+                <div class="question-order-number" style="margin: 2%">${question.order}</div>
                 <p style="font-size: 1rem; margin: 2%; line-height: 1.5;">
-                    ${question.content.replace(/_+/g, '<input type="text" class="input-answer" placeholder="Your answer here">')}
+                    ${question.content.replace(/_+/g, '<input type="text" class="input-answer">')}
                 </p>
             </div>
             `;
@@ -284,6 +286,25 @@ function loadQuestion(question) {
 
     uiElement += '</div>'; // Close container
     return uiElement;
+}
+
+function loadButtonQuestion(quiz) {
+    let totalQuestion = 0;
+    quiz.parts.forEach(part => {
+        totalQuestion += part.question_count;
+    });
+
+    const container = document.getElementById('question-buttons');
+    container.innerHTML = ''; 
+    let uiElement = ``;
+
+    for (let order = 1; order <= totalQuestion; order++) {
+        uiElement += `
+            <button class="button-question">${order}</button>
+        `;
+    }
+
+    container.innerHTML = uiElement; 
 }
 
 window.onload = function() {
