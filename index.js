@@ -73,6 +73,10 @@ app.get('/quiz-result', (req, res) => {
     res.render('quiz_result', {layout: 'quiz_result', title: "Kết quả làm bài"});
 });
 
+app.get('/dotestpage', (req, res) => {
+    res.render('dotestpage', {title: "Làm bài"});
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
