@@ -63,6 +63,11 @@ html, body {
     box-shadow: inset;
 }
 
+.custom-dropdown option:disabled {
+    color: #aaa; 
+    opacity: 0.6; 
+}
+
 .option {
     margin: 2% 0; 
     display: flex;
@@ -122,4 +127,8 @@ html, body {
     margin-right: 1%;
     cursor: pointer;
   }
+
+  .button-question.answered {
+    background-color: var(--question-answered-color); 
+}
 

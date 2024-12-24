@@ -236,14 +236,15 @@ function loadPart(part){
 }
 
 function loadQuestion(question) {
-    let uiElement = `<div class="question-container">`;
+    let uiElement = `<div class="question-container" id="question-${question.order}">`;
 
     switch (question.type) {
         case 'SINGLE-SELECTION':
             uiElement += `
-                <div style="display: flex; flex-direction: row; align-items: center; ">
+                <div style="display: flex; flex-direction: row; align-items: center;">
                     <div class="question-order-number" style="margin: 2%">${question.order}</div>
-                    <select class="custom-dropdown">
+                    <select class="custom-dropdown" onchange="checkAnswer(${question.order})">
+                        <option value="" selected disabled>None</option> 
                         ${question.options.map(option => `<option value="${option}">${option}</option>`).join('')}
                     </select>
                     <p style="margin: 2%; align-items: center;">${question.content}</p>
@@ -255,15 +256,14 @@ function loadQuestion(question) {
             uiElement += `
             <div style="display: flex; flex-direction: row; align-items: flex-start;">
                 <div class="question-order-number" style="margin-left: 2%; margin-right: 2%; margin-top: 1%; align-self: flex-start;">${question.order}</div>
-                    <div style="display: flex; flex-direction: column; margin: 2%;">
-                        <p>${question.content}</p>
-                        ${question.options.map(option => `
-                            <div class="option" style="display: flex; align-items: center;">
-                                <input type="radio" name="question" value="${option}" id="option-${option}">
-                                <label for="option-${option}">${option}</label>
-                            </div>
-                        `).join('')}
-                    </div>
+                <div style="display: flex; flex-direction: column; margin: 2%;">
+                    <p>${question.content}</p>
+                    ${question.options.map(option => `
+                        <div class="option" style="display: flex; align-items: center;">
+                            <input type="radio" name="question-${question.order}" value="${option}" id="option-${question.order}-${option}" onchange="checkAnswer(${question.order})">
+                            <label for="option-${question.order}-${option}">${option}</label>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
             `;
@@ -274,7 +274,7 @@ function loadQuestion(question) {
             <div style="display: flex; flex-direction: row; align-items: center;">
                 <div class="question-order-number" style="margin: 2%">${question.order}</div>
                 <p style="font-size: 1rem; margin: 2%; line-height: 1.5;">
-                    ${question.content.replace(/_+/g, '<input type="text" class="input-answer">')}
+                    ${question.content.replace(/_+/g, '<input type="text" class="input-answer" data-question-id="' + question.order + '" oninput="checkAnswer(' + question.order + ')">')}
                 </p>
             </div>
             `;
@@ -300,11 +300,42 @@ function loadButtonQuestion(quiz) {
 
     for (let order = 1; order <= totalQuestion; order++) {
         uiElement += `
-            <button class="button-question">${order}</button>
+            <button class="button-question" data-question-id="${order}" onclick="showQuestion(${order})">${order}</button>
         `;
     }
 
     container.innerHTML = uiElement; 
+}
+
+
+function checkAnswer(questionId) {
+    const question = document.getElementById(`question-${questionId}`);
+    const inputs = question.querySelectorAll('input, select'); 
+
+    let isAnswered = false;
+
+    inputs.forEach(input => {
+        if (input.type === 'radio' && input.checked) {
+            isAnswered = true;
+        }
+
+        if (input.type === 'text' && input.value.trim() !== '') {
+            isAnswered = true;
+        }
+
+        if (input.tagName.toLowerCase() === 'select' && input.value !== '') {
+            isAnswered = true;
+        }
+    });
+
+    const button = document.querySelector(`button[data-question-id="${questionId}"]`);
+    if (button) {
+        if (isAnswered) {
+            button.classList.add('answered'); 
+        } else {
+            button.classList.remove('answered'); 
+        }
+    }
 }
 
 window.onload = function() {
