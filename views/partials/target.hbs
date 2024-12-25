@@ -1,7 +1,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Target Progress Chart</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     .score-info {
@@ -11,22 +10,27 @@
       background-color: #333;
       padding: 10px 20px;
       border-radius: 8px;
-      width: 250px;
       margin: 20px auto 0;
     }
 
     .score-info p {
       margin: 0;
     }
+
+    #targetChart {
+      max-width: 200px; 
+      max-height: 200px; 
+    }
   </style>
 </head>
 
 <body>
-  <div style="margin-top: 5%; text-align: center; display: flex; flex-direction: column; align-items: center;">
-    <div><h2>Target</h2></div>
-    <canvas id="targetChart" width="250" height="250"></canvas>
+  <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+    <div>
+      <h2>Target</h2>
+    </div>
+    <canvas id="targetChart"></canvas>
     <div class="score-info">
-      <p><strong>5.6 of 8.0 Overall</strong></p>
     </div>
   </div>
 
@@ -54,7 +58,7 @@
               text: `${targetPercent}%`,
               color: '#fff',
               font: {
-                size: 24,
+                size: 16, 
                 weight: 'bold'
               },
               padding: { top: 20, bottom: 0 },
@@ -65,7 +69,7 @@
 
       document.querySelector('.score-info').innerHTML = `
         <p>Target: ${targetPercent}%</p>
-        <p>Overall Score: ${overallScore.toFixed(1)}</p>
+        <p>Overall Score: ${overallScore.toFixed(1)} / 8.0</p>
       `;
     }
 

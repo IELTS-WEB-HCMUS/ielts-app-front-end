@@ -16,51 +16,70 @@
 
         /* General Table Styling */
         table {
-            table-layout: fixed; /* Fixed layout for consistent column sizes */
-            width: 100%; /* Full width */
-            border-collapse: collapse; /* Remove extra spacing between borders */
+            table-layout: fixed;
+            /* Fixed layout for consistent column sizes */
+            width: 100%;
+            /* Full width */
+            border-collapse: collapse;
+            /* Remove extra spacing between borders */
         }
 
         /* Header and Cell Alignment */
-        th, td {
-            text-align: center; /* Center-align content */
-            vertical-align: middle; /* Middle-align vertically */
-            padding: 8px; /* Add padding for better spacing */
-            word-wrap: break-word; /* Ensure words wrap properly */
-            overflow-wrap: break-word; /* Alternative for better compatibility */
+        th,
+        td {
+            text-align: center;
+            /* Center-align content */
+            vertical-align: middle;
+            /* Middle-align vertically */
+            padding: 8px;
+            /* Add padding for better spacing */
+            word-wrap: break-word;
+            /* Ensure words wrap properly */
+            overflow-wrap: break-word;
+            /* Alternative for better compatibility */
         }
 
         /* Header Styling */
         th {
-            background-color: #f8f9fa; /* Light gray header background */
+            background-color: #f8f9fa;
+            /* Light gray header background */
             font-weight: bold;
-            white-space: normal; /* Allow text to wrap */
-            word-wrap: break-word; /* Wrap long words */
+            white-space: normal;
+            /* Allow text to wrap */
+            word-wrap: break-word;
+            /* Wrap long words */
             overflow-wrap: break-word;
-            text-overflow: clip; /* Prevent ellipsis */
+            text-overflow: clip;
+            /* Prevent ellipsis */
         }
 
         /* Fixed Column Styling */
         .fixed-column {
-            width: 90px; /* Fixed width */
+            width: 90px;
+            /* Fixed width */
             max-width: 120px;
-            white-space: normal; /* Allow wrapping */
+            white-space: normal;
+            /* Allow wrapping */
             overflow-wrap: break-word;
         }
 
         /* Wider Column Styling */
         .fixed-column-wider {
-            width: 150px; /* Fixed width */
+            width: 150px;
+            /* Fixed width */
             max-width: 180px;
-            white-space: normal; /* Allow wrapping */
+            white-space: normal;
+            /* Allow wrapping */
             overflow-wrap: break-word;
             word-wrap: break-word;
         }
 
         .fixed-column-widest {
-            width: 400px; /* Fixed width */
+            width: 400px;
+            /* Fixed width */
             max-width: 500px;
-            white-space: normal; /* Allow wrapping */
+            white-space: normal;
+            /* Allow wrapping */
             overflow-wrap: break-word;
             word-wrap: break-word;
         }
@@ -68,8 +87,10 @@
         /* Scrollbar styling for smaller screens */
         @media (max-width: 768px) {
             .table-container {
-                -ms-overflow-style: scrollbar; /* For Internet Explorer */
-                overflow-x: auto; /* Enable scrolling on small screens */
+                -ms-overflow-style: scrollbar;
+                /* For Internet Explorer */
+                overflow-x: auto;
+                /* Enable scrolling on small screens */
             }
         }
     </style>

@@ -1,10 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const examDateInput = document.getElementById('exam-date-input');
     const examDateBtn = document.getElementById('exam-date-btn');
     const remainingDaysSpan = document.getElementById('remaining-days');
     const selectedDateSpan = document.getElementById('selected-date');
     const overlay = document.querySelector('.date-picker-overlay');
-    
+
     // Format date function
     function formatDate(date) {
         const d = new Date(date);
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const datePicker = flatpickr(examDateInput, {
         minDate: "today",
         dateFormat: "Y-m-d",
-        onChange: function(selectedDates) {
+        onChange: function (selectedDates) {
             const selectedDate = selectedDates[0];
             if (selectedDate) {
                 localStorage.setItem('examDate', selectedDate);
@@ -36,19 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideOverlay();
             }
         },
-        onClose: function() {
+        onClose: function () {
             hideOverlay();
         }
     });
 
     // Xử lý sự kiện click vào nút Ngày thi
-    examDateBtn.addEventListener('click', function() {
+    examDateBtn.addEventListener('click', function () {
         showOverlay();
         datePicker.open();
     });
 
     // Xử lý click overlay để đóng date picker
-    overlay.addEventListener('click', function() {
+    overlay.addEventListener('click', function () {
         datePicker.close();
         hideOverlay();
     });
@@ -65,13 +65,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateRemainingDays(examDate) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         const examDateTime = new Date(examDate);
         examDateTime.setHours(0, 0, 0, 0);
-        
+
         const diffTime = examDateTime - today;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
+
         if (diffDays < 0) {
             remainingDaysSpan.textContent = 'Đã qua ngày thi';
         } else if (diffDays === 0) {

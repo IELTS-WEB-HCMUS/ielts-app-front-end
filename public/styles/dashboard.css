@@ -25,7 +25,7 @@
     padding: 15px;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .section-header {
@@ -101,7 +101,7 @@
     padding: 20px;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
@@ -112,7 +112,8 @@
     padding: 0 15px;
 }
 
-.exam-date-box, .remaining-days-box {
+.exam-date-box,
+.remaining-days-box {
     background-color: #CBE9FF;
     padding: 10px 15px;
     border-radius: 8px;
@@ -134,7 +135,8 @@
     font-weight: bold;
 }
 
-.exam-date-box i, .remaining-days-box i {
+.exam-date-box i,
+.remaining-days-box i {
     color: #007bff;
     font-size: 14px;
 }
@@ -175,8 +177,9 @@
         opacity: 0;
         transform: translate(-50%, -48%);
     }
+
     to {
         opacity: 1;
         transform: translate(-50%, -50%);
     }
-} 
+}
