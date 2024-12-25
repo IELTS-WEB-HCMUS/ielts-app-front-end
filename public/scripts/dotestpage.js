@@ -39,6 +39,18 @@ class Quiz {
     }
 }
 
+class Vocab {
+    constructor(value, word_class, meaning, ipa, example, verb_structure, explanation){
+        this.value = value;
+        this.word_class = word_class;
+        this.meaning = meaning;
+        this.ipa = ipa;
+        this.example = example;
+        this.verb_structure = verb_structure;
+        this.explanation = explanation;
+    }
+}
+
 // Tạo các câu hỏi
 let question1 = new Question(
     1, 
@@ -155,25 +167,64 @@ let quiz = new Quiz(
     [part1, part2, part3]
 );
 
-// function showWordIndex(index, word) {
-//     alert(`The word "${word}" is at index ${index} in the paragraph.`);
-// }
+// Chức năng tra từ - Start
+function showWordIndex(index, word) {
+    alert(`The word "${word}" is at index ${index} in the paragraph.`);
+}
 
 function makeWordsClickable(paragraph) {
-    // Get the text content of the paragraph and normalize spaces
-    const text = paragraph.textContent.trim().replace(/\s+/g, ' ');  // Normalize multiple spaces
-    
-    // Split the text into words
-    const words = text.split(' '); // Split by a single space
+    const text = paragraph.textContent.trim().replace(/\s+/g, ' ');  
+    const words = text.split(' '); 
 
-    // Wrap each word in <a> tag and map them to clickable elements
     const clickableWords = words.map((word, index) => {
-        return `<a href="#" onclick="showWordIndex(${index}, '${word}')">${word}</a>`; // Wrap each word in <a> tag
+        return `<a href="#" class="vocab-word" data-bs-target="#vocab-offcanvasBottom" 
+        onclick="handleWordClick(this, ${index}, '${word}')">${word}</a>`; 
     });
 
-    // Set the innerHTML of the paragraph with the clickable words
-    paragraph.innerHTML = clickableWords.join(' '); // Join the words back into a paragraph
+    paragraph.innerHTML = clickableWords.join(' '); 
 }
+
+function handleWordClick(element, index, word) {
+    const paragraph = element.closest('p'); 
+    const allWords = paragraph.querySelectorAll('.vocab-word'); 
+    allWords.forEach(word => word.classList.remove('active'));
+
+    element.classList.add('active');
+
+    const offcanvas = document.getElementById('vocab-offcanvasBottom');
+    const bsOffcanvas = new bootstrap.Offcanvas(offcanvas);
+    showWordDefinition(index, word);
+    bsOffcanvas.show();
+}
+
+function removeUnderlineWord(){
+    const activeWords = document.querySelectorAll('.vocab-word.active');
+    activeWords.forEach(word => word.classList.remove('active')); 
+}
+
+
+function showWordDefinition(index, word) {
+    // Thay đổi nội dung với từ được nhấn
+    const vocab = new Vocab(
+        'run',                  // value
+        'verb',                 // word_class
+        'to move swiftly on foot', // meaning
+        '/rʌn/',                // ipa (International Phonetic Alphabet)
+        'I run every morning.', // example
+        'run + object',         // verb_structure
+        'To run means to move at a speed faster than a walk.' // explanation
+    );
+
+    document.getElementById('vocab-value').textContent = word; // Đổi thành vocab.value; !!!!!!!!!!!!
+    document.getElementById('vocab-ipa').textContent = vocab.ipa;
+    document.getElementById('vocab-word-class').textContent = vocab.word_class;
+    document.getElementById('vocab-meaning').textContent = vocab.meaning;
+    document.getElementById('vocab-verb-structure').textContent = vocab.verb_structure;
+    document.getElementById('vocab-example').textContent = vocab.example;
+    document.getElementById('vocab-explanation').textContent = vocab.explanation;
+}
+// Chức năng tra từ - End
+
 
 
 function startCountdown(quiz) {
@@ -241,7 +292,7 @@ function loadQuestion(question) {
     switch (question.type) {
         case 'SINGLE-SELECTION':
             uiElement += `
-                <div style="display: flex; flex-direction: row; align-items: center;">
+                <div style="display: flex; flex-direction: row; align-items: center; width: 100%">
                     <div class="question-order-number" style="margin: 2%">${question.order}</div>
                     <select class="custom-dropdown" onchange="checkAnswer(${question.order})">
                         <option value="" selected disabled>None</option> 
@@ -254,7 +305,7 @@ function loadQuestion(question) {
 
         case 'SINGLE-RADIO':
             uiElement += `
-            <div style="display: flex; flex-direction: row; align-items: flex-start;">
+            <div style="display: flex; flex-direction: row; align-items: flex-start; width: 100%">
                 <div class="question-order-number" style="margin-left: 2%; margin-right: 2%; margin-top: 1%; align-self: flex-start;">${question.order}</div>
                 <div style="display: flex; flex-direction: column; margin: 2%;">
                     <p>${question.content}</p>
@@ -271,7 +322,7 @@ function loadQuestion(question) {
 
         case 'FILL-IN-THE-BLANK':
             uiElement += `
-            <div style="display: flex; flex-direction: row; align-items: center;">
+            <div style="display: flex; flex-direction: row; align-items: center; width: 100%">
                 <div class="question-order-number" style="margin: 2%">${question.order}</div>
                 <p style="font-size: 1rem; margin: 2%; line-height: 1.5;">
                     ${question.content.replace(/_+/g, '<input type="text" class="input-answer" data-question-id="' + question.order + '" oninput="checkAnswer(' + question.order + ')">')}
@@ -300,7 +351,7 @@ function loadButtonQuestion(quiz) {
 
     for (let order = 1; order <= totalQuestion; order++) {
         uiElement += `
-            <button class="button-question" data-question-id="${order}" onclick="showQuestion(${order})">${order}</button>
+            <button class="button-question" data-question-id="${order}">${order}</button>
         `;
     }
 
@@ -337,6 +388,37 @@ function checkAnswer(questionId) {
         }
     }
 }
+
+// Xử lý sự kiện like hoặc dislike trên vocab offcanvas
+document.addEventListener('DOMContentLoaded', function() {
+    const icons = document.querySelectorAll('.feedback-icon'); // Đảm bảo chọn đúng class
+
+    icons.forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            const isCheck = icon.getAttribute('data-ischeck') === 'true';  // Kiểm tra trạng thái hiện tại
+
+            if (isCheck) {
+                // Nếu đang ở trạng thái checked (fas), chuyển sang unchecked (far)
+                icon.setAttribute('data-ischeck', 'false');
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            } else {
+                // Nếu chưa checked (far), reset tất cả icon về trạng thái far
+                icons.forEach(function(otherIcon) {
+                    otherIcon.setAttribute('data-ischeck', 'false');
+                    otherIcon.classList.remove('fas');
+                    otherIcon.classList.add('far');
+                });
+
+                // Chuyển icon đang click thành checked (fas)
+                icon.setAttribute('data-ischeck', 'true');
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            }
+        });
+    });
+});
+
 
 window.onload = function() {
     loadQuiz(quiz);

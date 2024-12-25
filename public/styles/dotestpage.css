@@ -75,14 +75,14 @@ html, body {
 }
 
 .option input[type="radio"] {
-    width: 5%; 
-    height: 5%; 
-    margin-right: 2%; 
+    width: 7%; 
+    height: 7%; 
+    margin-right: 4%; 
     cursor: pointer; 
 }
 
 .option input[type="radio"]:checked {
-    outline: 0.4% solid #007bff; 
+    outline: 0.4% solid var(--question-answered-color); 
     outline-offset: 0.2%;
 }
 
@@ -131,4 +131,68 @@ html, body {
   .button-question.answered {
     background-color: var(--question-answered-color); 
 }
+
+.image-button {
+    background-color: transparent;
+    border: none; 
+    padding: 5px; 
+    cursor: pointer; 
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center;
+    transition: transform 0.3s ease; 
+}
+
+.image-button i {
+    font-size: 25px;
+    border-radius: 50%; 
+}
+
+.image-button:hover {
+    transform: scale(1.1); 
+}
+
+.image-text-button {
+    width: 30%;
+    height: 10%;
+    background-color: var(--button-vocab-offcanvas-color); 
+    border: none; 
+    padding: 2%; 
+    border-radius: 20px; 
+    display: inline-block; 
+    text-align: center;
+    vertical-align: middle;
+    gap: 1%;
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+.image-text-button img {
+    width: 20%; 
+    max-width: 20%;
+    height: 20%;
+    max-height: 20%;
+    object-fit: contain; 
+}
+
+.image-text-button:hover {
+    background-color: #0056b3; 
+}
+
+.vocab-word {
+    text-decoration: none;
+}
+
+.vocab-word:hover {
+    text-decoration: underline;
+    text-decoration-color: red;
+    text-decoration-thickness: 2px;
+}
+
+.vocab-word.active {
+    text-decoration: underline;
+    text-decoration-color: red;
+    text-decoration-thickness: 2px;
+}
+
 

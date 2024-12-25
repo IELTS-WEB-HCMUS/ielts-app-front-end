@@ -44,6 +44,41 @@
             cursor: pointer;
         }
 
+        .offcanvas-bottom {
+            top: auto;
+            bottom: 10%;
+            height: 50%;
+            max-height: 50%;
+            width: 50%;
+            background-color: var(--vocab-offcanvasbottom-color);
+            border-radius: 12px 12px 0% 0%;
+        }
+
+        .offcanvas-container {
+            width: 49.99%; 
+            max-width: 49.99%;
+        }
+
+        .offcanvas-backdrop {
+            display: none;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid black; 
+            margin: 1% 0; 
+        }
+
+        h5, p{
+            margin: 0%;
+            padding: 0%;
+            vertical-align: middle;
+        }
+
+        .fas {
+            color: var(--finger-hand-icon-click-color);
+        }
+
     </style>
     
 </head>
@@ -51,10 +86,10 @@
     <div class="container">
         <div class="row" style="height: 10%; background-color: var(--primary-color);">
             <div class="header">
-                <img src="../assets/book_icon.png" alt="book" style="height: 80%; width: auto; object-fit: contain; margin-right: 10px;">
+                <img src="../assets/book_icon.png" alt="book" style="height: 85%; width: auto; object-fit: contain; margin-right: 3%;">
                 <h1 id="quiz-type-label" style="align-items: center;"></h1>
                 <div class="header" style="justify-content: flex-end; margin-left: auto; align-items: center;">
-                    <img src="../assets/clock_icon.png" alt="clock" style="height: 80%; width: auto; object-fit: contain; margin-right: 10px;">
+                    <img src="../assets/clock_icon.png" alt="clock" style="height: 85%; width: auto; object-fit: contain; margin-right: 3%;">
                     <div class="time" id="timer"></div>
                 </div>
             </div>
@@ -63,15 +98,60 @@
             <div class="col" style="border-right: 1px solid black;">
                 <h1 id="quiz-title"></h1>
                 <p id="quiz-content"></p>
+                <!-- Button trigger for offcanvas -->
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#vocab-offcanvasBottom" aria-controls="offcanvasBottom">
+                Open Bottom Offcanvas
+                </button>
+
+                {{!-- Vocab Definitions --}}
+                <div class="offcanvas offcanvas-bottom offcanvas-container" tabindex="-1" id="vocab-offcanvasBottom" aria-labelledby="offcanvasBottomLabel" style=" z-index: 0;">
+                <div class="offcanvas-header" style="padding: 1% 2%">
+                    <div style="display: flex; flex-direction: column; width: 50%; height: auto">
+                        <div style="display: flex; flex-direction: row; width: 100%; height: auto">
+                            <h5 class="vocab-offcanvas-title" id="vocab-value" style="height: auto">Offcanvas From Bottom</h5>
+                            <p id="vocab-ipa"></p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; width: 100%; height: auto">
+                            <p id="vocab-word-class" style="font-style: italic; padding: 0% 0%; height: auto">conjunction</p>
+                            <h5 id="vocab-meaning" style="font-weight: bold; padding: 0% 0%; height: auto">Và</h5>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: row; width: 50%; justify-content: space-between; flex-wrap: wrap"> 
+                        <button class="image-button">
+                            <i class="far fa-thumbs-up feedback-icon" data-name="thumbs_up" data-ischeck="false"></i> 
+                        </button>
+                        <button class="image-button">
+                            <i class="far fa-thumbs-down feedback-icon" data-name="thumbs_down" data-ischeck="false"></i> 
+                        </button>
+                        <button class="image-text-button" style="margin-right: 2%;">
+                            <img src="../assets/add_vocab_icon.png" alt="Icon add" />
+                            <span>Lưu từ vựng</span>
+                        </button>
+                        <button class="image-text-button">
+                            <img src="../assets/copy_icon.png" alt="Icon" />
+                            <span>Sao chép</span>
+                        </button>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="removeUnderlineWord()"></button>
+                </div>
+                <hr>
+                <div class="offcanvas-body">
+                    <div style="width: 100%; height: auto; display: flex; flex-direction: column; flex-wrap: wrap;">
+                        <p id="vocab-verb-structure" ></p>
+                        <p id="vocab-example"></p>
+                        <p id="vocab-explanation"></p>
+                    </div>
+                    
+                </div>
+                </div>
             </div>
             <div class="col">
                 <div id="question-area">
 
                 </div>
-                <script src="../scripts/dotestpage.js"></script>
             </div>
         </div>
-        <div class="row" style=" height: 10%; background-color: var(--footer-dotest-color);">
+        <div class="row" style=" height: 10%; background-color: var(--footer-dotest-color); z-index: 1">
             <div id="question-buttons" style="height: 100%; display: flex; flex-direction:row; flex-wrap: wrap; width: 50%; align-items: center;">
             </div>
             <div style="height: 100%; display: flex; flex-direction:row; width: 50%; justify-content: flex-end">
@@ -80,5 +160,17 @@
             </div>
         </div>
     </div>
+     <script>
+        // Lắng nghe sự kiện click trên toàn trang
+        document.addEventListener('click', function(event) {
+            const offcanvas = document.getElementById('vocab-offcanvasBottom');
+            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvas);
+            if (!event.target.closest('.vocab-word') && !offcanvas.contains(event.target) && offcanvas.classList.contains('show')) {
+                offcanvasInstance.hide();
+                removeUnderlineWord();
+            }
+        });
+    </script>
+    <script src="../scripts/dotestpage.js"></script>
 </body> 
 </html>
