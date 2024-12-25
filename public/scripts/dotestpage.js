@@ -185,10 +185,7 @@ function makeWordsClickable(paragraph) {
 }
 
 function handleWordClick(element, index, word) {
-    const paragraph = element.closest('p'); 
-    const allWords = paragraph.querySelectorAll('.vocab-word'); 
-    allWords.forEach(word => word.classList.remove('active'));
-
+    removeUnderlineWord();
     element.classList.add('active');
 
     const offcanvas = document.getElementById('vocab-offcanvasBottom');
@@ -225,6 +222,134 @@ function showWordDefinition(index, word) {
 }
 // Chức năng tra từ - End
 
+// Chức năng Highlight Text - Start
+function HighlightText() {
+    const textElement = document.getElementById('quiz-content');
+
+    // Biến kiểm tra trạng thái chọn văn bản
+    let isSelecting = false;  
+    let selectionRange = null;
+
+    // Khi người dùng bắt đầu chọn văn bản
+    textElement.addEventListener('mousedown', (event) => {
+        isSelecting = true;
+        const selection = window.getSelection();
+        selection.removeAllRanges();  // Xóa tất cả các vùng đã chọn trước đó
+        selectionRange = null;  // Reset phạm vi chọn
+    });
+
+    // Khi người dùng kết thúc chọn văn bản
+    textElement.addEventListener('mouseup', (event) => {
+        if (isSelecting) {
+            const selection = window.getSelection();
+            selectionRange = selection.getRangeAt(0);  // Lấy phạm vi văn bản đã chọn
+            showFlyoutMenuOnText(event);  // Hiển thị menu flyout (hoặc control)
+        }
+        isSelecting = false;
+    });
+
+    // Hàm để highlight văn bản đã chọn
+    function highlightSelectedText() {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+
+        // Kiểm tra nếu có văn bản được chọn và có văn bản đã highlight trước đó
+        if (selectedText) {
+            const range = selection.getRangeAt(0);  
+
+            // Tạo phần tử span bao bọc văn bản đã chọn
+            const span = document.createElement('span');
+            span.classList.add('highlighted');
+            span.textContent = selectedText;
+
+            span.addEventListener('click', (event) => {
+                showFlyoutMenuOnHighlightedText(event, span); 
+            });
+    
+            // Xóa nội dung đã chọn và chèn phần tử span vào
+            range.deleteContents();  
+            range.insertNode(span); 
+    
+            // Deselect vùng chọn sau khi highlight
+            selection.removeAllRanges();
+        }
+    }
+
+    // Hàm hiển thị menu flyout (hoặc control) khi người dùng chọn văn bản
+    function showFlyoutMenuOnText(event) {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+
+        if (selectedText) {
+            // Tạo một menu flyout (hoặc control) để người dùng quyết định có highlight hay không
+            const flyout = document.createElement('div');
+            flyout.id = 'flyout-menu-unhighlighted-text';
+            flyout.classList.add('flyout-menu');
+            flyout.style.position = 'absolute';
+            flyout.style.left = `${event.pageX}px`;
+            flyout.style.top = `${event.pageY}px`;
+
+            // Thêm các tùy chọn vào menu
+            const highlightOption = document.createElement('button');
+            highlightOption.textContent = 'Highlight';
+            highlightOption.onclick = () => {
+                highlightSelectedText();  
+                document.body.removeChild(flyout); 
+            };
+
+            flyout.appendChild(highlightOption);
+            document.body.appendChild(flyout);
+        }
+    }
+}
+
+function showFlyoutMenuOnHighlightedText(event, targetSpan) {
+    const existingFlyout = document.querySelector('.flyout-menu');
+    if (existingFlyout) {
+        existingFlyout.remove();
+    }
+
+    const flyout = document.createElement('div');
+    flyout.id = 'flyout-menu-highlighted-text';
+    flyout.classList.add('flyout-menu');
+    flyout.style.position = 'absolute';
+    flyout.style.left = `${event.pageX}px`;
+    flyout.style.top = `${event.pageY}px`;
+    flyout.addEventListener("focusout",flyout.remove());
+
+    if (targetSpan) {
+        const removeHighlightOption = document.createElement('button');
+        removeHighlightOption.textContent = 'Xóa Highlight';
+        removeHighlightOption.onclick = () => {
+            const parent = targetSpan.parentNode;
+            parent.replaceChild(document.createTextNode(targetSpan.textContent), targetSpan);
+            flyout.remove();
+        };
+        flyout.appendChild(removeHighlightOption);
+    }
+
+    const removeAllHighlightsOption = document.createElement('button');
+    removeAllHighlightsOption.textContent = 'Xóa tất cả Highlights';
+    removeAllHighlightsOption.onclick = () => {
+        removeAllHighlights();
+        flyout.remove();
+    };
+    flyout.appendChild(removeAllHighlightsOption);
+
+    document.body.appendChild(flyout);
+}
+
+function removeAllHighlights() {
+    const textElement = document.getElementById('quiz-content');
+
+    const highlightedElements = textElement.querySelectorAll('span.highlighted');
+
+    highlightedElements.forEach(span => {
+        const parent = span.parentNode;
+        parent.replaceChild(document.createTextNode(span.textContent), span);
+    });
+}
+// Chức năng Highlight Text - End
 
 
 function startCountdown(quiz) {
@@ -264,7 +389,8 @@ function loadQuiz(quiz){
 
     const quizContent = document.getElementById('quiz-content');
     quizContent.innerHTML = quiz.content;
-    makeWordsClickable(quizContent);
+    HighlightText();
+    //makeWordsClickable(quizContent);
 
     const container = document.getElementById('question-area');
     container.innerHTML = ''; // Clear previous UI
@@ -423,3 +549,4 @@ document.addEventListener('DOMContentLoaded', function() {
 window.onload = function() {
     loadQuiz(quiz);
 };
+

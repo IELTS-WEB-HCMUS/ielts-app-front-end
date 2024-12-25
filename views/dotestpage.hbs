@@ -78,7 +78,6 @@
         .fas {
             color: var(--finger-hand-icon-click-color);
         }
-
     </style>
     
 </head>
@@ -96,12 +95,28 @@
         </div>
         <div class="row middle" style="padding: 1%;">
             <div class="col" style="border-right: 1px solid black;">
+                <div style="display: flex; flex-direction: row; justify-content: flex-end;">
+                    <!-- Tab Navigation with Icons and Text -->
+                    <ul class="nav nav-tabs" id="mode-do-test" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="highlight-tab" data-bs-toggle="tab" role="tab" aria-controls="highlight" aria-selected="true">
+                        <i class="fas fa-highlighter"></i> Highlight
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="vocab-tab" data-bs-toggle="tab" role="tab" aria-controls="vocab" aria-selected="false">
+                        <i class="fas fa-book"></i> Tra từ
+                        </a>
+                    </li>
+                    </ul>
+                </div>
+                
                 <h1 id="quiz-title"></h1>
                 <p id="quiz-content"></p>
                 <!-- Button trigger for offcanvas -->
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#vocab-offcanvasBottom" aria-controls="offcanvasBottom">
+                {{!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#vocab-offcanvasBottom" aria-controls="offcanvasBottom">
                 Open Bottom Offcanvas
-                </button>
+                </button> --}}
 
                 {{!-- Vocab Definitions --}}
                 <div class="offcanvas offcanvas-bottom offcanvas-container" tabindex="-1" id="vocab-offcanvasBottom" aria-labelledby="offcanvasBottomLabel" style=" z-index: 0;">
@@ -169,6 +184,17 @@
                 offcanvasInstance.hide();
                 removeUnderlineWord();
             }
+        });
+        document.addEventListener('click', (event) => {
+            const flyout = document.getElementById('flyout-menu-unhighlighted-text');
+            const selection = window.getSelection();
+            
+            if (flyout && selection.toString() === "") {
+                document.body.removeChild(flyout);
+            }
+        });
+        $(document).not("#flyout-menu-highlighted-text").click(function() {
+        $('#flyout-menu-highlighted-text').hide();
         });
     </script>
     <script src="../scripts/dotestpage.js"></script>

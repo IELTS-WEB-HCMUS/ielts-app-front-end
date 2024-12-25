@@ -25,16 +25,16 @@ html, body {
     font-size: 2rem;
 }
 
-.question-title {
-    font-size: 2rem;  
-    font-weight: bold; 
-    color: black;  
-}
-
 .timer {
     font-size: 2rem;
     font-weight: lighter;
     text-align: center;
+}
+
+.question-title {
+    font-size: 2rem;  
+    font-weight: bold; 
+    color: black;  
 }
 
 .question-order-number {
@@ -128,7 +128,7 @@ html, body {
     cursor: pointer;
   }
 
-  .button-question.answered {
+.button-question.answered {
     background-color: var(--question-answered-color); 
 }
 
@@ -195,4 +195,41 @@ html, body {
     text-decoration-thickness: 2px;
 }
 
+/* mode-do-test */
+.nav-link i {
+    margin-right: 8px; 
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center; 
+  }
+
+  .highlighted {
+    background-color: yellow;
+    border-radius: 2px;
+}
+
+.flyout-menu {
+    background-color: black; 
+    color: white; 
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    position: absolute;
+    z-index: 1000; 
+}
+
+.flyout-menu button {
+    background-color: transparent; 
+    color: #fff; 
+    border-color: aqua;
+    text-align: center; 
+    width: 100%; 
+    cursor: pointer; 
+    border-radius: 4px; 
+}
+
+.flyout-menu button:hover {
+    background-color: rgba(255, 255, 255, 0.1); 
+}
 
