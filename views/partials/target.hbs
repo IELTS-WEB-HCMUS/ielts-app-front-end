@@ -2,29 +2,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Target Progress Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    .pie-container {
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: conic-gradient(#0f207e 0% 70%, #ccc 70% 100%);
-      position: relative;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      margin-bottom: 20px;
-    }
-
-    .pie-container::after {
-      content: '70%';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 28px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-    }
-
     .score-info {
       font-size: 20px;
       text-align: center;
@@ -33,6 +12,7 @@
       padding: 10px 20px;
       border-radius: 8px;
       width: 250px;
+      margin: 20px auto 0;
     }
 
     .score-info p {
@@ -44,33 +24,51 @@
 <body>
   <div style="margin-top: 5%; text-align: center; display: flex; flex-direction: column; align-items: center;">
     <div><h2>Target</h2></div>
-    <div class="pie-container"></div>
+    <canvas id="targetChart" width="250" height="250"></canvas>
     <div class="score-info">
       <p><strong>5.6 of 8.0 Overall</strong></p>
     </div>
   </div>
 
   <script>
-    function updatePieChart(targetPercent) {
-      const pie = document.querySelector('.pie-container');
-      const scoreInfo = document.querySelector('.score-info');
-
-      pie.style.background = `conic-gradient(
-        #0f207e 0% ${targetPercent}%, 
-        #ccc ${targetPercent}% 100%
-      )`;
-
+    function createTargetChart(targetPercent) {
+      const ctx = document.getElementById('targetChart').getContext('2d');
       const overallScore = (targetPercent / 100) * 8.0;
 
-      pie.querySelector('::after').textContent = `${targetPercent}%`;
+      const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [targetPercent, 100 - targetPercent],
+            backgroundColor: ['#0f207e', '#ccc'],
+            borderWidth: 0,
+          }]
+        },
+        options: {
+          cutout: '75%',
+          plugins: {
+            tooltip: { enabled: false },
+            legend: { display: false },
+            title: {
+              display: true,
+              text: `${targetPercent}%`,
+              color: '#fff',
+              font: {
+                size: 24,
+                weight: 'bold'
+              },
+              padding: { top: 20, bottom: 0 },
+            },
+          },
+        },
+      });
 
-      scoreInfo.innerHTML = `
+      document.querySelector('.score-info').innerHTML = `
         <p>Target: ${targetPercent}%</p>
         <p>Overall Score: ${overallScore.toFixed(1)}</p>
       `;
     }
 
-    updatePieChart(70);
+    createTargetChart(70);
   </script>
-
 </body>
