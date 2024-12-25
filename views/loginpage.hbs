@@ -30,10 +30,10 @@
                 Trang web của chúng tôi được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh một cách toàn diện và hiệu
                 quả.
             </p>
-            <form action="#" method="POST">
+            <form action="/user/loginauthpass" method="POST">
                 <div class="input-group">
                     <label for="username">Email</label>
-                    <input type="email" class="input-text" name="username" required placeholder="Nhập email" />
+                    <input type="email" class="input-text" name="email" id="email" required placeholder="Nhập email" />
                 </div>
                 <div class="input-group">
                     <label for="password">Mật khẩu</label>
@@ -50,8 +50,8 @@
                             khẩu?</a>
                     </div>
                 </div>
+                <button id="log" type="submit" style="margin-top: 5%; height:3em; width:50%; margin-left: 25%;">Đăng nhập</button>
             </form>
-            <button id="log" type="submit" style="margin-top: 5%; height:3em; width:50%;">Đăng nhập</button>
             <hr />
             <button id="log" onclick="window.location.href='/user/login/gg'" style="height:3em; width:50%;">
                 <img src=".././assets/google_icon.png" alt="Google Icon" style="width: 15px; height: 15px;" />

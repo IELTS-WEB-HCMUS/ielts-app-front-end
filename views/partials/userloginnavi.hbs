@@ -16,8 +16,8 @@
 
 <nav style="position: fixed; background-color: #1B76A1; width: 100%;" class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-        <a class="navbar-brand me-2" href="/about_us">
-            <img src="assets/logo.png" alt="MePass Logo" style="width: 5em; height: 2em;">
+        <a class="navbar-brand me-2" href="/">
+            <img src="/assets/logo.png" alt="MePass Logo" style="width: 5em; height: 2em;">
         </a>
         <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarButtonsExample"
             aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@
                 style="width: 100%; display: flex; padding: 0; margin: 0;">
                 <li class="nav-item"
                     style="margin: auto; border-right: 1px solid #ddd; padding-right: 20px; padding-left: 20px;">
-                    <a class="nav-link" style="color:#ddd" ; href="/dashboard">Trang chủ</a>
+                    <a class="nav-link" style="color:#ddd" ; href="/user_info/profile">Trang chủ</a>
                 </li>
                 <li class="nav-item"
                     style="margin: auto; border-right: 1px solid #ddd; padding-right: 20px; padding-left: 20px;">
@@ -48,16 +48,16 @@
                 </li>
                 <li>
                     <div class="dropdown">
-                        <button style="background-color: transparent; border: none; margin-right: 3em;"
+                        <button style="background-color: transparent; color: white; font-size: 16px; font-weight: bold; border: none; margin-right: 3em;"
                             class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(9).jpg" class="rounded-circle"
-                                height="30" alt="" loading="lazy" />
+                            <img src={{ avatar }} class="rounded-circle"
+                                height="30" alt="" loading="lazy" /> {{ name }}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">Thông tin chi tiết</a>
                             <a class="dropdown-item" href="#">Cài đặt</a>
-                            <a class="dropdown-item" href="#">Đăng xuất</a>
+                            <a class="dropdown-item" href="/user/logout">Đăng xuất</a>
                         </div>
                     </div>
                 </li>
