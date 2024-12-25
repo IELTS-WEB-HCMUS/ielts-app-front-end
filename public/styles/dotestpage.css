@@ -198,22 +198,32 @@ html, body {
 /* mode-do-test */
 .nav-link i {
     margin-right: 8px; 
-  }
+    color: black;
+}
 
-  .nav-link {
+.nav-link {
     display: flex;
     align-items: center; 
-  }
+    color: black;
+}
 
-  .highlighted {
+.nav-link:not(.active) {
+    color: black; 
+}
+
+.nav-link.active {
+    background-color: var(--nav-tabs-mode-do-test-color) !important; /* Màu nền khi tab được chọn */
+    color: #fff; /* Màu chữ trắng khi tab được chọn */
+}
+
+.highlighted {
     background-color: yellow;
     border-radius: 2px;
 }
 
 .flyout-menu {
-    background-color: black; 
+    background-color: var(--bg-color); 
     color: white; 
-    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
     position: absolute;
     z-index: 1000; 
@@ -222,14 +232,14 @@ html, body {
 .flyout-menu button {
     background-color: transparent; 
     color: #fff; 
-    border-color: aqua;
+    border-color: white;
     text-align: center; 
     width: 100%; 
     cursor: pointer; 
-    border-radius: 4px; 
+    padding: auto;
 }
 
 .flyout-menu button:hover {
-    background-color: rgba(255, 255, 255, 0.1); 
+    background-color: var(--question-answered-color); 
 }
 

@@ -224,7 +224,7 @@ function showWordDefinition(index, word) {
 
 // Chức năng Highlight Text - Start
 function HighlightText() {
-    const textElement = document.getElementById('quiz-content');
+    const textElement = document.getElementById('quiz-content-highlight');
 
     // Biến kiểm tra trạng thái chọn văn bản
     let isSelecting = false;  
@@ -252,31 +252,60 @@ function HighlightText() {
     function highlightSelectedText() {
         const selection = window.getSelection();
         const selectedText = selection.toString();
-
-        // Kiểm tra nếu có văn bản được chọn và có văn bản đã highlight trước đó
+    
         if (selectedText) {
-            const range = selection.getRangeAt(0);  
-
-            // Tạo phần tử span bao bọc văn bản đã chọn
-            const span = document.createElement('span');
-            span.classList.add('highlighted');
-            span.textContent = selectedText;
-
-            span.addEventListener('click', (event) => {
-                showFlyoutMenuOnHighlightedText(event, span); 
-            });
+            const range = selection.getRangeAt(0);
+            const parentElement = range.commonAncestorContainer;
     
-            // Xóa nội dung đã chọn và chèn phần tử span vào
-            range.deleteContents();  
-            range.insertNode(span); 
+            // Duyệt qua các phần tử cha để tìm <p id="quiz-content-highlight">
+            let paragraphElement = parentElement;
+            while (paragraphElement && paragraphElement.tagName !== 'P') {
+                paragraphElement = paragraphElement.parentElement;
+            }
     
-            // Deselect vùng chọn sau khi highlight
-            selection.removeAllRanges();
+            if (paragraphElement && paragraphElement.id === 'quiz-content-highlight') {
+                // Tạo một <span> bao bọc văn bản đã chọn
+                const span = document.createElement('span');
+                span.classList.add('highlighted');
+                span.textContent = selectedText;
+    
+                // Thêm sự kiện click vào <span> đã tạo
+                span.addEventListener('click', (event) => {
+                    showFlyoutMenuOnHighlightedText(event, span);
+                });
+    
+                // Kiểm tra xem vùng chọn có bao trùm toàn bộ nội dung trong <p> không
+                const paragraphRange = document.createRange();
+                paragraphRange.selectNodeContents(paragraphElement);
+    
+                if (
+                    range.compareBoundaryPoints(Range.START_TO_START, paragraphRange) === 0 &&
+                    range.compareBoundaryPoints(Range.END_TO_END, paragraphRange) === 0
+                ) {
+                    // Nếu vùng chọn bao phủ toàn bộ nội dung, chỉ cần highlight toàn bộ văn bản
+                    const existingContent = paragraphElement.innerHTML; // Lưu lại nội dung cũ
+                    paragraphElement.innerHTML = ''; // Xóa nội dung cũ
+                    span.innerHTML = existingContent; // Chèn toàn bộ nội dung vào trong <span>
+                    paragraphElement.appendChild(span); // Thêm <span> vào <p>
+                } else {
+                    // Highlight phần văn bản được chọn
+                    range.deleteContents(); 
+                    range.insertNode(span); 
+                }
+    
+                // Xóa vùng chọn sau khi highlight
+                selection.removeAllRanges();
+            }
         }
     }
+    
 
     // Hàm hiển thị menu flyout (hoặc control) khi người dùng chọn văn bản
     function showFlyoutMenuOnText(event) {
+        const existingFlyout = document.querySelector('.flyout-menu');
+        if (existingFlyout) {
+            existingFlyout.remove();
+        }
         const selection = window.getSelection();
         const selectedText = selection.toString();
 
@@ -302,6 +331,9 @@ function HighlightText() {
         }
     }
 }
+function test(){
+    alert("on focus lost")
+}
 
 function showFlyoutMenuOnHighlightedText(event, targetSpan) {
     const existingFlyout = document.querySelector('.flyout-menu');
@@ -315,7 +347,6 @@ function showFlyoutMenuOnHighlightedText(event, targetSpan) {
     flyout.style.position = 'absolute';
     flyout.style.left = `${event.pageX}px`;
     flyout.style.top = `${event.pageY}px`;
-    flyout.addEventListener("focusout",flyout.remove());
 
     if (targetSpan) {
         const removeHighlightOption = document.createElement('button');
@@ -340,13 +371,20 @@ function showFlyoutMenuOnHighlightedText(event, targetSpan) {
 }
 
 function removeAllHighlights() {
-    const textElement = document.getElementById('quiz-content');
+    const textElement = document.getElementById('quiz-content-highlight');
 
     const highlightedElements = textElement.querySelectorAll('span.highlighted');
 
     highlightedElements.forEach(span => {
         const parent = span.parentNode;
         parent.replaceChild(document.createTextNode(span.textContent), span);
+    });
+}
+
+function closeAllFlyouts() {
+    const flyouts = document.querySelectorAll('.flyout-menu');
+    flyouts.forEach(flyout => {
+        flyout.style.display = "none";  // Hide all flyouts
     });
 }
 // Chức năng Highlight Text - End
@@ -387,10 +425,10 @@ function loadQuiz(quiz){
     const quizTitle = document.getElementById('quiz-title');
     quizTitle.innerHTML = quiz.title;
 
-    const quizContent = document.getElementById('quiz-content');
-    quizContent.innerHTML = quiz.content;
-    HighlightText();
-    //makeWordsClickable(quizContent);
+    const quizContentHighlight = document.getElementById('quiz-content-highlight');
+    quizContentHighlight.innerHTML = quiz.content;
+    const quizContentVocab = document.getElementById('quiz-content-vocab');
+    quizContentVocab.innerHTML = quiz.content;
 
     const container = document.getElementById('question-area');
     container.innerHTML = ''; // Clear previous UI
@@ -543,10 +581,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    document.getElementById('flyout-menu-highlight-text').onpointerleave = this.remove();
 });
 
 
 window.onload = function() {
     loadQuiz(quiz);
+    HighlightText();
 };
 

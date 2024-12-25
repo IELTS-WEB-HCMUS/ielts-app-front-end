@@ -99,20 +99,26 @@
                     <!-- Tab Navigation with Icons and Text -->
                     <ul class="nav nav-tabs" id="mode-do-test" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="highlight-tab" data-bs-toggle="tab" role="tab" aria-controls="highlight" aria-selected="true">
+                        <a class="nav-link active" id="highlight-tab" data-bs-toggle="tab" href="#highlight" role="tab" aria-controls="highlight" aria-selected="true" onclick="HighlightText();">
                         <i class="fas fa-highlighter"></i> Highlight
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="vocab-tab" data-bs-toggle="tab" role="tab" aria-controls="vocab" aria-selected="false">
+                        <a class="nav-link" id="vocab-tab" data-bs-toggle="tab" href="#vocab" role="tab" aria-controls="vocab" aria-selected="false" onclick="makeWordsClickable(document.getElementById('quiz-content-vocab'));">
                         <i class="fas fa-book"></i> Tra từ
                         </a>
                     </li>
                     </ul>
                 </div>
-                
                 <h1 id="quiz-title"></h1>
-                <p id="quiz-content"></p>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane show active" id="highlight" role="tabpanel" aria-labelledby="highlight-tab">
+                        <p id="quiz-content-highlight"></p>
+                    </div>
+                    <div class="tab-pane" id="vocab" role="tabpanel" aria-labelledby="vocab-tab">
+                        <p id="quiz-content-vocab"></p>
+                    </div>
+                </div>
                 <!-- Button trigger for offcanvas -->
                 {{!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#vocab-offcanvasBottom" aria-controls="offcanvasBottom">
                 Open Bottom Offcanvas
@@ -192,9 +198,6 @@
             if (flyout && selection.toString() === "") {
                 document.body.removeChild(flyout);
             }
-        });
-        $(document).not("#flyout-menu-highlighted-text").click(function() {
-        $('#flyout-menu-highlighted-text').hide();
         });
     </script>
     <script src="../scripts/dotestpage.js"></script>
