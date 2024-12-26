@@ -63,11 +63,11 @@ let question1 = new Question(
 
 let question2 = new Question(
     2, 
-    'SINGLE-RADIO',  // Đổi từ MULTIPLE thành SINGLE-RADIO
+    'SINGLE-RADIO',  
     'Which of the following are programming languages?', 
     ['JavaScript', 'HTML', 'CSS', 'Python'], 
-    'JavaScript',  // Chỉ chọn một câu trả lời, vì chuyển sang SINGLE-RADIO
-    'JavaScript and Python are programming languages.' // Cập nhật câu trả lời cho phù hợp với kiểu SINGLE-RADIO
+    'JavaScript',  
+    'JavaScript and Python are programming languages.' 
 );
 
 let question3 = new Question(
@@ -90,11 +90,11 @@ let question4 = new Question(
 
 let question5 = new Question(
     5, 
-    'SINGLE-RADIO',  // Đổi từ MULTIPLE thành SINGLE-RADIO
+    'SINGLE-RADIO',  
     'Which planets are gas giants?', 
     ['Mercury', 'Venus', 'Jupiter', 'Saturn'], 
-    'Jupiter',  // Chỉ chọn một câu trả lời, vì chuyển sang SINGLE-RADIO
-    'Jupiter and Saturn are gas giants.'  // Cập nhật câu trả lời cho phù hợp với kiểu SINGLE-RADIO
+    'Jupiter',  
+    'Jupiter and Saturn are gas giants.'  
 );
 
 let question6 = new Question(
@@ -126,11 +126,11 @@ let question8 = new Question(
 
 let question9 = new Question(
     9, 
-    'SINGLE-RADIO',  // Đổi từ MULTIPLE thành SINGLE-RADIO
+    'SINGLE-RADIO',  
     'Which animals are mammals?', 
     ['Dog', 'Fish', 'Lion', 'Shark'], 
-    'Dog',  // Chỉ chọn một câu trả lời, vì chuyển sang SINGLE-RADIO
-    'Dog and Lion are mammals.'  // Cập nhật câu trả lời cho phù hợp với kiểu SINGLE-RADIO
+    'Dog',  
+    'Dog and Lion are mammals.'  
 );
 
 // Tạo các phần (Part)

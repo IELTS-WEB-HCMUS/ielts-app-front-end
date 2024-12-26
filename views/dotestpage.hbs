@@ -119,51 +119,47 @@
                         <p id="quiz-content-vocab"></p>
                     </div>
                 </div>
-                <!-- Button trigger for offcanvas -->
-                {{!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#vocab-offcanvasBottom" aria-controls="offcanvasBottom">
-                Open Bottom Offcanvas
-                </button> --}}
 
                 {{!-- Vocab Definitions --}}
                 <div class="offcanvas offcanvas-bottom offcanvas-container" tabindex="-1" id="vocab-offcanvasBottom" aria-labelledby="offcanvasBottomLabel" style=" z-index: 0;">
-                <div class="offcanvas-header" style="padding: 1% 2%">
-                    <div style="display: flex; flex-direction: column; width: 50%; height: auto">
-                        <div style="display: flex; flex-direction: row; width: 100%; height: auto">
-                            <h5 class="vocab-offcanvas-title" id="vocab-value" style="height: auto">Offcanvas From Bottom</h5>
-                            <p id="vocab-ipa"></p>
+                    <div class="offcanvas-header" style="padding: 1% 2%">
+                        <div style="display: flex; flex-direction: column; width: 50%; height: auto">
+                            <div style="display: flex; flex-direction: row; width: 100%; height: auto">
+                                <h5 class="vocab-offcanvas-title" id="vocab-value" style="height: auto">Offcanvas From Bottom</h5>
+                                <p id="vocab-ipa"></p>
+                            </div>
+                            <div style="display: flex; flex-direction: column; width: 100%; height: auto">
+                                <p id="vocab-word-class" style="font-style: italic; padding: 0% 0%; height: auto">conjunction</p>
+                                <h5 id="vocab-meaning" style="font-weight: bold; padding: 0% 0%; height: auto">Và</h5>
+                            </div>
                         </div>
-                        <div style="display: flex; flex-direction: column; width: 100%; height: auto">
-                            <p id="vocab-word-class" style="font-style: italic; padding: 0% 0%; height: auto">conjunction</p>
-                            <h5 id="vocab-meaning" style="font-weight: bold; padding: 0% 0%; height: auto">Và</h5>
+                        <div style="display: flex; flex-direction: row; width: 50%; justify-content: space-between; flex-wrap: wrap"> 
+                            <button class="image-button">
+                                <i class="far fa-thumbs-up feedback-icon" data-name="thumbs_up" data-ischeck="false"></i> 
+                            </button>
+                            <button class="image-button">
+                                <i class="far fa-thumbs-down feedback-icon" data-name="thumbs_down" data-ischeck="false"></i> 
+                            </button>
+                            <button class="image-text-button" style="margin-right: 2%;">
+                                <img src="../assets/add_vocab_icon.png" alt="Icon add" />
+                                <span>Lưu từ vựng</span>
+                            </button>
+                            <button class="image-text-button">
+                                <img src="../assets/copy_icon.png" alt="Icon" />
+                                <span>Sao chép</span>
+                            </button>
                         </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="removeUnderlineWord()"></button>
                     </div>
-                    <div style="display: flex; flex-direction: row; width: 50%; justify-content: space-between; flex-wrap: wrap"> 
-                        <button class="image-button">
-                            <i class="far fa-thumbs-up feedback-icon" data-name="thumbs_up" data-ischeck="false"></i> 
-                        </button>
-                        <button class="image-button">
-                            <i class="far fa-thumbs-down feedback-icon" data-name="thumbs_down" data-ischeck="false"></i> 
-                        </button>
-                        <button class="image-text-button" style="margin-right: 2%;">
-                            <img src="../assets/add_vocab_icon.png" alt="Icon add" />
-                            <span>Lưu từ vựng</span>
-                        </button>
-                        <button class="image-text-button">
-                            <img src="../assets/copy_icon.png" alt="Icon" />
-                            <span>Sao chép</span>
-                        </button>
+                    <hr>
+                    <div class="offcanvas-body">
+                        <div style="width: 100%; height: auto; display: flex; flex-direction: column; flex-wrap: wrap;">
+                            <p id="vocab-verb-structure" ></p>
+                            <p id="vocab-example"></p>
+                            <p id="vocab-explanation"></p>
+                        </div>
+                        
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="removeUnderlineWord()"></button>
-                </div>
-                <hr>
-                <div class="offcanvas-body">
-                    <div style="width: 100%; height: auto; display: flex; flex-direction: column; flex-wrap: wrap;">
-                        <p id="vocab-verb-structure" ></p>
-                        <p id="vocab-example"></p>
-                        <p id="vocab-explanation"></p>
-                    </div>
-                    
-                </div>
                 </div>
             </div>
             <div class="col">
@@ -175,11 +171,32 @@
         <div class="row" style=" height: 10%; background-color: var(--footer-dotest-color); z-index: 1">
             <div id="question-buttons" style="height: 100%; display: flex; flex-direction:row; flex-wrap: wrap; width: 50%; align-items: center;">
             </div>
-            <div style="height: 100%; display: flex; flex-direction:row; width: 50%; justify-content: flex-end">
-                <button class="button-footer">Thoát</button>
-                <button class="button-footer">Nộp bài</button>
+            <div style="height: 100%; display: flex; flex-direction:row; width: 50%; justify-content: flex-end;">
+                <button class="button-footer" data-bs-toggle="modal" data-bs-target="#ExitModal">Thoát</button>
+                <button class="button-footer" data-bs-toggle="modal" data-bs-target="#FinishModal">Nộp bài</button>
             </div>
         </div>
+        {{> modal 
+                modalId="FinishModal"
+                modalLabelId="modalLabel"
+                modalTitle="Hoàn thành bài tập"
+                modalBody="Bạn có chắc chắn nộp phần bài tập đã làm chưa? Nếu chắc chắn với các đáp án đã làm hãy bấm nút hoàn thành"
+                modalFooter='
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hoàn thành</button>
+                '
+            }}
+        {{> modal 
+            modalId="ExitModal"
+            modalLabelId="modalLabel"
+            modalTitle="Thoát?"
+            modalBody="Thay đổi của bạn có thể chưa được lưu. Bạn có chắc chắn muốn thoát bài làm"
+            modalFooter='
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Thoát</button>
+            '
+        }}
+    </div>
     </div>
      <script>
         // Lắng nghe sự kiện click trên toàn trang
@@ -198,6 +215,10 @@
             if (flyout && selection.toString() === "") {
                 document.body.removeChild(flyout);
             }
+        });
+        window.addEventListener('beforeunload', function (e) {
+            event.preventDefault();
+            return (event.returnValue = "");
         });
     </script>
     <script src="../scripts/dotestpage.js"></script>
