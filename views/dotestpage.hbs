@@ -52,11 +52,13 @@
             width: 50%;
             background-color: var(--vocab-offcanvasbottom-color);
             border-radius: 12px 12px 0% 0%;
+            border-color: transparent;
+            overflow-y: auto;
         }
 
         .offcanvas-container {
-            width: 49.99%; 
-            max-width: 49.99%;
+            width: 49.95%; 
+            max-width: 49.95%;
         }
 
         .offcanvas-backdrop {
@@ -78,6 +80,34 @@
         .fas {
             color: var(--finger-hand-icon-click-color);
         }
+
+        @media only screen and (max-width: 992px) {
+            .col-12 {
+                border-right: none !important; 
+                border-bottom: 1px solid black; 
+                height: 50%;
+            }
+
+            .offcanvas-bottom {
+                height: 50%;
+                max-height: 50%;
+                width: 100%;
+                overflow-y: auto;
+            }
+
+            .offcanvas-container{
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        @media only screen and (min-width: 992px){
+            .col-lg-6 {
+                border-bottom: none !important; 
+                border-right: 1px solid black; 
+                height: 100%;
+            }
+        }
     </style>
     
 </head>
@@ -94,7 +124,7 @@
             </div>
         </div>
         <div class="row middle" style="padding: 1%;">
-            <div class="col" style="border-right: 1px solid black;">
+            <div class="col-lg-6 col-12" id="left-column" style="border-right: 1px solid black;">
                 <div style="display: flex; flex-direction: row; justify-content: flex-end;">
                     <!-- Tab Navigation with Icons and Text -->
                     <ul class="nav nav-tabs" id="mode-do-test" role="tablist">
@@ -125,31 +155,35 @@
                     <div class="offcanvas-header" style="padding: 1% 2%">
                         <div style="display: flex; flex-direction: column; width: 50%; height: auto">
                             <div style="display: flex; flex-direction: row; width: 100%; height: auto">
-                                <h5 class="vocab-offcanvas-title" id="vocab-value" style="height: auto">Offcanvas From Bottom</h5>
+                                <h5 class="vocab-offcanvas-title" id="vocab-value" style="height: auto"></h5>
                                 <p id="vocab-ipa"></p>
                             </div>
                             <div style="display: flex; flex-direction: column; width: 100%; height: auto">
-                                <p id="vocab-word-class" style="font-style: italic; padding: 0% 0%; height: auto">conjunction</p>
-                                <h5 id="vocab-meaning" style="font-weight: bold; padding: 0% 0%; height: auto">Và</h5>
+                                <p id="vocab-word-class" style="font-style: italic; padding: 0% 0%; height: auto"></p>
+                                <h5 id="vocab-meaning" style="font-weight: bold; padding: 0% 0%; height: auto"></h5>
                             </div>
                         </div>
-                        <div style="display: flex; flex-direction: row; width: 50%; justify-content: space-between; flex-wrap: wrap"> 
-                            <button class="image-button">
-                                <i class="far fa-thumbs-up feedback-icon" data-name="thumbs_up" data-ischeck="false"></i> 
-                            </button>
-                            <button class="image-button">
-                                <i class="far fa-thumbs-down feedback-icon" data-name="thumbs_down" data-ischeck="false"></i> 
-                            </button>
-                            <button class="image-text-button" style="margin-right: 2%;">
-                                <img src="../assets/add_vocab_icon.png" alt="Icon add" />
-                                <span>Lưu từ vựng</span>
-                            </button>
-                            <button class="image-text-button">
-                                <img src="../assets/copy_icon.png" alt="Icon" />
-                                <span>Sao chép</span>
-                            </button>
+                        <div style="display: flex; flex-direction: row; width: 50%; flex-wrap: wrap"> 
+                            <div style="display: flex; flex-direction: row; width: 100%; height: 50%; justify-content: flex-end;">
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="removeUnderlineWord()"></button>
+                            </div>
+                            <div style="display: flex; flex-direction: row; width: 100%; height: 50%; justify-content: center;">
+                                <button class="image-button">
+                                    <i class="far fa-thumbs-up feedback-icon" data-name="thumbs_up" data-ischeck="false"></i> 
+                                </button>
+                                <button class="image-button">
+                                    <i class="far fa-thumbs-down feedback-icon" data-name="thumbs_down" data-ischeck="false"></i> 
+                                </button>
+                                <button class="image-text-button" style="margin-right: 2%;">
+                                    <img src="../assets/add_vocab_icon.png" alt="Icon add" />
+                                    <span>Lưu từ vựng</span>
+                                </button>
+                                <button class="image-text-button">
+                                    <img src="../assets/copy_icon.png" alt="Icon" />
+                                    <span>Sao chép</span>
+                                </button>
+                            </div>
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="removeUnderlineWord()"></button>
                     </div>
                     <hr>
                     <div class="offcanvas-body">
@@ -162,7 +196,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-12" id="right-column">
                 <div id="question-area">
 
                 </div>

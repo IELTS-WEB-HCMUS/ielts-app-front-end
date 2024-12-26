@@ -209,7 +209,7 @@ function showWordDefinition(index, word) {
         '/rʌn/',                // ipa (International Phonetic Alphabet)
         'I run every morning.', // example
         'run + object',         // verb_structure
-        'To run means to move at a speed faster than a walk.' // explanation
+        'Lorem ipsum odor amet, consectetuer adipiscing elit. Viverra euismod neque euismod vehicula venenatis faucibus scelerisque potenti vehicula. Maximus magna mollis elit molestie; tempor blandit pretium fames. Sem praesent dictumst dolor cubilia integer hac. Vivamus curabitur in rhoncus bibendum lacinia varius netus. Fames efficitur curae semper etiam ante. Interdum luctus nisl per sodales viverra gravida. Erat euismod iaculis non mi diam. Hac tempus volutpat urna convallis, placerat eget hac ante fringilla. Vulputate justo enim feugiat nunc sed vel. Aenean primis praesent eleifend adipiscing sem. Convallis non ipsum rutrum dignissim ornare aenean integer venenatis senectus. Mollis pharetra sapien sociosqu natoque felis; eu ultrices potenti netus. Eros tellus turpis eget nibh ornare sollicitudin. Per dignissim elit suspendisse magna posuere hendrerit proin inceptos. Tortor malesuada amet iaculis tortor gravida. Elementum bibendum conubia luctus laoreet dis congue augue parturient. Donec sem class imperdiet eu quis litora montes leo donec. Ultrices dignissim aenean iaculis gravida eget congue! Pharetra ridiculus lectus finibus parturient ut' // explanation
     );
 
     document.getElementById('vocab-value').textContent = word; // Đổi thành vocab.value; !!!!!!!!!!!!
@@ -555,26 +555,23 @@ function checkAnswer(questionId) {
 
 // Xử lý sự kiện like hoặc dislike trên vocab offcanvas
 document.addEventListener('DOMContentLoaded', function() {
-    const icons = document.querySelectorAll('.feedback-icon'); // Đảm bảo chọn đúng class
+    const icons = document.querySelectorAll('.feedback-icon'); 
 
     icons.forEach(function(icon) {
         icon.addEventListener('click', function() {
-            const isCheck = icon.getAttribute('data-ischeck') === 'true';  // Kiểm tra trạng thái hiện tại
+            const isCheck = icon.getAttribute('data-ischeck') === 'true';  
 
             if (isCheck) {
-                // Nếu đang ở trạng thái checked (fas), chuyển sang unchecked (far)
                 icon.setAttribute('data-ischeck', 'false');
                 icon.classList.remove('fas');
                 icon.classList.add('far');
             } else {
-                // Nếu chưa checked (far), reset tất cả icon về trạng thái far
                 icons.forEach(function(otherIcon) {
                     otherIcon.setAttribute('data-ischeck', 'false');
                     otherIcon.classList.remove('fas');
                     otherIcon.classList.add('far');
                 });
 
-                // Chuyển icon đang click thành checked (fas)
                 icon.setAttribute('data-ischeck', 'true');
                 icon.classList.remove('far');
                 icon.classList.add('fas');
@@ -584,7 +581,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('flyout-menu-highlight-text').onpointerleave = this.remove();
 });
-
 
 window.onload = function() {
     loadQuiz(quiz);
