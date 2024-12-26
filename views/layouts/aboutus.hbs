@@ -7,14 +7,14 @@
 
 <body>
     {{#if name}}
-        {{> userloginnavi name=name avatar=avatar}}
+    {{> userloginnavi name=name avatar=avatar}}
     {{else}}
-        {{> header }}
+    {{> header }}
     {{/if}}
     {{{ body }}}
     {{> footer }}
     <script src="../scripts/homepage.js">
-    console.log(name);
+        console.log(name);
     </script>
 </body>
 

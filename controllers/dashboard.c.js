@@ -1,7 +1,7 @@
-const userM = require('../models/user_info.m');
+const userM = require('../models/userProfile.m');
 
 module.exports = {
-    getProfile: async (req, res, next) => {
+    getDashboard: async (req, res, next) => {
         try {
             const access_token = req.session.user.access_token;
 
@@ -9,16 +9,16 @@ module.exports = {
                 return res.status(401).json({ message: 'Access token is missing' });
             }
             const userProfile = await userM.getUserProfile(access_token);
-            req.session.user.profile = { 
-                last_name: userProfile.data.last_name, 
-                avatar: userProfile.data.avatar 
+            req.session.user.profile = {
+                username: userProfile.data.email,
+                avatar: userProfile.data.avatar
             };
 
-            res.render('dashboard', { 
-                layout: 'dashboard', 
-                title: "Dashboard", 
-                name: userProfile.data.last_name, 
-                avatar: userProfile.data.avatar 
+            res.render('dashboard', {
+                layout: 'dashboard',
+                title: "Dashboard",
+                name: userProfile.data.email,
+                avatar: userProfile.data.avatar
             });
         } catch (error) {
             console.error('Error in getProfile:', error.message);

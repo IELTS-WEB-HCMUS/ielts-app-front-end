@@ -28,7 +28,7 @@
                 style="width: 100%; display: flex; padding: 0; margin: 0;">
                 <li class="nav-item"
                     style="margin: auto; border-right: 1px solid #ddd; padding-right: 20px; padding-left: 20px;">
-                    <a class="nav-link" style="color:#ddd" ; href="/user_info/profile">Trang chủ</a>
+                    <a class="nav-link" style="color:#ddd" ; href="/user/dashboard">Trang chủ</a>
                 </li>
                 <li class="nav-item"
                     style="margin: auto; border-right: 1px solid #ddd; padding-right: 20px; padding-left: 20px;">
@@ -36,11 +36,11 @@
                 </li>
                 <li class="nav-item"
                     style="margin: auto; border-right: 1px solid #ddd; padding-right: 20px; padding-left: 20px;">
-                    <a class="nav-link" style="color:#ddd" ; href="/filter">Full Test</a>
+                    <a class="nav-link" style="color:#ddd" ; href="/user/fulltest">Full Test</a>
                 </li>
                 <li class="nav-item"
                     style="margin: auto; border-right: 1px solid #ddd; padding-right: 20px; padding-left: 20px;">
-                    <a class="nav-link" style="color:#ddd" ; href="/vocals">Từ vựng</a>
+                    <a class="nav-link" style="color:#ddd" ; href="/user/vocabs">Từ vựng</a>
                 </li>
                 <li class="nav-item"
                     style="margin: auto; border-right: 1px solid #ddd; padding-right: 20px; padding-left: 20px;">
@@ -48,16 +48,20 @@
                 </li>
                 <li>
                     <div class="dropdown">
-                        <button style="background-color: transparent; color: white; font-size: 16px; font-weight: bold; border: none; margin-right: 3em;"
+                        <button
+                            style="background-color: transparent; color: white; font-size: 16px; font-weight: bold; border: none; margin-right: 3em; display: flex; align-items: center; gap: 0.5em;"
                             class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src={{ avatar }} class="rounded-circle"
-                                height="30" alt="" loading="lazy" /> {{ name }}
+                            <img src="{{ avatar }}" class="rounded-circle" height="30" alt="" loading="lazy" />
+                            <span
+                                style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 50px;">{{
+                                name
+                                }}</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">Thông tin chi tiết</a>
                             <a class="dropdown-item" href="#">Cài đặt</a>
-                            <a class="dropdown-item" href="/user/logout">Đăng xuất</a>
+                            <a class="dropdown-item" href="/user/auth/logout">Đăng xuất</a>
                         </div>
                     </div>
                 </li>

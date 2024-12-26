@@ -5,11 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ title }}</title>
-    <link rel="stylesheet" href=".././styles/login_register_page.css" />
-    <link rel="stylesheet" href=".././styles/colors.css" />
+    <link rel="stylesheet" href="/styles/login_register_page.css" />
+    <link rel="stylesheet" href="/styles/colors.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Font Awesome -->
-    <script src=".././scripts/loginpage.js" defer></script>
+    <script src="/scripts/loginpage.js" defer></script>
     <style>
         #signup-mode {
             background-color: transparent;
@@ -19,7 +19,7 @@
 
 <body>
     <div id="container">
-        <img src=".././assets/background_login.png" alt="MePass" class="img-fluid" />
+        <img src="/assets/background_login.png" alt="MePass" class="img-fluid" />
         <div id="container-form" style="border: 3px solid rgb(156, 160, 163); border-radius: 20px;">
             <h1 style="margin-left: 0em;">MePass chào bạn !</h1>
             <div id="tag-sign">
@@ -30,7 +30,7 @@
                 Trang web của chúng tôi được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh một cách toàn diện và hiệu
                 quả.
             </p>
-            <form action="/user/loginauthpass" method="POST">
+            <form action="/user/auth/loginAuth" method="POST">
                 <div class="input-group">
                     <label for="username">Email</label>
                     <input type="email" class="input-text" name="email" id="email" required placeholder="Nhập email" />
@@ -46,21 +46,43 @@
                         <label for="remember">Nhớ mật khẩu</label>
                     </div>
                     <div class="forget-pass">
-                        <a id="forget-pass" href="/user/forgetpassword" style="text-decoration: none;">Quên mật
+                        <a id="forget-pass" href="/user/forget_password" style="text-decoration: none;">Quên mật
                             khẩu?</a>
                     </div>
                 </div>
-                <button id="log" type="submit" style="margin-top: 5%; height:3em; width:50%; margin-left: 25%;">Đăng nhập</button>
+                <button id="log" type="submit" style="margin-top: 5%; height:3em; width:50%; margin-left: 25%;">Đăng
+                    nhập</button>
             </form>
             <hr />
-            <button id="log" onclick="window.location.href='/user/login/gg'" style="height:3em; width:50%;">
-                <img src=".././assets/google_icon.png" alt="Google Icon" style="width: 15px; height: 15px;" />
+            <button id="log" onclick="window.location.href='/user/auth/login/gg'" style="height:3em; width:50%;">
+                <img src="/assets/google_icon.png" alt="Google Icon" style="width: 15px; height: 15px;" />
                 Đăng nhập với Google
             </button>
         </div>
 </body>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const storedEmail = sessionStorage.getItem('email');
+        const storedPassword = sessionStorage.getItem('password');
+        if (storedEmail && storedPassword) {
+            document.getElementById('email').value = storedEmail;
+            document.getElementById('password').value = storedPassword;
+            document.querySelector('input[name="remember"]').checked = true;
+        }
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const rememberMeChecked = document.querySelector('input[name="remember"]').checked;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (rememberMeChecked) {
+                sessionStorage.setItem('email', email);
+                sessionStorage.setItem('password', password);
+            } else {
+                sessionStorage.removeItem('email');
+                sessionStorage.removeItem('password');
+            }
+        });
         document.getElementById('signup-mode').addEventListener('click', function () {
             window.location.href = '/user/register';
         });

@@ -3,7 +3,7 @@ module.exports = {
         try {
             const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-            const response = await fetch('http://localhost:8080/api/users', {
+            const response = await fetch(process.env.API_GET_USER_PROFILE, {
                 headers: {
                     Authorization: `Bearer ${access_token}`,
                     'Content-Type': 'application/json',

@@ -35,7 +35,7 @@ router.get('/gg', async (req, res) => {
             return res.status(400).send('Failed to retrieve id_token');
         }
 
-        const response = await fetch('http://localhost:8080/api/users', {
+        const response = await fetch(process.env.API_LOGIN, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -45,8 +45,8 @@ router.get('/gg', async (req, res) => {
 
         const result = await response.json();
 
-        req.session.user = { access_token: result.data }; 
-        res.redirect('/user_info/profile');
+        req.session.user = { access_token: result.data };
+        res.redirect('/user/dashboard');
 
     } catch (error) {
         console.error('Error during OAuth2 callback:', error);
@@ -54,9 +54,9 @@ router.get('/gg', async (req, res) => {
     }
 });
 
-router.post('/loginauthpass', async (req, res) => {
+router.post('/loginAuth', async (req, res) => {
     try {
-        const response = await fetch('http://localhost:8080/api/users/login', {
+        const response = await fetch(process.env.API_LOGIN, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,14 +67,12 @@ router.post('/loginauthpass', async (req, res) => {
             }),
         });
 
-        if (!response.ok) {
-            return res.status(response.status).json({ message: 'Login failed' });
+        if (response.status === 400) {
+            return res.status(400).send("Email or password is incorrect");
         }
         const result = await response.json();
-        console.log(result);
         req.session.user = { access_token: result.data };
-        console.log(req.session.user);
-        res.redirect('/user_info/profile');
+        res.redirect('/user/dashboard');
     } catch (error) {
         console.error('Lỗi khi gọi API:', error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -83,22 +81,6 @@ router.post('/loginauthpass', async (req, res) => {
 
 router.get('/login', (req, res) => {
     res.render('loginpage', { title: "Login page" });
-});
-
-router.get('/register', (req, res) => {
-    res.render('registerpage', { title: "Register page" });
-});
-
-router.get('/forgetpassword', (req, res) => {
-    res.render('forgot_password_page', { title: "Forget password page" });
-});
-
-router.get('/resetpassword', (req, res) => {
-    res.render('verify_otp_code_page');
-});
-
-router.get('/setnewpassword', (req, res) => {
-    res.render('set_new_password');
 });
 
 router.get('/logout', (req, res) => {

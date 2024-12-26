@@ -8,7 +8,11 @@
 </head>
 
 <body>
+  {{#if name}}
+  {{> userloginnavi name=name avatar=avatar}}
+  {{else}}
   {{> header }}
+  {{/if}}
   {{{ body }}}
   {{> near_footer }}
   {{> footer }}
