@@ -49,8 +49,9 @@ router.post('/validate_otp', (req, res) => {
                 throw new Error("OTP validation failed");
             }
 
-            const [firstName, ...rest] = req.session.info.name.split(" ");
-            const lastName = rest.join(" ");
+            const nameParts = req.session.info.name.split(" ");
+            const lastName = nameParts.pop() || "";
+            const firstName = nameParts.join(" ");
 
             const data1 = {
                 email: req.session.info.email,
