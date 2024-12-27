@@ -10,14 +10,14 @@ module.exports = {
             }
             const userProfile = await userM.getUserProfile(access_token);
             req.session.user.profile = {
-                username: userProfile.data.email,
+                username: userProfile.data.last_name,
                 avatar: userProfile.data.avatar
             };
 
             res.render('dashboard', {
                 layout: 'dashboard',
                 title: "Dashboard",
-                name: userProfile.data.email,
+                name: userProfile.data.last_name,
                 avatar: userProfile.data.avatar
             });
         } catch (error) {
