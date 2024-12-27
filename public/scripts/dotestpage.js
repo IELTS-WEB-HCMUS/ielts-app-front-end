@@ -31,10 +31,10 @@ class Part{
 
 class Quiz {
     constructor(type, content, title, time, parts = []){
-        this.type = type; // Listening hay reading
+        this.type = type; // Listening(2) hay reading(1)
         this.content = content; // Nội dung bài đọc với reading full test
         this.title = title; // Tiêu đề của quiz
-        this.time = time*60; //Thời gian giới hạn của quiz (tính bằng phút)
+        this.time = time * 60; //Thời gian giới hạn của quiz (tính bằng phút)
         this.parts = parts
     }
 }
@@ -160,8 +160,8 @@ let part3 = new Part(
 
 // Tạo quiz
 let quiz = new Quiz(
-    'Reading', 
-    'Lorem ipsum odor amet, consectetuer adipiscing elit. Viverra euismod neque euismod vehicula venenatis faucibus scelerisque potenti vehicula. Maximus magna mollis elit molestie; tempor blandit pretium fames. Sem praesent dictumst dolor cubilia integer hac. Vivamus curabitur in rhoncus bibendum lacinia varius netus. Fames efficitur curae semper etiam ante. Interdum luctus nisl per sodales viverra gravida. Erat euismod iaculis non mi diam. Hac tempus volutpat urna convallis, placerat eget hac ante fringilla. Vulputate justo enim feugiat nunc sed vel. Aenean primis praesent eleifend adipiscing sem. Convallis non ipsum rutrum dignissim ornare aenean integer venenatis senectus. Mollis pharetra sapien sociosqu natoque felis; eu ultrices potenti netus. Eros tellus turpis eget nibh ornare sollicitudin. Per dignissim elit suspendisse magna posuere hendrerit proin inceptos. Tortor malesuada amet iaculis tortor gravida. Elementum bibendum conubia luctus laoreet dis congue augue parturient. Donec sem class imperdiet eu quis litora montes leo donec. Ultrices dignissim aenean iaculis gravida eget congue! Pharetra ridiculus lectus finibus parturient ut',
+    1, 
+    'Lorem ipsum odor amet, consectetuer adipiscing elit. Viverra euismod neque euismod vehicula venenatis faucibus scelerisque potenti vehicula. Maximus magna mollis elit molestie; tempor blandit pretium fames. Sem praesent dictumst dolor cubilia integer hac. Vivamus curabitur in rhoncus bibendum lacinia varius netus. Fames efficitur curae semper etiam ante. Interdum luctus nisl per sodales viverra gravida. Erat euismod iaculis non mi diam. Hac tempus volutpat urna convallis, placerat eget hac ante fringilla. Vulputate justo enim feugiat nunc sed vel. Aenean primis praesent eleifend adipiscing sem. Convallis non ipsum rutrum dignissim ornare aenean integer venenatis senectus. Mollis pharetra sapien sociosqu natoque felis; eu ultrices potenti netus. Eros tellus turpis eget nibh ornare sollicitudin. Per dignissim elit suspendisse magna posuere hendrerit proin inceptos. Tortor malesuada amet iaculis tortor gravida. Elementum bibendum conubia luctus laoreet dis congue augue parturient. Donec sem class imperdiet eu quis litora montes leo donec. Ultrices dignissim aenean iaculis gravida eget congue! Pharetra ridiculus lectus finibus parturient ut.',
     'General Knowledge Quiz', 
     30, // 30 phút
     [part1, part2, part3]
@@ -173,24 +173,46 @@ function showWordIndex(index, word) {
 }
 
 function makeWordsClickable(paragraph) {
-    const text = paragraph.textContent.trim().replace(/\s+/g, ' ');  
-    const words = text.split(' '); 
+    // Get the text content and split into sentences
+    const text = paragraph.textContent.trim();
+    const sentenceRegex = /[^.!?]+[.!?]/g; // Match sentences ending with . ! or ?
+    const sentences = text.match(sentenceRegex) || [text]; // Fallback to the full text if no match
 
-    const clickableWords = words.map((word, index) => {
-        return `<a href="#" class="vocab-word" data-bs-target="#vocab-offcanvasBottom" 
-        onclick="handleWordClick(this, ${index}, '${word}')">${word}</a>`; 
+    // Process each sentence
+    const clickableSentences = sentences.map((sentence, sentenceIndex) => {
+      const words = sentence.trim().split(/\s+/); // Split sentence into words by spaces
+      let validWordIndex = 0; // Track valid words only
+
+      const clickableWords = words.map((word) => {
+        // Remove extra punctuation (except for valid alphanumeric words)
+        const cleanWord = word.replace(/[^a-zA-Z0-9]/g, '');
+
+        // Ignore empty results or single dashes
+        if (cleanWord === '') {
+          return word; // Return unmodified (e.g., punctuation stays unclickable)
+        }
+
+        // Valid word: Make it clickable and increment index
+        const wordHTML = `<a href="#" class="vocab-word" data-bs-target="#vocab-offcanvasBottom"
+        onclick="handleWordClick(this,${sentenceIndex}, ${validWordIndex}, '${cleanWord}')">${word}</a>`;
+        validWordIndex++;
+        return wordHTML;
+      });
+
+      return `<span class="sentence">${clickableWords.join(' ')}</span>`;
     });
 
-    paragraph.innerHTML = clickableWords.join(' '); 
+    // Update the paragraph content
+    paragraph.innerHTML = clickableSentences.join(' ');
 }
 
-function handleWordClick(element, index, word) {
+function handleWordClick(element, sentenceIndex, wordIndex, word) {
     removeUnderlineWord();
     element.classList.add('active');
 
     const offcanvas = document.getElementById('vocab-offcanvasBottom');
     const bsOffcanvas = new bootstrap.Offcanvas(offcanvas);
-    showWordDefinition(index, word);
+    showWordDefinition(sentenceIndex, wordIndex, word);
     bsOffcanvas.show();
 }
 
@@ -200,7 +222,7 @@ function removeUnderlineWord(){
 }
 
 
-function showWordDefinition(index, word) {
+function showWordDefinition(sentenceIndex, wordIndex, word) {
     // Thay đổi nội dung với từ được nhấn
     const vocab = new Vocab(
         'run',                  // value
@@ -209,7 +231,7 @@ function showWordDefinition(index, word) {
         '/rʌn/',                // ipa (International Phonetic Alphabet)
         'I run every morning.', // example
         'run + object',         // verb_structure
-        'Lorem ipsum odor amet, consectetuer adipiscing elit. Viverra euismod neque euismod vehicula venenatis faucibus scelerisque potenti vehicula. Maximus magna mollis elit molestie; tempor blandit pretium fames. Sem praesent dictumst dolor cubilia integer hac. Vivamus curabitur in rhoncus bibendum lacinia varius netus. Fames efficitur curae semper etiam ante. Interdum luctus nisl per sodales viverra gravida. Erat euismod iaculis non mi diam. Hac tempus volutpat urna convallis, placerat eget hac ante fringilla. Vulputate justo enim feugiat nunc sed vel. Aenean primis praesent eleifend adipiscing sem. Convallis non ipsum rutrum dignissim ornare aenean integer venenatis senectus. Mollis pharetra sapien sociosqu natoque felis; eu ultrices potenti netus. Eros tellus turpis eget nibh ornare sollicitudin. Per dignissim elit suspendisse magna posuere hendrerit proin inceptos. Tortor malesuada amet iaculis tortor gravida. Elementum bibendum conubia luctus laoreet dis congue augue parturient. Donec sem class imperdiet eu quis litora montes leo donec. Ultrices dignissim aenean iaculis gravida eget congue! Pharetra ridiculus lectus finibus parturient ut' // explanation
+        'Lorem ipsum odor amet, consectetuer adipiscing elit. Viverra euismod neque euismod vehicula venenatis faucibus scelerisque potenti vehicula. Maximus magna mollis elit molestie; tempor blandit pretium fames. Sem praesent dictumst dolor cubilia integer hac. Vivamus curabitur in rhoncus bibendum lacinia varius netus. Fames efficitur curae semper etiam ante. Interdum luctus nisl per sodales viverra gravida. Erat euismod iaculis non mi diam. Hac tempus volutpat urna convallis, placerat eget hac ante fringilla. Vulputate justo enim feugiat nunc sed vel. Aenean primis praesent eleifend adipiscing sem. Convallis non ipsum rutrum dignissim ornare aenean integer venenatis senectus. Mollis pharetra sapien sociosqu natoque felis; eu ultrices potenti netus. Eros tellus turpis eget nibh ornare sollicitudin. Per dignissim elit suspendisse magna posuere hendrerit proin inceptos. Tortor malesuada amet iaculis tortor gravida. Elementum bibendum conubia luctus laoreet dis congue augue parturient. Donec sem class imperdiet eu quis litora montes leo donec. Ultrices dignissim aenean iaculis gravida eget congue! Pharetra ridiculus lectus finibus parturient ut.' // explanation
     );
 
     document.getElementById('vocab-value').textContent = word; // Đổi thành vocab.value; !!!!!!!!!!!!
@@ -418,7 +440,8 @@ function startCountdown(quiz) {
 
 function loadQuiz(quiz){
     const quizType = document.getElementById('quiz-type-label');
-    quizType.innerHTML = `MePass - ${quiz.type} Practice`;
+    const strQuizType = quiz.type === 1 ? "Reading" : "Listening";
+    quizType.innerHTML = `MePass - ${strQuizType} Practice`;
     startCountdown(quiz); 
     loadButtonQuestion(quiz);
 
