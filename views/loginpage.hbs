@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Font Awesome -->
     <script src="/scripts/loginpage.js" defer></script>
+    <script src="/scripts/loginValidation.js" defer></script>
     <style>
         #signup-mode {
             background-color: transparent;
@@ -30,16 +31,21 @@
                 Trang web của chúng tôi được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh một cách toàn diện và hiệu
                 quả.
             </p>
-            <form action="/user/auth/loginAuth" method="POST">
+            <form action="/user/auth/loginAuth" method="POST" id="loginForm">
                 <div class="input-group">
                     <label for="username">Email</label>
+                   
                     <input type="email" class="input-text" name="email" id="email" required placeholder="Nhập email" />
+                      
+                
                 </div>
+                <div class="error-message" id="email-error"></div>
                 <div class="input-group">
                     <label for="password">Mật khẩu</label>
                     <input type="password" class="input-text" id="password" name="password" required
                         placeholder="Nhập mật khẩu" />
                 </div>
+                <div class="error-message" id="login-error"></div>
                 <div class="forget">
                     <div class="checkbox">
                         <input type="checkbox" name="remember" />
