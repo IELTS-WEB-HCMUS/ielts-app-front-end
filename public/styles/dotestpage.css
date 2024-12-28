@@ -269,3 +269,8 @@ html, body {
 #question-buttons::-webkit-scrollbar-track {
     background-color: transparent; /* Để thanh cuộn không có màu nền */
 }
+
+.passage {
+    margin-bottom: 24px;
+    display: block;
+}
