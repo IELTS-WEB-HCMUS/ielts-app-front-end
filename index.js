@@ -74,7 +74,11 @@ app.get('/quiz-result', (req, res) => {
 });
 
 app.get('/dotestpage', (req, res) => {
-    res.render('dotestpage', {title: "Làm bài"});
+    res.render('dotestpage', {layout: 'dotest', title: "Làm bài"});
+});
+
+app.get('/test_explanation_page', (req, res) => {
+    res.render('test_explanation_page', {layout: 'test_explanation', title: "Giải thích chi tiết"});
 });
 
 app.listen(port, () => {

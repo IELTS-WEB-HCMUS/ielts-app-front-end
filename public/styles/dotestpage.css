@@ -23,13 +23,9 @@ html, body {
 
 .time {
     font-size: 2rem;
+    text-align: center;;
 }
 
-.timer {
-    font-size: 2rem;
-    font-weight: lighter;
-    text-align: center;
-}
 
 .question-title {
     font-size: 2rem;  
@@ -110,6 +106,7 @@ html, body {
     border: none;
     margin: 2%;
     background-color: var(--button-in-dotestpage-color);
+    white-space: wrap;
 }
 
 .button-footer:hover{
