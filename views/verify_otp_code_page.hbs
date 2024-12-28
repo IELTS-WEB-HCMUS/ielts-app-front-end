@@ -94,11 +94,18 @@
                     <p style="margin-top: 8%; width: 100%;">Mã OTP đã được gửi đến email của bạn. Vui lòng nhập vào ô
                         bên dưới để hoàn tất xác thực.</p>
                     <h2 style="margin-top: 4%; margin-bottom: 4%; width: 100%;">Mã OTP</h2>
+                    {{#if error}}
+                    <div class="alert alert-danger" role="alert">
+                        {{error}}
+                    </div>
+                    {{/if}}
                     <form action="/user/forget_password/sendotp" method="POST" style="width: 100%;">
                         <input class="input form-control" type="number" name="otp" placeholder="Nhập mã OTP ở đây">
                         <button id="btn_submit_otp" class="btn btn-success" type="submit"
                             style="margin-top: 4%; background-color: #B0CBFA;">Xác nhận</button>
                     </form>
+                    <div id="countdown" style="margin-top: 10px;">Thời gian còn lại: 60s</div>
+                    <button id="resend_otp" class="btn btn-link" style="visibility: hidden;">Gửi lại</button>
                 </div>
             </div>
             <div class="col-2">

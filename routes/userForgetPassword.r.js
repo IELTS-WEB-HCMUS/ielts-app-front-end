@@ -45,12 +45,13 @@ router.post('/sendotp', (req, res) => {
         .then(response => response.json())
         .then(result => {
             if (!result.data) {
-                throw new Error("OTP validation failed");
+                return res.render('verify_otp_code_page', { error: "Mã OTP không đúng. Vui lòng thử lại." });
             }
             req.session.verify_token = result.data;
             res.render('set_new_password');
         }).catch(error => {
             console.error('Error when calling API:', error);
+            res.render('verify_otp_code_page', { error: "Đã xảy ra lỗi. Vui lòng thử lại sau." });
         });
 });
 
@@ -82,6 +83,30 @@ router.post('/setnew', (req, res) => {
 
 router.get('/', (req, res) => {
     res.render('registerpage', { title: "Register page" });
+});
+
+router.post('/resendotp', (req, res) => {
+    const data = {
+        type: "reset_password",
+        email: req.session.email
+    };
+
+    fetch(process.env.API_GEN_OTP, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json()).then(result => {
+        if (result.data !== null) {
+            res.status(200).send({ success: true });
+        } else {
+            res.status(400).send({ success: false });
+        }
+    }).catch(error => {
+        console.error('Error when calling API:', error);
+        res.status(500).send({ success: false });
+    });
 });
 
 module.exports = router;
