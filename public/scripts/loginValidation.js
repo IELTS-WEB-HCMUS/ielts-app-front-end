@@ -96,4 +96,48 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('password').classList.add('input-error');
         }
     }
-}); 
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('forgotPasswordForm');
+    if (form) {
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+
+        emailInput.addEventListener('input', () => {
+            validateEmail(emailInput, emailError);
+        });
+
+        form.addEventListener('submit', (e) => {
+            if (!validateEmail(emailInput, emailError)) {
+                e.preventDefault();
+            }
+        });
+    }
+});
+
+function validateEmail(input, errorElement) {
+    const email = input.value.trim();
+    if (!email) {
+        showError(input, errorElement, 'Email không được để trống');
+        return false;
+    }
+    if (!EMAIL_REGEX.test(email)) {
+        showError(input, errorElement, 'Email không đúng định dạng');
+        return false;
+    }
+    clearError(input, errorElement);
+    return true;
+}
+
+function showError(input, errorElement, message) {
+    input.classList.add('input-error');
+    errorElement.textContent = message;
+    errorElement.style.visibility = 'visible';
+}
+
+function clearError(input, errorElement) {
+    input.classList.remove('input-error');
+    errorElement.textContent = '';
+    errorElement.style.visibility = 'hidden';
+} 

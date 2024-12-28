@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('btn_submit_email').addEventListener('click', function () {
-        window.location.href = '/user/auth/resetpassword';
+    const submitButton = document.getElementById('btn_submit_email');
+    submitButton.addEventListener('click', function (e) {
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+        if (!validateEmail(emailInput, emailError)) {
+            e.preventDefault(); 
+        }
     });
 });
