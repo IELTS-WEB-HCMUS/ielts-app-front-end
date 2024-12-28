@@ -1,0 +1,41 @@
+.rectangle {
+    width: auto;          
+    height: auto;         
+    background-color: var(--light-grey); 
+    padding: 2%;
+    color: black; 
+    font-weight: bold;         
+    display: flex;         
+    justify-content: center;  
+    align-items: center;  
+    white-space: nowrap;    
+    font-size: 16px;    
+    border-radius: 12px;   
+}
+
+.explain-box {
+    width: auto;          
+    height: auto;         
+    padding: 2%;
+    color: black; 
+    background-color: var(--background-color);      
+    display: flex;         
+    justify-content: center;  
+    align-items: center;  
+    white-space: wrap;    
+    font-size: 16px;    
+    border-radius: 12px;  
+    border: 2px solid grey;
+}
+
+.btn-explain {
+    width: auto; 
+    height: auto;
+    padding: 0% 2%;
+    background-color: var(--button-explanation-color); 
+    border-radius: 30px;
+    color: white;
+    border: none; 
+    font-size: 14px; 
+    line-height: 1;
+}

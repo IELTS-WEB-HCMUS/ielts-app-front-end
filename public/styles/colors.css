@@ -10,6 +10,7 @@
     --bg-color: #0E5470;
     --footer-color: white;
     --footer-bg: grey;
+    --light-grey: #CECECE;
     --btn-footer-color: grey;
     --input-bg: #232323;
     --input-color: #fff;
@@ -30,4 +31,5 @@
     --vocab-offcanvasbottom-color: #D6EDFF;
     --finger-hand-icon-click-color: #16b6c6;
     --nav-tabs-mode-do-test-color: #E2F0FF;
+    --button-explanation-color: #609ECD;
 }

@@ -202,7 +202,7 @@ let part3 = new Part(
 // Tạo quiz với id
 let quiz = new Quiz(
     3001,  // Thêm id
-    'reading', 
+    1, 
     'Jean-Antoine Nollet was a French clergyman and physicist. In 1746 he gathered about two hundred monks into a circle about a mile (1.6 km) in circumference, with pieces of iron wire connecting them. He then discharged a battery of Leyden jars through the human chain and observed that each man reacted at substantially the same time to the electric shock, showing that the speed of electricity’s propagation was very high. Given a more humane detection system, this could be a way of signaling over long distances. In 1748, Nollet invented one of the first electrometers, the electroscope, which detected the presence of an electric charge by using electrostatic attraction and repulsion.<br>After the introduction of the European semaphore lines in 1792, the world’s desire to further its ability to communicate from a distance only grew. People wanted a way to send and receive news from remote locations so that they could better understand what was happening in the world around them - not just what was going on in their immediate town or city. This type of communication not only appealed to the media industry, but also to private individuals and companies who wished to stay in touch with contacts. In 1840 Charles Wheatstone from Britain, with William Cooke, obtained a new patent for a telegraphic arrangement. The new apparatus required only a single pair of wires, but the telegraph was still too costly for general purposes. In 1845, however, Cooke and Wheatstone succeeded in producing the single needle apparatus, which they patented, and from that time the electric telegraph became a practical instrument, soon adopted on all the railway lines of the country.<br>It was the European optical telegraph, or semaphore, that was the predecessor of the electrical recording telegraph that changed the history of communication forever. Building on the success of the optical telegraph, Samuel F. B. Morse completed a working version of the electrical recording telegraph, which only required a single wire to send code of dots and dashes. At first, it was imagined that only a few highly skilled encoders would be able to use it but it soon became clear that many people could become proficient in Morse code. A system of lines strung on telegraph poles began to spread in Europe and America.<br>In the 1840s and 1850s several individuals proposed or advocated construction of a telegraph cable across the Atlantic Ocean, including Edward Thornton and Alonzo Jackman. At that time there was no material available for cable insulation and the first breakthrough came with the discovery of a rubber-like latex called gutta-percha. Introduced to Britain in 1843, gutta-percha is the gum of a tree native to the Malay Peninsula and Malaysia. After the failure of their first cable in 1850, the British brothers John and Jacob Brett laid a successful submarine cable from Dover to Calais in 1851. This used two layers of gutta-percha insulation and an armoured outer layer. With thin wire and thick insulation, it floated and had to be weighed down with lead pipe.<br>In the case of first submarine-cable telegraphy, there was the limitation of knowledge of how its electrical properties were affected by water. The voltage which may be impressed on the cable was limited to a definite value. Moreover, for certain reasons, the cable had an impedance associated with it at the sending end which could make the voltage on the cable differ from the voltage applied to the sending-end apparatus. In fact, the cable was too big for a single boat, so two had to start in the middle of the Atlantic, join their cables and sail in opposite directions. Amazingly, the first official telegram to pass between two continents was a letter of congratulation from Queen Victoria of the United Kingdom to the President of the United States, James Buchanan, on August 16, 1858. However, signal quality declined rapidly, slowing transmission to an almost unusable speed and the cable was destroyed the following month.<br>To complete the link between England and Australia, John Pender formed the British-Australian Telegraph Company. The first stage was to lay a 557nm cable from Singapore to Batavia on the island of Java in 1870. It seemed likely that it would come ashore at the northern port of Darwin from where it might connect around the coast to Queensland and New South Wales. It was an undertaking more ambitious than spanning ocean. Flocks of sheep had to be driven with the 400 workers to provide food. They needed horses and bullock carts and, for the parched interior, camels. In the north, tropical rains left the teams flooded. In the centre, it seemed that they would die of thirst. One critical section in the red heart of Australia involved finding a route through the McDonnell mountain range and then finding water on the other side. The water was not only essential for the construction teams. There had to be telegraph repeater stations every few hundred miles to boost the signal and the staff obviously had to have a supply of water.<br>On August 22, 1872, the Northern and Southern sections of the Overland Telegraph Line were connected, uniting the Australian continent and within a few months, Australia was at last in direct contact with England via the submarine cable, too. This allowed the Australian Government to receive news from around the world almost instantaneously for the first time. It could cost several pounds to send a message and it might take several hours for it to reach its destination on the other side of the globe, but the world would never be the same again. The telegraph was the first form of communication over a great distance and was a landmark in human history.', 
     'General Knowledge Quiz', 
     30, // 30 phút
@@ -268,7 +268,7 @@ function makeWordsClickable(paragraph) {
 
                 const cleanWord = isException ? word : word.replace(/[^a-zA-Z0-9]/g, '');
                 return `<a href="#" class="vocab-word" data-bs-target="#vocab-offcanvasBottom"
-                            onclick="handleWordClick(this,${sentenceIndex+1}, ${wordIndex+1}, '${cleanWord}')">${word}</a>`;
+                            onclick="handleWordClick(this, ${sentenceIndex+1}, ${wordIndex+1}, '${cleanWord}')">${word}</a>`;
             });
 
             sentenceIndex++;
@@ -373,7 +373,7 @@ function HighlightText() {
                         fragment.appendChild(document.createElement('br'));
                     }
                     else {
-                        if (part.trim()) { // Skip empty segments
+                        if (part) { // Skip empty segments
                             const span = document.createElement('span');
                             span.classList.add('highlighted');
                             span.textContent = part;
@@ -525,7 +525,7 @@ function loadPart(part){
 }
 
 function loadQuestion(question) {
-    let uiElement = `<div class="question-container" id="question-${question.order}">`;
+    let uiElement = `<div class="question-container" id="question-${question.order}" style="margin: 3% 0%;">`;
 
     switch (question.type) {
         case 'SINGLE-SELECTION':
@@ -543,12 +543,17 @@ function loadQuestion(question) {
 
         case 'SINGLE-RADIO':
             uiElement += `
-            <div style="display: flex; flex-direction: row; align-items: flex-start; width: 100%">
-                <div class="question-order-number" style="margin-left: 2%; margin-right: 2%; margin-top: 1%; align-self: flex-start;">${question.order}</div>
-                <div style="display: flex; flex-direction: column; margin: 2%;">
-                    <p>${question.content}</p>
-                    ${question.options.map(option => `
+            <div style="display: flex; flex-direction: column; align-items: flex-start; margin-left: 2%">
+                <div style="display: flex; flex-direction: row; align-items: flex-start; width: 100%; align-items: center;">
+                    <div class="question-order-number" style="; margin-right: 2%; margin-top: 1%; align-self: flex-start;">${question.order}</div>
+                    <p style="margin-top: 1%">${question.content}</p>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 100%; margin: 0% 2%;">
+                    ${question.options.map((option,index) => `
                         <div class="option" style="display: flex; align-items: center;">
+                            <div class="question-order-number" style="margin-left: 2%; margin-right: 2%; align-items: center; font-size: 1em">
+                                ${String.fromCharCode(65 + index)}
+                            </div>
                             <input type="radio" name="question-${question.order}" value="${option}" id="option-${question.order}-${option}" onchange="checkAnswered(${question.order}, ${question.id})">
                             <label for="option-${question.order}-${option}">${option}</label>
                         </div>
@@ -770,7 +775,7 @@ function getAnswered(quiz, userAnswers) {
         // Update summary
         result.quiz.summary.correct = totalCorrect;
         result.quiz.summary.total = totalQuestions;
-        result.quiz.summary.left_time = completion_Time; // Assuming no time used
+        result.quiz.summary.left_time = completion_Time; 
     
         return result;
 }
