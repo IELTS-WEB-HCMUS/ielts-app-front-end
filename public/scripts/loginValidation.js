@@ -1,5 +1,6 @@
 // Chỉ giữ regex cho email
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 class FormValidator {
     constructor() {
@@ -124,6 +125,16 @@ function validateEmail(input, errorElement) {
     }
     if (!EMAIL_REGEX.test(email)) {
         showError(input, errorElement, 'Email không đúng định dạng');
+        return false;
+    }
+    clearError(input, errorElement);
+    return true;
+}
+
+function validatePassword(input, errorElement) {
+    const password = input.value.trim();
+    if (!PASSWORD_REGEX.test(password)) {
+        showError(input, errorElement, 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.');
         return false;
     }
     clearError(input, errorElement);

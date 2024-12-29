@@ -18,6 +18,7 @@ router.post('/genotp', (req, res) => {
         },
         body: JSON.stringify(data)
     }).then(response => response.json()).then(result => {
+        console.log(result)
         if (result.data !== null) {
             res.render('verify_otp_code_page');
         } else {
@@ -70,14 +71,17 @@ router.post('/setnew', (req, res) => {
         },
         body: JSON.stringify(data)
     }).then(response => response.json()).then(result => {
-        console.log(result);
-        if (result) {
+        console.log(result)
+        if (result.code === 1 && result.error_detail === 'password duplicated') {
+            res.render('set_new_password', { error: "Mật khẩu mới không được trùng với mật khẩu cũ." });
+        } else if (result) {
             res.redirect('/user/auth/login');
         } else {
             res.redirect('/user/forget_password');
         }
     }).catch(error => {
         console.error('Error when calling API:', error);
+        res.render('set_new_password', { error: "Đã xảy ra lỗi. Vui lòng thử lại sau." });
     });
 });
 
