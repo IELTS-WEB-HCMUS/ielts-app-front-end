@@ -673,6 +673,9 @@ function loadQuiz(quiz){
         uiElement += partUI;
     });
     container.innerHTML = uiElement;
+
+    const submitTest = document.getElementById('btn_toggle_modal_submit');
+    submitTest.disabled = true;
 }
 
 
@@ -714,7 +717,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const [minutes, seconds] = document.getElementById('timer').textContent.split(':').map(Number);
             return (minutes * 60) + seconds;
         })();
-        const result = getAnswered(quiz,userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
+        const result = getAnswered(quiz, userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
     });
 });
 
@@ -748,20 +751,24 @@ function getAnswered(quiz, userAnswers) {
             result.dictionary[partKey] = []; 
     
             part.questions.forEach((question) => {
-                const userAnswer = userAnswers[question.id] || ""; 
+                if (!userAnswers.hasOwnProperty(question.id)) {
+                    totalQuestions++;
+                    return; 
+                }
+                const userAnswer = userAnswers[question.id] ; 
                 const isCorrect = question.checkAnswer(userAnswer); 
-    
+
                 // Update total counts
                 totalQuestions++;
                 if (isCorrect) totalCorrect++;
-    
+        
                 // Add question to submit list
                 result.question.push({
                     id: question.id,
                     success_count: isCorrect ? 1 : 0,
                     total: 1,
                 });
-    
+        
                 // Add question details to dictionary
                 result.dictionary[partKey].push({
                     title: {
@@ -773,6 +780,7 @@ function getAnswered(quiz, userAnswers) {
                     type: question.type,
                     id_question: question.id,
                 });
+                
             });
         });
     
@@ -783,11 +791,16 @@ function getAnswered(quiz, userAnswers) {
     
         return result;
 }
-    
 
-window.onload = function() {
+function initializePage() {
     loadQuiz(quiz);
     HighlightText();
+}
+ 
+
+window.onload = initializePage;
+window.onpageshow = function (event) {
+    if (event.persisted) {
+        initializePage(); 
+    }
 };
-
-
