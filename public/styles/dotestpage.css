@@ -40,7 +40,7 @@ html, body {
 }
 
 .custom-dropdown {
-    width: 15%; 
+    width: auto; 
     padding: 1%; 
     border-radius: 8px; 
     border: 1px solid #ccc; 
@@ -59,9 +59,8 @@ html, body {
     box-shadow: inset;
 }
 
-.custom-dropdown option:disabled {
-    color: #aaa; 
-    opacity: 0.6; 
+.custom-dropdown:disabled {
+    cursor: not-allowed;
 }
 
 .option {
@@ -77,26 +76,11 @@ html, body {
     cursor: pointer; 
 }
 
-/* .option input[type="radio"]:checked {
-    outline: 0.4% solid var(--question-answered-color); 
-    outline-offset: 0.2%;
-} */
-
 input[type="radio"]:checked + .custom-radio::before {
     outline: 0.4% solid var(--question-answered-color); 
     outline-offset: 0.2%;
     background-color: currentColor;
     border-color: currentColor;
-}
-
-.correct {
-    color: green;
-    --color: green; 
-}
-
-.incorrect {
-    color: red;
-    --color: red; 
 }
 
 .option label {
@@ -115,6 +99,10 @@ input[type="radio"]:checked + .custom-radio::before {
     vertical-align: middle;
 }
 
+.input-answer:disabled {
+    cursor: not-allowed;
+}
+
 .button-footer {
     width: 20%;
     height: 50%;
@@ -129,6 +117,10 @@ input[type="radio"]:checked + .custom-radio::before {
 .button-footer:hover{
     background-color: var(--primary-color);
     color: white;
+}
+
+.button-footer:disabled:hover {
+    cursor: not-allowed;
 }
 
 .button-question {

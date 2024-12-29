@@ -92,7 +92,7 @@ class AnswerQuiz {
 
 
 let question1 = new Question(
-    10001,  // Thêm id
+    10001,  
     1, 
     'SINGLE-SELECTION', 
     'What is the capital of France?', 
@@ -103,7 +103,7 @@ let question1 = new Question(
 );
 
 let question2 = new Question(
-    10002,  // Thêm id
+    10002,  
     2, 
     'SINGLE-RADIO',  
     'Which of the following are programming languages?', 
@@ -113,7 +113,7 @@ let question2 = new Question(
 );
 
 let question3 = new Question(
-    10003,  // Thêm id
+    10003,  
     3, 
     'FILL-IN-THE-BLANK', 
     'The chemical symbol for water is ____.', 
@@ -123,7 +123,7 @@ let question3 = new Question(
 );
 
 let question4 = new Question(
-    10004,  // Thêm id
+    10004,  
     4, 
     'SINGLE-RADIO', 
     'Which of the following is the largest planet in our solar system?', 
@@ -133,7 +133,7 @@ let question4 = new Question(
 );
 
 let question5 = new Question(
-    10005,  // Thêm id
+    10005,  
     5, 
     'SINGLE-RADIO',  
     'Which planets are gas giants?', 
@@ -143,7 +143,7 @@ let question5 = new Question(
 );
 
 let question6 = new Question(
-    10006,  // Thêm id
+    10006,  
     6, 
     'FILL-IN-THE-BLANK', 
     'The sun is a type of ____.', 
@@ -154,7 +154,7 @@ let question6 = new Question(
 );
 
 let question7 = new Question(
-    10007,  // Thêm id
+    10007,  
     7, 
     'SINGLE-SELECTION', 
     'What is the tallest mountain in the world?', 
@@ -164,7 +164,7 @@ let question7 = new Question(
 );
 
 let question8 = new Question(
-    10008,  // Thêm id
+    10008,  
     8, 
     'SINGLE-RADIO', 
     'Which ocean is the largest?', 
@@ -174,7 +174,7 @@ let question8 = new Question(
 );
 
 let question9 = new Question(
-    10009,  // Thêm id
+    10009,  
     9, 
     'SINGLE-RADIO',  
     'Which animals are mammals?', 
@@ -185,23 +185,23 @@ let question9 = new Question(
 
 // Tạo các phần (Part) với id
 let part1 = new Part(
-    2001,  // Thêm id
+    2001,  
     [question1, question2, question3]
 );
 
 let part2 = new Part(
-    2002,  // Thêm id
+    2002,  
     [question4, question5, question6]
 );
 
 let part3 = new Part(
-    2003,  // Thêm id
+    2003,  
     [question7, question8, question9]
 );
 
 // Tạo quiz với id
 let quiz = new Quiz(
-    3001,  // Thêm id
+    3001,  
     1, 
     'Jean-Antoine Nollet was a French clergyman and physicist. In 1746 he gathered about two hundred monks into a circle about a mile (1.6 km) in circumference, with pieces of iron wire connecting them. He then discharged a battery of Leyden jars through the human chain and observed that each man reacted at substantially the same time to the electric shock, showing that the speed of electricity’s propagation was very high. Given a more humane detection system, this could be a way of signaling over long distances. In 1748, Nollet invented one of the first electrometers, the electroscope, which detected the presence of an electric charge by using electrostatic attraction and repulsion.<br>After the introduction of the European semaphore lines in 1792, the world’s desire to further its ability to communicate from a distance only grew. People wanted a way to send and receive news from remote locations so that they could better understand what was happening in the world around them - not just what was going on in their immediate town or city. This type of communication not only appealed to the media industry, but also to private individuals and companies who wished to stay in touch with contacts. In 1840 Charles Wheatstone from Britain, with William Cooke, obtained a new patent for a telegraphic arrangement. The new apparatus required only a single pair of wires, but the telegraph was still too costly for general purposes. In 1845, however, Cooke and Wheatstone succeeded in producing the single needle apparatus, which they patented, and from that time the electric telegraph became a practical instrument, soon adopted on all the railway lines of the country.<br>It was the European optical telegraph, or semaphore, that was the predecessor of the electrical recording telegraph that changed the history of communication forever. Building on the success of the optical telegraph, Samuel F. B. Morse completed a working version of the electrical recording telegraph, which only required a single wire to send code of dots and dashes. At first, it was imagined that only a few highly skilled encoders would be able to use it but it soon became clear that many people could become proficient in Morse code. A system of lines strung on telegraph poles began to spread in Europe and America.<br>In the 1840s and 1850s several individuals proposed or advocated construction of a telegraph cable across the Atlantic Ocean, including Edward Thornton and Alonzo Jackman. At that time there was no material available for cable insulation and the first breakthrough came with the discovery of a rubber-like latex called gutta-percha. Introduced to Britain in 1843, gutta-percha is the gum of a tree native to the Malay Peninsula and Malaysia. After the failure of their first cable in 1850, the British brothers John and Jacob Brett laid a successful submarine cable from Dover to Calais in 1851. This used two layers of gutta-percha insulation and an armoured outer layer. With thin wire and thick insulation, it floated and had to be weighed down with lead pipe.<br>In the case of first submarine-cable telegraphy, there was the limitation of knowledge of how its electrical properties were affected by water. The voltage which may be impressed on the cable was limited to a definite value. Moreover, for certain reasons, the cable had an impedance associated with it at the sending end which could make the voltage on the cable differ from the voltage applied to the sending-end apparatus. In fact, the cable was too big for a single boat, so two had to start in the middle of the Atlantic, join their cables and sail in opposite directions. Amazingly, the first official telegram to pass between two continents was a letter of congratulation from Queen Victoria of the United Kingdom to the President of the United States, James Buchanan, on August 16, 1858. However, signal quality declined rapidly, slowing transmission to an almost unusable speed and the cable was destroyed the following month.<br>To complete the link between England and Australia, John Pender formed the British-Australian Telegraph Company. The first stage was to lay a 557nm cable from Singapore to Batavia on the island of Java in 1870. It seemed likely that it would come ashore at the northern port of Darwin from where it might connect around the coast to Queensland and New South Wales. It was an undertaking more ambitious than spanning ocean. Flocks of sheep had to be driven with the 400 workers to provide food. They needed horses and bullock carts and, for the parched interior, camels. In the north, tropical rains left the teams flooded. In the centre, it seemed that they would die of thirst. One critical section in the red heart of Australia involved finding a route through the McDonnell mountain range and then finding water on the other side. The water was not only essential for the construction teams. There had to be telegraph repeater stations every few hundred miles to boost the signal and the staff obviously had to have a supply of water.<br>On August 22, 1872, the Northern and Southern sections of the Overland Telegraph Line were connected, uniting the Australian continent and within a few months, Australia was at last in direct contact with England via the submarine cable, too. This allowed the Australian Government to receive news from around the world almost instantaneously for the first time. It could cost several pounds to send a message and it might take several hours for it to reach its destination on the other side of the globe, but the world would never be the same again. The telegraph was the first form of communication over a great distance and was a landmark in human history.', 
     'General Knowledge Quiz', 
@@ -312,7 +312,7 @@ function showWordDefinition(sentenceIndex, wordIndex, word) {
         'Lorem ipsum odor amet, consectetuer adipiscing elit. Viverra euismod neque euismod vehicula venenatis faucibus scelerisque potenti vehicula. Maximus magna mollis elit molestie; tempor blandit pretium fames. Sem praesent dictumst dolor cubilia integer hac. Vivamus curabitur in rhoncus bibendum lacinia varius netus. Fames efficitur curae semper etiam ante. Interdum luctus nisl per sodales viverra gravida. Erat euismod iaculis non mi diam. Hac tempus volutpat urna convallis, placerat eget hac ante fringilla. Vulputate justo enim feugiat nunc sed vel. Aenean primis praesent eleifend adipiscing sem. Convallis non ipsum rutrum dignissim ornare aenean integer venenatis senectus. Mollis pharetra sapien sociosqu natoque felis; eu ultrices potenti netus. Eros tellus turpis eget nibh ornare sollicitudin. Per dignissim elit suspendisse magna posuere hendrerit proin inceptos. Tortor malesuada amet iaculis tortor gravida. Elementum bibendum conubia luctus laoreet dis congue augue parturient. Donec sem class imperdiet eu quis litora montes leo donec. Ultrices dignissim aenean iaculis gravida eget congue! Pharetra ridiculus lectus finibus parturient ut.' // explanation
     );
 
-    document.getElementById('vocab-value').textContent = word; // Đổi thành vocab.value; !!!!!!!!!!!!
+    document.getElementById('vocab-value').textContent = vocab.value; 
     document.getElementById('vocab-ipa').textContent = vocab.ipa;
     document.getElementById('vocab-word-class').textContent = vocab.word_class;
     document.getElementById('vocab-meaning').textContent = vocab.meaning;
@@ -606,26 +606,32 @@ const userAnswers = {}; // Đối tượng lưu câu trả lời của người 
 function checkAnswered(questionOrder, question_id) {
     const question = document.getElementById(`question-${questionOrder}`);
     const inputs = question.querySelectorAll('input, select'); 
+    const submitTest = document.getElementById('btn_toggle_modal_submit');
 
     let isAnswered = false;
+    let isDisabledBtnToggleModalSubmit = true;
     let answer = null;
 
     inputs.forEach(input => {
         if (input.type === 'radio' && input.checked) {
             isAnswered = true;
+            isDisabledBtnToggleModalSubmit = false;
             answer = input.value;
         }
 
         if (input.type === 'text' && input.value.trim() !== '') {
             isAnswered = true;
+            isDisabledBtnToggleModalSubmit = false;
             answer = input.value.trim();
         }
 
         if (input.tagName.toLowerCase() === 'select' && input.value !== '') {
             isAnswered = true;
+            isDisabledBtnToggleModalSubmit = false;
             answer = input.value;
         }
     });
+    submitTest.disabled = isDisabledBtnToggleModalSubmit;
 
     if (isAnswered) {
         userAnswers[question_id] = answer; // Ghi nhận câu trả lời
@@ -709,8 +715,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return (minutes * 60) + seconds;
         })();
         const result = getAnswered(quiz,userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
-        // Test
-        // document.getElementById('getResult').textContent = JSON.stringify(result, null, 2);
     });
 });
 
@@ -784,6 +788,6 @@ function getAnswered(quiz, userAnswers) {
 window.onload = function() {
     loadQuiz(quiz);
     HighlightText();
-    
 };
+
 

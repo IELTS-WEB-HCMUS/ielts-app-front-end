@@ -119,7 +119,7 @@
         {{{ body }}}
         {{> footer-test
             button1= '<button class="button-footer" data-bs-toggle="modal" data-bs-target="#ExitModal">Thoát</button>'
-            button2= '<button class="button-footer" data-bs-toggle="modal" data-bs-target="#FinishModal">Nộp bài</button>'
+            button2= '<button class="button-footer" id="btn_toggle_modal_submit" data-bs-toggle="modal" data-bs-target="#FinishModal" disabled>Nộp bài</button>'
         }}
         {{> modal 
                 modalId="FinishModal"
