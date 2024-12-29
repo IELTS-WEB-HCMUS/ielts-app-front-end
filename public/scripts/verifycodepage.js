@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     otpError.className = 'alert alert-danger';
     otpError.style.visibility = 'hidden';
     otpInput.parentNode.insertBefore(otpError, otpInput.nextSibling);
+    const handlebarsError = document.getElementById('handlebars-error');
 
     const countdownElement = document.getElementById('countdown');
     const resendButton = document.getElementById('resend_otp');
@@ -41,6 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }).catch(error => {
             console.error('Error resending OTP:', error);
         });
+    });
+
+    otpInput.addEventListener('input', function () {
+        if (handlebarsError) {
+            handlebarsError.style.display = 'none';
+        }
     });
 
     document.getElementById('btn_submit_otp').addEventListener('click', function (e) {

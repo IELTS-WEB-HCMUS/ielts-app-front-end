@@ -16,14 +16,16 @@ router.post('/newone', (req, res) => {
         },
         body: JSON.stringify(data)
     }).then(response => response.json()).then(result => {
-        console.log(result);
-        if (result.data !== null) {
+        if (result.code === 1 && result.error_detail === 'duplicated email') {
+            res.redirect('/user/register?error=duplicated_email');
+        } else if (result.data !== null) {
             res.render('verify_otp_signup', { title: "Verify OTP code page", email: req.body.email });
         } else {
             res.redirect('/user/register');
         }
     }).catch(error => {
         console.error('Error when calling API:', error);
+        res.redirect('/user/register');
     });
 });
 
@@ -89,6 +91,32 @@ router.post('/validate_otp', (req, res) => {
                 errorMessage: error.message || "Something went wrong"
             });
         });
+});
+
+router.post('/resendotp', (req, res) => {
+    const email = req.body.email;
+    const data = {
+        type: "verify_email",
+        email: email
+    };
+
+    fetch(process.env.API_GEN_OTP, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json()).then(result => {
+        console.log(result);
+        if (result.data !== null) {
+            res.status(200).send({ success: true });
+        } else {
+            res.status(400).send({ success: false });
+        }
+    }).catch(error => {
+        console.error('Error when calling API:', error);
+        res.status(500).send({ success: false });
+    });
 });
 
 router.get('/', (req, res) => {

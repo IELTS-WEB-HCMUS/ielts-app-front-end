@@ -32,6 +32,7 @@ router.post('/genotp', (req, res) => {
 });
 
 router.post('/sendotp', (req, res) => {
+    console.log(req.body);
     const data = {
         type: "reset_password",
         email: req.session.email,
@@ -47,6 +48,7 @@ router.post('/sendotp', (req, res) => {
     })
         .then(response => response.json())
         .then(result => {
+            console.log(result);
             if (!result.data) {
                 return res.render('verify_otp_code_page', { error: "Mã OTP không đúng. Vui lòng thử lại." });
             }

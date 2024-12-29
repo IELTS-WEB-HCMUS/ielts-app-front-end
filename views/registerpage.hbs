@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Font Awesome -->
     <script src="/scripts/registerpage.js" defer></script>
+    <script src="/scripts/loginValidation.js" defer></script>
     <style>
         #login-mode {
             background-color: transparent;
@@ -29,6 +30,31 @@
         .icon.error {
             color: red;
         }
+        .error-message {
+            font-size: 0.9em;
+            margin-top: 5px;
+            visibility: hidden;
+        }
+         .input-error {
+            border-color: red;
+        }
+
+
+
+        .strength-weak {
+            color: red;
+        }
+
+        .strength-medium {
+            color: orange;
+        }
+
+        .strength-strong {
+            color: green;
+        }
+        .strength-very-strong {
+            color: darkgreen;
+        }
     </style>
 </head>
 
@@ -49,7 +75,9 @@
                 <div class="input-group">
                     <label for="username">Email</label>
                     <input type="email" class="input-text" id="email" name="email" required placeholder="Nhập email" />
+                    
                 </div>
+                <div class="error-message" id="email-error"></div>
                 <div class="input-group">
                     <label for="name">Họ tên</label>
                     <input type="text" class="input-text" id="name" name="name" required placeholder="Nhập họ tên" />
@@ -59,6 +87,7 @@
                     <input type="password" class="input-text" id="password1" name="password1" required
                         placeholder="Nhập mật khẩu" />
                 </div>
+                <div class="error-message" id="password-error"></div>
                 <div class="input-group">
                     <label for="password2">Xác nhận
                         <i class="fas icon" id="status-icon"></i></label>
@@ -91,7 +120,7 @@
 
             // Ban đầu disable nút đăng ký
             submitButton.disabled = true;
-            submitButton.style.opacity = "0.5";
+            submitButton.style.opacity = "0.7";
 
             function validatePasswords() {
                 if (password2.value === password1.value && password1.value.length > 0) {
@@ -113,6 +142,15 @@
 
             password1.addEventListener('input', validatePasswords);
             password2.addEventListener('input', validatePasswords);
+
+            // Hiển thị lỗi email trùng lặp
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            if (error === 'duplicated_email') {
+                const emailError = document.getElementById('email-error');
+                emailError.textContent = 'Email đã tồn tại.';
+                emailError.style.visibility = 'visible';
+            }
         });
     </script>
 

@@ -47,8 +47,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 showError(input, errorElement, 'Mật khẩu yếu (thêm chữ hoa, số hoặc ký tự đặc biệt)', 'strength-weak');
             } else if (strength === 2) {
                 showError(input, errorElement, 'Mật khẩu trung bình (thêm số hoặc kí tự đặc biêt) ', 'strength-medium');
-            } else if (strength === 4) {
+
+            } 
+            else if (strength === 3) {
+                showError(input, errorElement, 'Mật khẩu vừa (thêm kí tự đặc biệt)', 'strength-strong');
+            }
+            else if (strength === 4) {
                 showError(input, errorElement, 'Mật khẩu mạnh', 'strength-very-strong');
+                input.classList.remove('input-error');
             }
         }
     }
