@@ -19,7 +19,9 @@ router.post('/genotp', (req, res) => {
         body: JSON.stringify(data)
     }).then(response => response.json()).then(result => {
         console.log(result)
-        if (result.data !== null) {
+        if (result.code === 1 && result.error_detail === 'email not found') {
+            res.redirect('/user/forget_password?error=email_not_found');
+        } else if (result.data !== null) {
             res.render('verify_otp_code_page');
         } else {
             res.redirect('/user/forget_password');
