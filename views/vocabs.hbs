@@ -2,34 +2,105 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 5%;">
-    <div class="text-center fw-bold fs-4 my-3"> <strong style="color: #49BBBD;">Sổ từ vựng</strong></div>
+    <div class="text-center fw-bold fs-4 my-3">
+        <strong style="color: #49BBBD;">Sổ từ vựng</strong>
+    </div>
 
     <!-- Topics Dropdown -->
     <div class="ms-3">
+        {{#each topics}}
         <div class="btn-group">
-            <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Topic 1
+            <button data-id="{{ id }}" class="btn btn-secondary editable-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ name }}
+                <i class="fas fa-pencil-alt edit-icon" style="display: none; color: pink; margin-left: 10px;"></i>
             </button>
         </div>
-
-        <div class="btn-group">
-            <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Topic 2
-            </button>
-        </div>
-
-        <div class="btn-group">
-            <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Topic 3
-            </button>
-        </div>
-
-        <div class="btn-group">
-            <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Topic 4
-            </button>
-        </div>
-    </div style="margin-bottom: 5%;">
+        {{/each}}
+    </div>
 
     {{> vocabstable}}
 </div>
+
+<style>
+    .active-btn {
+        background-color: #007bff !important;
+        color: white;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".editable-btn");
+
+        buttons.forEach(button => {
+            const editIcon = button.querySelector(".edit-icon");
+
+            button.addEventListener("click", function () {
+                buttons.forEach(btn => {
+                    if (btn !== button) {
+                        btn.classList.remove("active-btn");
+                    }
+                });
+                button.classList.add("active-btn");
+            });
+
+            button.addEventListener("dblclick", function () {
+                buttons.forEach(btn => {
+                    if (btn !== button) {
+                        btn.classList.remove("active-btn");
+                    }
+                });
+                button.classList.add("active-btn");
+
+                button.contentEditable = true;
+                button.focus();
+                editIcon.style.display = "inline"; 
+            });
+
+            button.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    finishEditing(button, editIcon);
+                }
+            });
+
+            button.addEventListener("blur", function () {
+                finishEditing(button, editIcon);
+            });
+
+            function finishEditing(btn, icon) {
+                const id = btn.getAttribute('data-id'); 
+                btn.contentEditable = false;
+                icon.style.display = "none"; 
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/user/vocabs/update-topic';
+
+                const inputId = document.createElement('input');
+                inputId.type = 'hidden';
+                inputId.name = 'id';
+                inputId.value = id;
+
+                const inputNewName = document.createElement('input');
+                inputNewName.type = 'hidden';
+                inputNewName.name = 'new_name';
+                inputNewName.value = btn.textContent.trim();
+
+                form.appendChild(inputId);
+                form.appendChild(inputNewName);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function createHiddenInput(name, value) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                return input;
+            }
+        });
+    });
+</script>

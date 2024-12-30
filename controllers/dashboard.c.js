@@ -11,7 +11,8 @@ module.exports = {
             const userProfile = await userM.getUserProfile(access_token);
             req.session.user.profile = {
                 username: userProfile.data.email,
-                avatar: userProfile.data.avatar
+                avatar: userProfile.data.avatar,
+                id: userProfile.data.id
             };
 
             res.render('dashboard', {
