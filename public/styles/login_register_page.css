@@ -72,7 +72,7 @@ form {
     border-radius: 1.25em;
     border: 1px solid black;
     margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.2em;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
 }
@@ -80,9 +80,16 @@ form {
 .input-group {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: left;
     width: 100%;
+    margin-bottom: 10px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
 }
 
 label {
@@ -199,6 +206,19 @@ hr {
         width: 100%;
         /* Full width horizontal line for small screens */
     }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-container {
+        width: 100%;
+    }
+
+    .error-message {
+        text-align: left;
+        margin-left: 5px;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -221,4 +241,35 @@ hr {
         width: 100%;
         /* Full-width login button */
     }
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 2px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    min-height: 1em;
+}
+
+.input-error {
+    border: 1px solid red !important;
+}
+
+.password-strength {
+    margin-top: 5px;
+    font-size: 0.8em;
+}
+
+.strength-weak {
+    color: red;
+}
+
+.strength-medium {
+    color: orange;
+}
+
+.strength-strong {
+    color: green;
 }

@@ -59,7 +59,7 @@ router.post('/loginAuth', async (req, res) => {
         const response = await fetch(process.env.API_LOGIN, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 email: req.body.email,
@@ -68,7 +68,7 @@ router.post('/loginAuth', async (req, res) => {
         });
 
         if (response.status === 400) {
-            return res.status(400).send("Email or password is incorrect");
+            return res.status(400).redirect('/user/auth/login?error=true');
         }
         const result = await response.json();
         req.session.user = { access_token: result.data };
