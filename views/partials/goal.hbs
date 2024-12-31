@@ -16,28 +16,44 @@
                 <i class="fas fa-book-reader"></i>
                 Reading
             </div>
-            <div class="score-value" id="reading-score">--</div>
+            {{#if targetuser.TargetReading}}
+            <div class="score-value" id="TargetReading">{{ targetuser.TargetReading }}</div>
+            {{else}}
+            <div class="score-value" id="TargetReading">--</div>
+            {{/if}}
         </div>
         <div class="score-box">
             <div class="score-label">
                 <i class="fas fa-headphones"></i>
                 Listening
             </div>
-            <div class="score-value" id="listening-score">--</div>
+            {{#if targetuser.TargetListening}}
+            <div class="score-value" id="TargetListening">{{ targetuser.TargetListening}}</div>
+            {{else}}
+            <div class="score-value" id="TargetListening">--</div>
+            {{/if}}
         </div>
         <div class="score-box">
             <div class="score-label">
                 <i class="fas fa-pencil-alt"></i>
                 Writing
             </div>
-            <div class="score-value" id="writing-score">--</div>
+            {{#if targetuser.TargetWriting}}
+            <div class="score-value" id="TargetWriting">{{ targetuser.TargetWriting }}</div>
+            {{else}}
+            <div class="score-value" id="TargetWriting">--</div>
+            {{/if}}
         </div>
         <div class="score-box">
             <div class="score-label">
                 <i class="fas fa-microphone-alt"></i>
                 Speaking
             </div>
-            <div class="score-value" id="speaking-score">--</div>
+            {{#if targetuser.TargetSpeaking}}
+            <div class="score-value" id="TargetSpeaking">{{ targetuser.TargetSpeaking }}</div>
+            {{else}}
+            <div class="score-value" id="TargetSpeaking">--</div>
+            {{/if}}
         </div>
     </div>
 </div>

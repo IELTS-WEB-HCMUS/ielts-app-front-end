@@ -58,6 +58,11 @@
         .form-control::placeholder {
             font-size: 1rem;
         }
+
+        .active {
+            background-color: #28a745;
+            color: white;
+        }
     </style>
 </head>
 
@@ -72,26 +77,21 @@
             <div class="filter-category">
                 <p>Passage (Độ khó)</p>
                 <ul>
-                    <li><button class="btn custom btn-outline-secondary"><i class="fa fa-book"></i> Passage 1</button>
-                    </li>
-                    <li><button class="btn custom btn-outline-secondary"><i class="fa fa-book"></i> Passage 2</button>
-                    </li>
-                    <li><button class="btn custom btn-outline-secondary"><i class="fa fa-book"></i> Passage 3</button>
-                    </li>
+                    {{#each tagpassage}}
+                    <li><button class="btn custom btn-outline-secondary filter-btn" data-filter="tagpassage"
+                            data-value="{{{ id }}}"><i class="fa fa-book"></i> {{{ title }}}</button></li>
+                    {{/each}}
                 </ul>
             </div>
 
             <div class="filter-category">
                 <p>Loại câu hỏi</p>
                 <ul>
-                    <li><button class="btn custom btn-outline-secondary"><i class="fa fa-book"></i> Gap Filling</button>
-                    </li>
-                    <li><button class="btn custom btn-outline-secondary"><i class="fa fa-book"></i> Matching
-                            Headings</button></li>
-                    <li><button class="btn custom btn-outline-secondary"><i class="fa fa-book"></i> True False Not
-                            Given</button></li>
-                    <li><button class="btn custom btn-outline-secondary"><i class="fa fa-book"></i> Yes No Not
-                            Given</button></li>
+                    {{#each taglevel}}
+                    <li><button class="btn custom btn-outline-secondary filter-btn text-truncate"
+                            style="width: 200px; text-align: left;" data-filter="taglevel" data-value="{{{ id }}}"><i
+                                class="fa fa-book"></i> {{{ title }}}</button></li>
+                    {{/each}}
                 </ul>
             </div>
         </div>
@@ -109,15 +109,18 @@
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <button class="btn-custom">Đã làm</button>
+                                <button class="btn-custom filter-btn" data-filter="submitted_status" data-value="1">Đã
+                                    làm</button>
                             </li>
                             <li class="nav-item">
-                                <button class="btn-custom">Chưa làm</button>
+                                <button class="btn-custom filter-btn" data-filter="submitted_status" data-value="2">Chưa
+                                    làm</button>
                             </li>
                         </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Tìm quiz" aria-label="Tìm quiz">
-                            <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
+                        <form class="d-flex" role="search" id="search-form">
+                            <input class="form-control me-2" type="search" placeholder="Tìm quiz" aria-label="Tìm quiz"
+                                id="search-input">
+                            <button class="btn btn-outline-success" name="search" type="submit">Tìm kiếm</button>
                         </form>
                     </div>
                 </div>
@@ -125,46 +128,18 @@
 
             <!-- Card View (Dynamic content loaded via templating or data) -->
             <div id="card-container" style="display: flex; flex-wrap: wrap; margin-top: -7%; margin-left: 2%;">
-                {{> cardview}}
-
-                {{> cardview}}
-
-                {{> cardview}}
-
-                {{> cardview}}
-
-                {{> cardview}}
-
-                {{> cardview}}
+                {{#each fullquiz}}
+                {{> cardview this}}
+                {{/each}}
             </div>
 
-            <!-- Pagination -->
-            <!-- Pagination -->
-            <!-- Pagination -->
-            <div id="pagination-container">
+            <div id="pagination-container" style="margin-top: 5%;">
                 <ul class="pagination justify-content-center">
-                    <!-- Previous Page Button -->
+                    {{#each pages}}
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <i class="fas fa-chevron-left"></i> <!-- Left arrow icon for previous -->
-                        </a>
+                        <a class="page-link" href="javascript:void(0);" data-page="{{this}}">{{{ this }}}</a>
                     </li>
-
-                    <!-- Page Number 1 -->
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-
-                    <!-- Page Number 2 -->
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-
-                    <!-- Page Number 3 -->
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-
-                    <!-- Next Page Button -->
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <i class="fas fa-chevron-right"></i> <!-- Right arrow icon for next -->
-                        </a>
-                    </li>
+                    {{/each}}
                 </ul>
             </div>
 
@@ -176,3 +151,112 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 </body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let filters = {
+            tagpassage: null,
+            taglevel: null,
+            submitted_status: null,
+            search: null
+        };
+
+        const getModeFromURL = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("mode");
+        };
+
+        const loadPaginationLinks = () => {
+            const paginationLinks = document.querySelectorAll(".pagination .page-item .page-link");
+
+            paginationLinks.forEach(link => {
+                link.addEventListener("click", (event) => {
+                    const page = event.target.getAttribute("data-page");
+                    loadPageData(page);
+                });
+            });
+        };
+
+        const loadPageData = (page) => {
+            const urlParams = new URLSearchParams();
+            for (let key in filters) {
+                if (filters[key]) {
+                    urlParams.append(key, filters[key]);
+                }
+            }
+            
+            const mode = getModeFromURL();
+            if (mode) {
+                urlParams.append("mode", mode);
+            }
+
+            urlParams.append("page", page);
+
+            fetch(`/user/fulltest?${urlParams.toString()}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("card-container").innerHTML = getHTMLContentFromResponse(html, "card-container");
+                    document.getElementById("pagination-container").innerHTML = getHTMLContentFromResponse(html, "pagination-container");
+
+                    loadPaginationLinks();
+                    updateActivePage(page);
+                })
+                .catch(error => {
+                    console.error("Error loading page data:", error);
+                });
+        };
+
+        const getHTMLContentFromResponse = (html, containerId) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            return doc.getElementById(containerId).innerHTML;
+        };
+
+        const updateActivePage = (page) => {
+            const paginationLinks = document.querySelectorAll(".pagination .page-item .page-link");
+            paginationLinks.forEach(link => {
+                if (link.getAttribute("data-page") === page) {
+                    link.classList.add("active");
+                } else {
+                    link.classList.remove("active");
+                }
+            });
+        };
+
+        const initialPage = document.querySelector(".pagination .page-item .page-link").getAttribute("data-page");
+        updateActivePage(initialPage);
+
+        loadPaginationLinks();
+
+        // Add filter button click event
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const filterType = button.getAttribute("data-filter");
+                const filterValue = button.getAttribute("data-value");
+
+                // Set the filter value
+                filters[filterType] = filterValue;
+
+                // Get all buttons for the same filter category
+                const groupButtons = document.querySelectorAll(`[data-filter="${filterType}"]`);
+
+                // Remove 'active' class from all buttons in the group
+                groupButtons.forEach(btn => btn.classList.remove("active"));
+
+                // Add 'active' class to the clicked button
+                button.classList.add("active");
+
+                loadPageData(initialPage); // Reload page data with updated filters
+            });
+        });
+
+        // Handle search form submit
+        const searchForm = document.getElementById("search-form");
+        searchForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            filters.search = document.getElementById("search-input").value;
+            loadPageData(initialPage); // Reload page data with search query
+        });
+    });
+</script>

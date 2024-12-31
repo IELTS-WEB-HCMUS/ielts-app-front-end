@@ -1,83 +1,143 @@
+const accessToken = "<%= access_token %>";
+
 document.addEventListener('DOMContentLoaded', function () {
+    const skills = ['TargetReading', 'TargetListening', 'TargetSpeaking', 'TargetWriting'];
+    const scores = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0];
+
+    const selectedDateElement = document.getElementById('selected-date');
+    const remainingDaysElement = document.getElementById('remaining-days');
+    const examDateButton = document.getElementById('exam-date-btn');
     const examDateInput = document.getElementById('exam-date-input');
-    const examDateBtn = document.getElementById('exam-date-btn');
-    const remainingDaysSpan = document.getElementById('remaining-days');
-    const selectedDateSpan = document.getElementById('selected-date');
-    const overlay = document.querySelector('.date-picker-overlay');
 
-    // Format date function
-    function formatDate(date) {
-        const d = new Date(date);
-        const day = d.getDate().toString().padStart(2, '0');
-        const month = (d.getMonth() + 1).toString().padStart(2, '0');
-        const year = d.getFullYear();
-        return `${day}/${month}/${year}`;
-    }
+    let examDate = selectedDateElement.textContent.trim();
 
-    // Lấy ngày thi từ localStorage nếu có
-    const savedExamDate = localStorage.getItem('examDate');
-    if (savedExamDate) {
-        updateRemainingDays(new Date(savedExamDate));
-        selectedDateSpan.textContent = formatDate(savedExamDate);
-    } else {
-        selectedDateSpan.textContent = 'Chọn ngày';
-        remainingDaysSpan.textContent = 'Chưa chọn ngày thi';
-    }
-
-    const datePicker = flatpickr(examDateInput, {
-        minDate: "today",
-        dateFormat: "Y-m-d",
-        onChange: function (selectedDates) {
-            const selectedDate = selectedDates[0];
-            if (selectedDate) {
-                localStorage.setItem('examDate', selectedDate);
-                selectedDateSpan.textContent = formatDate(selectedDate);
-                updateRemainingDays(selectedDate);
-                hideOverlay();
-            }
-        },
-        onClose: function () {
-            hideOverlay();
+    // Initialize Flatpickr for exam date input
+    flatpickr(examDateInput, {
+        dateFormat: "d/m/Y",
+        defaultDate: examDate,
+        onChange: function (selectedDates, dateStr) {
+            examDate = dateStr;
+            selectedDateElement.textContent = examDate;
+            updateRemainingDays(examDate);
+            updateExamInfo();
         }
     });
 
-    // Xử lý sự kiện click vào nút Ngày thi
-    examDateBtn.addEventListener('click', function () {
-        showOverlay();
-        datePicker.open();
+    examDateButton.addEventListener('click', function () {
+        examDateInput.click();
     });
 
-    // Xử lý click overlay để đóng date picker
-    overlay.addEventListener('click', function () {
-        datePicker.close();
-        hideOverlay();
-    });
+    function updateRemainingDays(examDateStr) {
+        if (!examDateStr) return;
 
-    function showOverlay() {
-        overlay.style.display = 'block';
-    }
+        const examDateArr = examDateStr.split('/');
+        const examDateObj = new Date(examDateArr[2], examDateArr[1] - 1, examDateArr[0]);
+        const currentDate = new Date();
+        const timeDiff = examDateObj - currentDate;
 
-    function hideOverlay() {
-        overlay.style.display = 'none';
-    }
-
-    // Hàm tính và hiển thị số ngày còn lại
-    function updateRemainingDays(examDate) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const examDateTime = new Date(examDate);
-        examDateTime.setHours(0, 0, 0, 0);
-
-        const diffTime = examDateTime - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays < 0) {
-            remainingDaysSpan.textContent = 'Đã qua ngày thi';
-        } else if (diffDays === 0) {
-            remainingDaysSpan.textContent = 'Hôm nay là ngày thi';
+        if (timeDiff > 0) {
+            const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            remainingDaysElement.textContent = `${daysRemaining} ngày`;
         } else {
-            remainingDaysSpan.textContent = `Còn ${diffDays} ngày`;
+            remainingDaysElement.textContent = "Ngày thi đã qua";
         }
     }
-}); 
+
+    function roundToIELTS(score) {
+        return parseFloat((Math.round(score * 2) / 2).toFixed(1));
+    }
+
+    function updateOverallScore() {
+        let total = 0;
+        let validScores = 0;
+
+        skills.forEach(skill => {
+            const score = document.getElementById(skill).textContent;
+            if (score && !isNaN(score)) {
+                total += parseFloat(score);
+                validScores++;
+            }
+        });
+
+        const overallScoreElement = document.getElementById('overall-score');
+        if (validScores === 4) {
+            const average = total / 4;
+            overallScoreElement.textContent = roundToIELTS(average).toFixed(1);
+        } else {
+            overallScoreElement.textContent = '--';
+        }
+    }
+
+    function getAllScores() {
+        const allScores = {};
+        skills.forEach(skill => {
+            allScores[skill] = document.getElementById(skill).textContent;
+        });
+        return allScores;
+    }
+
+    async function updateExamInfo() {
+        try {
+            const allScores = getAllScores();
+            console.log('Cập nhật:', { allScores, examDate });
+
+            if (!accessToken) {
+                alert('Không tìm thấy token, vui lòng đăng nhập lại!');
+                return;
+            }
+
+            const response = await fetch('/user/dashboard/updatetarget', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ allScores, examDate }),
+            });
+
+            if (response.status === 200) {
+                console.log('Cập nhật thành công:', { allScores, examDate });
+            } else {
+                console.error('Lỗi khi cập nhật:', response.statusText);
+                alert('Cập nhật thất bại.');
+            }
+        } catch (error) {
+            console.error('Lỗi kết nối:', error);
+        }
+    }
+
+    skills.forEach(skill => {
+        const scoreElement = document.getElementById(skill);
+        let currentScore = scoreElement.textContent;
+
+        if (currentScore && !currentScore.includes('.')) {
+            currentScore = parseFloat(currentScore).toFixed(1);
+            scoreElement.textContent = currentScore;
+        }
+
+        const scoreBox = scoreElement.parentElement;
+        scoreBox.addEventListener('click', async function () {
+            const scoreValue = prompt(`Chọn điểm ${skill} (0.5-9.0):`, currentScore);
+            const score = parseFloat(scoreValue);
+
+            if (scoreValue && !isNaN(score) && scores.includes(score)) {
+                currentScore = score.toFixed(1);
+                scoreElement.textContent = currentScore;
+                updateOverallScore();
+                updateExamInfo();
+            } else if (scoreValue !== null) {
+                alert('Vui lòng nhập điểm hợp lệ (0.5-9.0)');
+            }
+        });
+    });
+
+    if (examDate && examDate !== 'dd/mm/yyyy') {
+        selectedDateElement.textContent = examDate;
+        updateRemainingDays(examDate);
+    } else {
+        selectedDateElement.textContent = 'dd/mm/yyyy';
+        remainingDaysElement.textContent = 'xx ngày';
+    }
+
+    updateOverallScore();
+});

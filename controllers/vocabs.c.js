@@ -4,6 +4,7 @@ module.exports = {
     getVocabsCategories: async (req, res, next) => {
         try {
             const topics = await vocabsCategoriesM.getUserVocabsCategories(req);
+            console.log('topics:', topics);
             res.render('vocabs', {
                 layout: 'vocabs',
                 title: "Từ vựng",
@@ -19,7 +20,6 @@ module.exports = {
     updateTopic: async (req) => {
         try {
             const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-
             const response = await fetch(process.env.API_UPDATE_VOCABS_CATEGORIES, {
                 method: 'POST',
                 headers: {
@@ -28,7 +28,6 @@ module.exports = {
                 },
                 body: JSON.stringify({ id: req.body.topic_id, new_name: req.body.new_name })
             });
-
             if (!response.ok) {
                 throw new Error(`Failed to fetch update vocabs categories: ${response.statusText}`);
             }

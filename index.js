@@ -15,6 +15,9 @@ const hbs = create({
     partialsDir: __dirname + '/views/partials'
 });
 
+const helpers = require('./helpers');
+helpers.registerHelpers();
+
 app.use(session({
     secret: 'your-secret-key',
     resave: false,

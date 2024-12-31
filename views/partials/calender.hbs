@@ -19,7 +19,11 @@
         <i class="fas fa-calendar-check"></i>
         Ngày bạn thi:
         <button id="exam-date-btn" class="info-value">
+          {{#if exam_date}}
+          <span id="selected-date">{{  exam_date }}</span>
+          {{else}}
           <span id="selected-date">dd/mm/yyyy</span>
+          {{/if}}
         </button>
       </div>
       <div class="remaining-days-box">
