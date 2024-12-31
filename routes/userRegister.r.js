@@ -47,7 +47,14 @@ router.post('/validate_otp', (req, res) => {
     })
         .then(response => response.json())
         .then(result => {
-            if (!result.data) {
+            console.log(result);
+            if (result.code === 1 && result.error_detail === "invalid OTP") {
+                res.render('verify_otp_signup', { error: "Mã OTP không đúng. Vui lòng thử lại.", email: req.body.email });
+            } 
+            else if (result.code === 1 && result.error_detail === "OTP expired") {
+                res.render('verify_otp_signup', { error: "Mã OTP đã hết hạn. Vui lòng gửi lại mã OTP.", email: req.body.email });
+            }
+            else if (!result.data) {
                 throw new Error("OTP validation failed");
             }
 

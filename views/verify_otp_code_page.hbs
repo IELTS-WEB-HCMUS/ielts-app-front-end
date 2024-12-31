@@ -11,6 +11,7 @@
     <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/scripts/verifycodepage.js"></script>
     <style>
         #form-forgot-password {
             padding-left: 15%;
@@ -100,12 +101,17 @@
                     </div>
                     {{/if}}
                     <form action="/user/forget_password/sendotp" method="POST" style="width: 100%;">
-                        <input class="input form-control" type="number" name="otp" placeholder="Nhập mã OTP ở đây">
+                        <div class="input-container">
+                            <input class="input form-control" type="number" name="otp" placeholder="Nhập mã OTP ở đây">
+                            <span class="error-message" id="otp-error"></span>
+                        </div>
+                        
                         <button id="btn_submit_otp" class="btn btn-success" type="submit"
                             style="margin-top: 4%; background-color: #B0CBFA;">Xác nhận</button>
                     </form>
-                    <div id="countdown" style="margin-top: 10px;">Thời gian còn lại: 60s</div>
-                    <button id="resend_otp" class="btn btn-link" style="visibility: hidden;">Gửi lại</button>
+                    <div id="countdown" style="margin-top: 10px;">Hãy nhấn vào nút bên dưới để gửi lại mã OTP.</div>
+                    <button id="resend_otp" class="btn btn-link" style="margin-top: 10px;">Gửi lại</button>
+            
                 </div>
             </div>
             <div class="col-2">
