@@ -57,8 +57,8 @@ app.use('/user/forget_password', forgetPasswordRouter);
 const paymentRouter = require('./routes/payment.r');
 app.use('/user/payment', paymentRouter);
 
-const quizResultRouter = require('./routes/quizresult.r');
-app.use('/user/quiz-result', quizResultRouter);
+// const quizResultRouter = require('./routes/quizresult.r');
+// app.use('/user/quiz-result', quizResultRouter);
 
 const fulltestRouter = require('./routes/fulltest.r');
 app.use('/user/fulltest', fulltestRouter);
@@ -72,6 +72,18 @@ app.get('/about_us', (req, res) => {
     } else {
         res.render('aboutuspage', { layout: 'aboutus', title: "Giới thiệu", name: req.session.user.profile.username, avatar: req.session.user.profile.avatar });
     }
+});
+
+app.get('/quiz-result', (req, res) => {
+    res.render('quiz_result', {layout: 'quiz_result', title: "Kết quả làm bài"});
+});
+
+app.get('/dotestpage', (req, res) => {
+    res.render('dotestpage', {layout: 'dotest', title: "Làm bài"});
+});
+
+app.get('/test_explanation_page', (req, res) => {
+    res.render('test_explanation_page', {layout: 'test_explanation', title: "Giải thích chi tiết"});
 });
 
 app.use(function (err, req, res, next) {

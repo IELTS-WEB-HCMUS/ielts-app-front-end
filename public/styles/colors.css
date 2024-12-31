@@ -10,6 +10,7 @@
     --bg-color: #0E5470;
     --footer-color: white;
     --footer-bg: grey;
+    --light-grey: #CECECE;
     --btn-footer-color: grey;
     --input-bg: #232323;
     --input-color: #fff;
@@ -21,5 +22,14 @@
     --premium-btn-bg: #4D2C5E;
     --premium-buy-btn-shadow: #000;
     --border-item-color: #49BBBD;
-    --nav-header-bar-color: #769CAB;
+    --nav-header-bar-color: #769CAB; 
+    --footer-dotest-color: #658BA7;
+    --question-order-color: #DA6C67;
+    --button-in-dotestpage-color: #A3C2D9;
+    --question-answered-color: #5DC1F0;
+    --button-vocab-offcanvas-color: #83B7DE;
+    --vocab-offcanvasbottom-color: #D6EDFF;
+    --finger-hand-icon-click-color: #16b6c6;
+    --nav-tabs-mode-do-test-color: #E2F0FF;
+    --button-explanation-color: #609ECD;
 }

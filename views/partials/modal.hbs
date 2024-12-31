@@ -1,0 +1,22 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="modal fade" id="{{modalId}}" tabindex="-1" aria-labelledby="{{modalLabelId}}" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{modalLabelId}}">{{modalTitle}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{{modalBody}}} <!-- Sử dụng triple mustache để hiển thị nội dung HTML nếu cần -->
+            </div>
+            <div class="modal-footer">
+                {{{modalFooter}}} 
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
