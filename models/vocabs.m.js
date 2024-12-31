@@ -27,5 +27,31 @@ module.exports = {
             console.error('Error in getUserVocabsCategories:', error.message);
             throw new Error(`Error in getUserVocabsCategories: ${error.message}`);
         }
+    }, 
+    getUserVocabs: async (req, category) => {
+        const category_id = req.query.category || category;
+        try {
+            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+    
+            const response = await fetch('http://localhost:8080/api/vocabs', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${req.session.user.access_token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ category: parseInt(category_id), page: 1, limit: 10 }) 
+            });
+    
+            if (!response.ok) {
+                const errorBody = await response.text();
+                throw new Error(`Failed to fetch vocabs: ${response.status} ${response.statusText} - ${errorBody}`);
+            }
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error in getVocabs:', error.message);
+            throw new Error(`Error in getVocabs: ${error.message}`);
+        }
     }
-};
+};    

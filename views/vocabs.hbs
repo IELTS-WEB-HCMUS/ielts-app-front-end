@@ -3,28 +3,77 @@
 
 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 5%;">
     <div class="text-center fw-bold fs-4 my-3">
-        <strong style="color: #49BBBD;">Sổ từ vựng</strong>
+        <strong style="color: #49BBBD;">SỔ TỪ VỰNG</strong>
     </div>
 
     <!-- Topics Dropdown -->
     <div class="ms-3">
         {{#each topics}}
         <div class="btn-group">
-            <button data-id="{{ id }}" class="btn btn-secondary editable-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button onclick="window.location.href='/user/vocabs?category={{id}}'" data-id="{{ id }}" class="btn btn-secondary editable-btn" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 {{ name }}
-                <i class="fas fa-pencil-alt edit-icon" style="display: none; color: pink; margin-left: 10px;"></i>
             </button>
         </div>
         {{/each}}
     </div>
 
+    <button style="z-index: 1000; margin-left: -64%; margin-bottom: -5%;" class="btn btn-primary mt-3" id="addVocabBtn"
+        data-bs-toggle="modal" data-bs-target="#vocabModal">Thêm từ
+        mới</button>
+
     {{> vocabstable}}
+    <!-- Modal for adding a new vocabulary item -->
+    <div class="modal fade" id="vocabModal" tabindex="-1" aria-labelledby="vocabModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vocabModalLabel">Thêm từ mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="vocabForm" action="/user/vocabs/add" method="POST">
+                        <div class="mb-3">
+                            <label for="value" class="form-label">Từ vựng</label>
+                            <input type="text" class="form-control" id="value" name="value">
+                        </div>
+                        <div class="mb-3">
+                            <label for="meaning" class="form-label">Nghĩa của từ</label>
+                            <input type="text" class="form-control" id="meaning" name="meaning">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ipa" class="form-label">IPA</label>
+                            <input type="text" class="form-control" id="ipa" name="ipa">
+                        </div>
+                        <div class="mb-3">
+                            <label for="wordClass" class="form-label">Loại từ</label>
+                            <input type="text" class="form-control" id="word_class" name="word_class">
+                        </div>
+                        <div class="mb-3">
+                            <label for="example" class="form-label">Ví dụ</label>
+                            <input type="text" class="form-control" id="example" name="example">
+                        </div>
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Ghi chú</label>
+                            <input type="text" class="form-control" id="note" name="note">
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Chủ đề</label>
+                            <input type="text" class="form-control" id="category" name="category">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 50%; margin-left: 25%;">Lưu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
     .active-btn {
         background-color: #007bff !important;
         color: white;
+        border: none;
     }
 </style>
 
@@ -32,8 +81,14 @@
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll(".editable-btn");
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryId = urlParams.get('category') || '1';  
         buttons.forEach(button => {
-            const editIcon = button.querySelector(".edit-icon");
+            if (button.getAttribute("data-id") === categoryId) {
+                button.classList.add("active-btn");
+            } else {
+                button.classList.remove("active-btn");
+            }
 
             button.addEventListener("click", function () {
                 buttons.forEach(btn => {
@@ -43,64 +98,7 @@
                 });
                 button.classList.add("active-btn");
             });
-
-            button.addEventListener("dblclick", function () {
-                buttons.forEach(btn => {
-                    if (btn !== button) {
-                        btn.classList.remove("active-btn");
-                    }
-                });
-                button.classList.add("active-btn");
-
-                button.contentEditable = true;
-                button.focus();
-                editIcon.style.display = "inline"; 
-            });
-
-            button.addEventListener("keydown", function (event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    finishEditing(button, editIcon);
-                }
-            });
-
-            button.addEventListener("blur", function () {
-                finishEditing(button, editIcon);
-            });
-
-            function finishEditing(btn, icon) {
-                const id = btn.getAttribute('data-id'); 
-                btn.contentEditable = false;
-                icon.style.display = "none"; 
-
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/user/vocabs/update-topic';
-
-                const inputId = document.createElement('input');
-                inputId.type = 'hidden';
-                inputId.name = 'id';
-                inputId.value = id;
-
-                const inputNewName = document.createElement('input');
-                inputNewName.type = 'hidden';
-                inputNewName.name = 'new_name';
-                inputNewName.value = btn.textContent.trim();
-
-                form.appendChild(inputId);
-                form.appendChild(inputNewName);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-
-            function createHiddenInput(name, value) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = value;
-                return input;
-            }
         });
     });
 </script>
+

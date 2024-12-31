@@ -13,174 +13,69 @@
     .fixed-table-loading {
       display: none !important;
     }
+
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#fresh-table tbody tr').each(function () {
+      var statusText = $(this).find('#status').text().trim();
+
+      if (statusText === 'Chưa học') {
+        $(this).find('#status').css('color', 'red').css('background', 'lightgray');
+      } else if (statusText === 'Đã học') {
+        $(this).find('#status').css('color', 'green').css('background', 'lightgray');
+      }
+    });
+  });
+</script>
 
 <body>
   <div class="wrapper" style="margin-top: 50px; width: 100%;">
     <div class="container">
       <table id="fresh-table" class="table table-bordered">
         <thead class="thead-dark">
-          <th data-field="id">STT</th>
-          <th data-field="name">Từng vựng</th>
-          <th data-field="salary" data-sortable="true">Trạng thái</th>
-          <th data-field="country" >Nghĩa của từ</th>
-          <th data-field="city" data-sortable="true">Loại từ</th>
-          <th data-field="abs">Ví dụ</th>
-          <th data-field="abs">Ghi chú</th>
-          <th data-field="actions"></th>
+          <th data-field="id" data-sortable="true">ID</th>
+          <th data-field="name" data-sortable="true">TỪ VỰNG</th>
+          <th data-field="status" data-sortable="true">TRẠNG THÁI</th>
+          <th data-field="meaning" data-sortable="true">NGHĨA CỦA TỪ</th>
+          <th data-field="type" data-sortable="true">LOẠI TỪ</th>
+          <th data-field="example" data-sortable="true">VÍ DỤ</th>
+          <th data-field="note" data-sortable="true">GHI CHÚ</th>
+          <th data-field="actions">HÀNH ĐỘNG</th>
         </thead>
         <tbody>
+          {{#each vocabs}}
           <tr>
-            <td>46</td>
-            <td>ZX</td>
-            <td><strong style="color: green; background: lightgray; font-weight: bold;">Đã học</strong></td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
+            <td>{{{ id }}}</td>
+            <td>{{{ value }}}</td>
+            <td><strong id="status" style="color: green; background: lightgray; font-weight: bold;">{{{ status
+                }}}</strong></td>
+            <td>{{{ meaning }}}</td>
+            <td>{{{ word_class }}}</td>
+            <td>{{{ example }}}</td>
+            <td>{{{ note }}}</td>
             <td>
-              <a href="#" class="delete-row" data-id="46">
+              <a href="#" class="edit-row" data-id="{{{ id }}}">
+                <i class="fa fa-edit" aria-hidden="true"></i>
+              </a>
+              <a href="#" class="delete-row" data-id="{{{ id }}}" style="margin-left: 10px;">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
             </td>
           </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td><strong style="color: red; background: lightgray; font-weight: bold;">Chưa học</strong></td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>46</td>
-            <td>ABC</td>
-            <td>Đã học</td>
-            <td>CDF</td>
-            <td>XYZ</td>
-            <td>ABC</td>
-            <td>ABC</td>
-            <td>
-              <a href="#" class="delete-row" data-id="46">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-
+          {{/each}}
         </tbody>
       </table>
     </div>
@@ -189,9 +84,37 @@
   </div>
 </body>
 <script type="text/javascript">
-  var $table = $('#fresh-table');
-
   $(function () {
+    var $table = $('#fresh-table');
+
+    $(document).on('click', '.edit-row', function (e) {
+      e.preventDefault();
+
+      var row = $(this).closest('tr');
+      var id = $(this).data('id');
+      var value = row.find('td:nth-child(2)').text().trim();
+      var meaning = row.find('td:nth-child(4)').text().trim();
+      var status = row.find('td:nth-child(3) strong').text().trim();
+      var wordClass = row.find('td:nth-child(5)').text().trim();
+      var example = row.find('td:nth-child(6)').text().trim();
+      var note = row.find('td:nth-child(7)').text().trim();
+
+      // Set values to the modal form
+      $('#edit-id').val(id); // Add this line to set the id
+      $('#edit-value').val(value);
+      $('#edit-meaning').val(meaning);
+      $('#edit-status').val(status);
+      $('#edit-word-class').val(wordClass);
+      $('#edit-example').val(example);
+      $('#edit-note').val(note);
+
+      // Store the id in the modal for later reference
+      $('#saveEdit').data('id', id);
+
+      // Show the modal
+      $('#editModal').modal('show');
+    });
+
     $table.bootstrapTable({
       classes: 'table table-hover table-striped',
       search: true,
@@ -199,8 +122,8 @@
       pagination: true,
       striped: true,
       sortable: true,
-      pageSize: 8,
-      pageList: [8, 10, 25, 50, 100],
+      pageSize: 5,
+      pageList: [1, 10, 25, 50, 100],
       toolbar: '.toolbar',
       iconsPrefix: 'fa',
       icons: {
@@ -220,5 +143,121 @@
         return pageNumber;
       }
     });
+
+    $(document).ready(function () {
+      $('.delete-row').on('click', function (e) {
+        e.preventDefault();
+
+        var rowIndex = $(this).closest('tr').index();
+
+        $('#confirmDeleteButton').data('index', rowIndex);
+        $('#confirmDeleteModal').modal('show');
+      });
+
+      $('#confirmDeleteButton').on('click', function () {
+        const rowIndex = $(this).data('index');
+        const idToDelete = $table.bootstrapTable('getData')[rowIndex].id;
+
+        $('#confirmDeleteModal').modal('hide');
+
+        $table.bootstrapTable('remove', {
+          field: 'id',
+          values: [idToDelete]
+        });
+
+        $.ajax({
+          url: '/user/vocabs/delete',
+          type: 'DELETE',
+          contentType: 'application/json',
+          data: JSON.stringify({ id: idToDelete }),
+          success: function () {
+          }
+        });
+      });
+
+      $('#close').on('click', function () {
+        $('#confirmDeleteModal').modal('hide');
+      });
+
+      $('#closeedit').on('click', function () {
+        $('#editModal').modal('hide');
+      });
+
+      $('#cancel').on('click', function () {
+        $('#confirmDeleteModal').modal('hide');
+      });
+    });
   });
 </script>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" id="close">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa mục này không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">Hủy</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Chỉnh sửa từ vựng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" id="closeedit">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" action="/user/vocabs/update" method="POST">
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="edit-id" name="id" value="">
+          </div>
+          <div class="form-group">
+            <label for="edit-value">Từ vựng</label>
+            <input readonly type="text" class="form-control" id="edit-value" name="value" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-status">Trạng thái</label>
+            <select class="form-control" id="edit-status" name="status" required>
+              <option value="Chưa học">Chưa học</option>
+              <option value="Đã học">Đã học</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-meaning">Nghĩa của từ</label>
+            <input type="text" class="form-control" id="edit-meaning" name="meaning" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-word-class">Loại từ</label>
+            <input readonly type="text" class="form-control" id="edit-word-class" name="wordClass" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-example">Ví dụ</label>
+            <input type="text" class="form-control" id="edit-example" name="example">
+          </div>
+          <div class="form-group">
+            <label for="edit-note">Ghi chú</label>
+            <input type="text" class="form-control" id="edit-note" name="note">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelEdit">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

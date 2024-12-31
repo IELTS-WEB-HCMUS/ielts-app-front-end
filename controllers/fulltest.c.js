@@ -12,8 +12,6 @@ module.exports = {
             const tagsearch = await tagsearchM.getTagSearch(access_token);
             const fullquiz = await quizM.getFullQuiz(access_token, req);
 
-            console.log(req.query);
-
             const totalPages = Math.ceil(fullquiz.data.total / (req.query.page_size || 3));
             const currentPageData = fullquiz.data.items;
 
