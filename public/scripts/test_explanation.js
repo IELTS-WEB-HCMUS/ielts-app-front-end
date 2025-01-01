@@ -1,3 +1,17 @@
+async function fetchQuizData() {
+    const id = JSON.parse(localStorage.getItem('quiz')).id;
+    const response = await fetch(`http://localhost:3000/user/dotest/detailquiz?id=${id}`);
+    const data = await response.json();
+    return JSON.stringify(data);
+}
+
+async function fetchAnswerData() {
+    const id = JSON.parse(localStorage.getItem('quiz')).id;
+    const response = await fetch(`http://localhost:3000/user/explaination?id=${id}`);
+    const data = await response.json();
+    return JSON.stringify(data);
+}
+
 class Question {
     constructor(id, order, type, content, options = [], answer, explain, description = null) {
         this.id = id
@@ -485,6 +499,156 @@ function loadQuiz(quiz, answer_quiz,answers){
     container.innerHTML = uiElement;
 }
 
-window.onload = function() {
+function extractAnswersFromJson(jsonData) {
+    const detail = jsonData?.data?.detail || {}; // Truy cập phần "detail" trong JSON
+    const allAnswers = []; // Khởi tạo mảng để lưu tất cả Answer
+
+    Object.keys(detail).forEach((order_part) => {
+        detail[order_part].forEach((item) => {
+            const { answer, correct, question, id_question, type } = item;
+
+            let text = ''; // Nội dung câu hỏi
+            let answerText = ''; // Câu trả lời của người dùng
+
+            if (answer?.title) {
+                if (Array.isArray(answer.title)) {
+                    const firstTitle = answer.title[0];
+                    text = firstTitle?.text || '';
+                    answerText = firstTitle?.answer || '';
+                } else {
+                    answerText = answer.title;
+                }
+            }
+
+            // Tạo đối tượng Answer
+            const answerObj = new Answer(
+                text, // Nội dung câu hỏi
+                answerText, // Câu trả lời
+                correct, // Đúng/Sai
+                question, // Thứ tự câu hỏi
+                type || 'SINGLE-SELECTION', // Loại câu hỏi
+                id_question // ID câu hỏi
+            );
+
+            allAnswers.push(answerObj); // Thêm vào mảng tất cả Answer
+        });
+    });
+
+    return allAnswers;
+}
+
+function createAnswerQuizFromJson(jsonData) {
+    const data = jsonData?.data || {};
+    const { id, type, completed_duration, summary = {}, detail } = data;
+
+    // Lấy tất cả các câu trả lời
+    const allAnswers = [];
+    Object.keys(detail || {}).forEach((order_part) => {
+        detail[order_part].forEach((item) => {
+            const { answer, correct, question, id_question, type } = item;
+            let text = '';
+            let answerText = '';
+
+            if (answer?.title) {
+                if (Array.isArray(answer.title)) {
+                    const firstTitle = answer.title[0];
+                    text = firstTitle?.text || '';
+                    answerText = firstTitle?.answer || '';
+                } else {
+                    answerText = answer.title;
+                }
+            }
+
+            const answerObj = new Answer(
+                text,
+                answerText,
+                correct,
+                question,
+                type || 'SINGLE-SELECTION',
+                id_question
+            );
+            allAnswers.push(answerObj);
+        });
+    });
+
+    // Tạo đối tượng AnswerQuiz
+    return new AnswerQuiz(
+        id,
+        type,
+        completed_duration,
+        summary,
+        allAnswers // Truyền danh sách câu trả lời vào
+    );
+}
+
+window.onload = async function() {
+    const data1 = await fetchQuizData();
+    const quizData = JSON.parse(data1);
+
+    // Lấy dữ liệu phần (parts) và câu hỏi (questions) từ quizData
+    const parts = quizData.parts.map(partData => {
+        const questions = partData.questions.map(qData => {
+            let content = qData.selection
+                ? qData.selection[0].text
+                : (qData.gap_fill_in_blank ? qData.gap_fill_in_blank.text : '');
+            if (qData.type === 'SINGLE-RADIO') {
+                content = qData.content;
+            }
+
+            // Xử lý lấy các options từ multiple_choice mà không dùng map
+            let selectionOption = [];
+            let answer = ""
+            let explain = ""
+            if (qData.selection_option) {
+                selectionOption = qData.selection_option;
+                answer = qData.selection[0].answer;
+                explain = qData.explain.explanation;
+            } else if (qData.multiple_choice) {
+                selectionOption = [];
+                for (let i = 0; i < qData.multiple_choice.length; i++) {
+                    selectionOption.push(qData.multiple_choice[i].text);
+                    if (qData.multiple_choice[i].correct === true) {
+                        answer = qData.multiple_choice[i].text;
+                    }
+                    explain = qData.explain.explain;
+                }
+            } else if (qData.gap_fill_in_blank) {
+                answer = qData.explain[0].answer;
+                explain = qData.explain[0].explain;
+            }
+
+            return new Question(
+                qData.id,
+                qData.order,
+                qData.type,
+                content,
+                selectionOption, // Truyền danh sách options đã xử lý
+                answer,
+                explain,
+                qData.description || null // Nếu không có description thì gán null
+            );
+        });
+
+        return new Part(partData.id, questions);
+    });
+
+    // Tạo quiz với các phần (parts) đã được tạo
+    const quiz = new Quiz(
+        quizData.id,
+        1, // Giả sử luôn là 1, bạn có thể thay đổi theo yêu cầu
+        quizData.content,
+        quizData.title,
+        quizData.time, // 30 phút
+        parts, // Truyền các phần vào
+        true // Giả sử quiz đã được kích hoạt
+    );
+    
+    const data = await fetchAnswerData();
+    const answerData = JSON.parse(data);
+    const answers = extractAnswersFromJson(answerData);
+    const result = createAnswerQuizFromJson(answerData);
+    const answer_quiz = new AnswerQuiz(result.id, result.type, result.completed_duration, parts, result.summary);
+    console.log(answers);
+    console.log(quiz);
     loadQuiz(quiz, answer_quiz, answers);
 };

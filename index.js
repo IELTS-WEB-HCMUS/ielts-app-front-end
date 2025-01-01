@@ -66,20 +66,18 @@ app.use('/user/fulltest', fulltestRouter);
 const vocabsRouter = require('./routes/vocabs.r');
 app.use('/user/vocabs', vocabsRouter);
 
+const dotestRouter = require('./routes/dotest.r');
+app.use('/user/dotest', dotestRouter);
+
+const testExplanationRouter = require('./routes/explaination.r');
+app.use('/user/explaination',testExplanationRouter);
+
 app.get('/about_us', (req, res) => {
     if (!req.session.user) {
         res.render('aboutuspage', { layout: 'aboutus', title: "Giới thiệu" });
     } else {
         res.render('aboutuspage', { layout: 'aboutus', title: "Giới thiệu", name: req.session.user.profile.username, avatar: req.session.user.profile.avatar });
     }
-});
-
-app.get('/dotestpage', (req, res) => {
-    res.render('dotestpage', {layout: 'dotest', title: "Làm bài"});
-});
-
-app.get('/test_explanation_page', (req, res) => {
-    res.render('test_explanation_page', {layout: 'test_explanation', title: "Giải thích chi tiết"});
 });
 
 app.use(function (err, req, res, next) {

@@ -101,125 +101,36 @@
         <div class="table-container">
             <table id="fresh-table" class="table table-bordered">
                 <thead class="thead-dark">
-                    <th data-field="id" data-sortable="true" class="fixed-column">STT</th>
+                    <th data-field="id" data-sortable="true" class="fixed-column">ID</th>
                     <th data-field="question" class="fixed-column-widest">Câu hỏi</th>
                     <th data-field="type" data-sortable="true" class="fixed-column-wider">Loại câu hỏi</th>
                     <th data-field="right" class="fixed-column">Đúng</th>
                     <th data-field="wrong" class="fixed-column">Sai</th>
                     <th data-field="skip" class="fixed-column">Bỏ qua</th>
-                    <th data-field="actions" class="fixed-column"></th>
+                    <th data-field="actions" class="fixed-column">Hành động</th>
                 </thead>
                 <tbody>
+                    {{#each answers}}
                     <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
+                        <td>{{#if this.answer.title.[0]}}{{{ this.answer.title.[0].id}}}{{/if}}</td>
+                        <td>{{#if this.answer.title.[0]}}{{{ this.answer.title.[0].text}}}{{/if}}</td>
+                        <td>{{{ this.type}}}</td>
+                        {{#if this.correct}}
                         <td><strong>✔</strong></td>
+                        {{else}}
                         <td></td>
+                        {{/if}}
+                        {{#unless this.correct}}
+                        <td><strong>❌</strong></td>
+                        {{else}}
+                        <td></td>
+                        {{/unless}}
                         <td></td>
                         <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
+                            <button class="btn btn-sm btn-secondary reviewresult">Xem lại</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>I like _____ ?</td>
-                        <td>Gap Filling</td>
-                        <td><strong>✔</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary">Xem lại</button>
-                        </td>
-                    </tr>
+                    {{/each}}
                 </tbody>
             </table>
         </div>
@@ -239,7 +150,7 @@
             striped: true,
             sortable: true,
             pageSize: 8,
-            pageList: [8, 10, 25, 50, 100],
+            pageList: [5, 10, 25, 50, 100],
             toolbar: '.toolbar',
             iconsPrefix: 'fa',
             icons: {
@@ -260,4 +171,9 @@
             }
         });
     });
+    $(document).on('click', '.reviewresult', function () {
+        const id = localStorage.getItem('quiz_id');
+        window.location.href = '/user/explaination/test_explanation_page?id=' + id;
+    });
+
 </script>

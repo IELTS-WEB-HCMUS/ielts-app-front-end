@@ -48,5 +48,57 @@ module.exports = {
             console.error('Error in getFullQuiz:', error.message);
             throw new Error(`Error in getFullQuiz: ${error.message}`);
         }
-    }    
+    }, 
+    getDetailQuiz: async (access_token, quiz_id) => {
+        try {
+            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+            const response = await fetch(`http://localhost:8080/v1/quizzes/${quiz_id}`, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to fetch detail quiz: ${response.statusText}`);
+            }
+    
+            const data = await response.json();
+            return data.data;
+        } catch (error) {
+            console.error('Error in getDetailQuiz:', error.message);
+            throw new Error(`Error in getDetailQuiz: ${error.message}`);
+        }
+    }, 
+    submitQuizResult: async (req, access_token, quiz_id) => {
+        try {
+            const requestBody = {
+                question: req.body.result.question,
+                answer: {
+                    detail: req.body.result.dictionary,
+                    ...req.body.result.quiz,
+                },
+            };
+              
+            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+            const response = await fetch(`http://localhost:8080/v1/quizzes/${quiz_id}/answer`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to submit quiz: ${response.statusText}`);
+            }
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error in submitQuizResult:', error.message);
+            throw new Error(`Error in submitQuizResult: ${error.message}`);
+        }
+    }
 };

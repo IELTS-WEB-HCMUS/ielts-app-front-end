@@ -12,7 +12,7 @@ module.exports = {
             const tagsearch = await tagsearchM.getTagSearch(access_token);
             const fullquiz = await quizM.getFullQuiz(access_token, req);
 
-            const totalPages = Math.ceil(fullquiz.data.total / (req.query.page_size || 3));
+            const totalPages = Math.ceil(fullquiz.data.total / (req.query.page_size || 6));
             const currentPageData = fullquiz.data.items;
 
             if (req.xhr) {  // Check if the request is AJAX

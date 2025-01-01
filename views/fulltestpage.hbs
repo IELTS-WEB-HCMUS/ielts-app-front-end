@@ -63,6 +63,10 @@
             background-color: #28a745;
             color: white;
         }
+
+        #clear-filter {
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -70,7 +74,7 @@
 
     <div class="container-fluid d-flex" style="background-color: #EBF5FF; margin-top: 4%;">
         <div class="filter-section">
-            <div class="filter-title">
+            <div class="filter-title" id="clear-filter">
                 <i class="fas fa-filter"></i> Lọc
             </div>
 
@@ -257,6 +261,21 @@
             event.preventDefault();
             filters.search = document.getElementById("search-input").value;
             loadPageData(initialPage); // Reload page data with search query
+        });
+
+        const clearFilterButton = document.getElementById("clear-filter");
+        clearFilterButton.addEventListener("click", () => {
+            filters = {
+                tagpassage: null,
+                taglevel: null,
+                submitted_status: null,
+                search: null
+            };
+
+            filterButtons.forEach(btn => btn.classList.remove("active"));
+            searchForm.reset();
+
+            loadPageData(initialPage); 
         });
     });
 </script>

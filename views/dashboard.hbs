@@ -14,6 +14,14 @@
     .fixed-table-loading {
         display: none !important;
     }
+
+    .viewresult {
+        cursor: pointer;
+    }
+
+    #reso {
+        cursor: pointer;
+    }
 </style>
 <div style="display: flex; flex-direction: row; margin-top: 5%; margin: 5%;">
     <div style="margin-left: 3%; display: flex; flex-direction: column;">
@@ -30,11 +38,11 @@
 <div>
     <div class="wrapper" style="margin-top: 50px; width: 100%;">
         <h2 style="margin-left: 7%;">LỊCH SỬ LÀM BÀI</h2>
-        <button
-            id="button1" style="margin-left: 30%; background: #C1E3FB; border-radius: 3em; border: none; font-size: 1.5em; padding: 0.2em;"><strong>Theo
+        <button id="button1"
+            style="margin-left: 30%; background: #C1E3FB; border-radius: 3em; border: none; font-size: 1.5em; padding: 0.2em;"><strong>Theo
                 passage</strong></button>
-        <button
-            id="button2" style="background: #C1E3FB; border-radius: 3em; border: none; font-size: 1.5em; padding: 0.2em;"><strong>Theo
+        <button id="button2"
+            style="background: #C1E3FB; border-radius: 3em; border: none; font-size: 1.5em; padding: 0.2em;"><strong>Theo
                 độ khó</strong></button>
         <div class="container">
             <table id="fresh-table" class="table table-bordered">
@@ -49,16 +57,16 @@
                 <tbody>
                     {{#each statistic}}
                     <tr>
-                        <td>{{{ id }}}</td>
+                        <td>{{{ quiz_id }}}</td>
                         <td>{{{ quiz_title }}}</td>
                         <td>{{{ date_created }}}</td>
                         <td>{{{ completed_duration }}}'</td>
                         <td>{{{ success }}} / {{{ total }}}</td>
                         <td>
-                            <span onclick="/detailresult"
+                            <span class="viewresult"
                                 style="margin: 8%; width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"><strong>Xem
                                     lại</strong></span>
-                            <span onclick="/detailresult"
+                            <span id="reso" onclick="window.location.href='/user/dotest?id={{{ quiz_id }}}'"
                                 style="width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"><strong>Làm
                                     lại</strong></span>
                         </td>
@@ -158,11 +166,11 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#button1, #button2').css('background', '#C1E3FB');
 
         const urlParams = new URLSearchParams(window.location.search);
-        const type = urlParams.get('type'); 
+        const type = urlParams.get('type');
 
         if (type == '2') {
             $('#button2').css('background', 'yellow');
@@ -170,17 +178,23 @@
             $('#button1').css('background', 'yellow');
         }
 
-        $('#button1').click(function() {
-            $('#button2').css('background', '#C1E3FB');  
-            $(this).css('background', 'yellow'); 
-            window.location.href = '/user/dashboard?type=1';  
+        $('#button1').click(function () {
+            $('#button2').css('background', '#C1E3FB');
+            $(this).css('background', 'yellow');
+            window.location.href = '/user/dashboard?type=1';
         });
 
-        $('#button2').click(function() {
-            $('#button1').css('background', '#C1E3FB'); 
-            $(this).css('background', 'yellow');  
-            window.location.href = '/user/dashboard?type=2';  
+        $('#button2').click(function () {
+            $('#button1').css('background', '#C1E3FB');
+            $(this).css('background', 'yellow');
+            window.location.href = '/user/dashboard?type=2';
         });
     });
-</script>
 
+    $(document).on('click', '.viewresult', function () {
+        const quizId = $(this).closest('tr').find('td').eq(0).text();
+        localStorage.setItem('quiz_id', quizId);
+        window.location.href = '/user/quiz-result?id=' + quizId;
+    });
+
+</script>

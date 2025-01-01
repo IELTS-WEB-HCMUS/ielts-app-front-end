@@ -1,3 +1,45 @@
+async function fetchData() {
+    const id = new URLSearchParams(window.location.search).get("id");
+    const response = await fetch(`http://localhost:3000/user/dotest/detailquiz?id=${id}`);
+    const data = await response.json();
+    localStorage.setItem('quiz', JSON.stringify(data));
+    localStorage.setItem('quiz_id', JSON.stringify(data).id);
+    return JSON.stringify(data);
+}
+
+async function fetchSubmit(result) {
+    const id = new URLSearchParams(window.location.search).get("id");
+    const response = await fetch(`http://localhost:3000/user/dotest/submitquiz?id=${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            result: result
+        }),
+    });
+    const data = await response.json();
+    return data;
+}
+
+async function fetchLookup(quiz_id, sentence_index, vocab_index, word) {
+    const response = await fetch(`http://localhost:3000/user/dotest/lookup`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            quiz_id: quiz_id,
+            sentence_index: sentence_index,
+            vocab_index: vocab_index,
+            word: word
+        }),
+    });
+    console.log('response:', response);
+    const data = await response.json();
+    return JSON.stringify(data);
+}
+
 class Question {
     constructor(id, order, type, content, options = [], answer, explain, description = null) {
         this.id = id
@@ -21,15 +63,15 @@ class Question {
     }
 }
 
-class Part{
-    constructor(id, questions = []){
+class Part {
+    constructor(id, questions = []) {
         this.id = id;
         this.questions = questions;
     }
 }
 
 class Quiz {
-    constructor(id, type, content, title, time, parts = [], is_test){
+    constructor(id, type, content, title, time, parts = [], is_test) {
         this.id = id;
         this.type = type; // Listening(2) hay reading(1)
         this.content = content; // Nội dung bài đọc với reading full test
@@ -41,7 +83,7 @@ class Quiz {
 }
 
 class Vocab {
-    constructor(value, word_class, meaning, ipa, example, verb_structure, explanation){
+    constructor(value, word_class, meaning, ipa, example, verb_structure, explanation) {
         this.value = value;
         this.word_class = word_class;
         this.meaning = meaning;
@@ -54,9 +96,9 @@ class Vocab {
 
 class AnswerQuestion {
     constructor(id_question, success_count = 0, total = 1) {
-        this.id_question = id_question;  
-        this.success_count = success_count; 
-        this.total = total;  
+        this.id_question = id_question;
+        this.success_count = success_count;
+        this.total = total;
     }
 }
 
@@ -92,119 +134,119 @@ class AnswerQuiz {
 
 
 let question1 = new Question(
-    10001,  
-    1, 
-    'SINGLE-SELECTION', 
-    'What is the capital of France?', 
-    ['Berlin', 'Madrid', 'Paris', 'Rome'], 
-    'Paris', 
+    10001,
+    1,
+    'SINGLE-SELECTION',
+    'What is the capital of France?',
+    ['Berlin', 'Madrid', 'Paris', 'Rome'],
+    'Paris',
     'Paris is the capital city of France.',
     '<h3><strong>Questions 1 - 5:</strong></h3> <p>Complete the table below. Choose ONE WORD ONLY from the: passage for each answer. Write your answers in boxes 1-4 on your answer sheet.</p>'
 );
 
 let question2 = new Question(
-    10002,  
-    2, 
-    'SINGLE-RADIO',  
-    'Which of the following are programming languages?', 
-    ['JavaScript', 'HTML', 'CSS', 'Python'], 
-    'JavaScript',  
+    10002,
+    2,
+    'SINGLE-RADIO',
+    'Which of the following are programming languages?',
+    ['JavaScript', 'HTML', 'CSS', 'Python'],
+    'JavaScript',
     'JavaScript and Python are programming languages.'
 );
 
 let question3 = new Question(
-    10003,  
-    3, 
-    'FILL-IN-THE-BLANK', 
-    'The chemical symbol for water is ____.', 
-    [], 
-    'H2O', 
+    10003,
+    3,
+    'FILL-IN-THE-BLANK',
+    'The chemical symbol for water is ____.',
+    [],
+    'H2O',
     'H2O is the chemical formula for water.'
 );
 
 let question4 = new Question(
-    10004,  
-    4, 
-    'SINGLE-RADIO', 
-    'Which of the following is the largest planet in our solar system?', 
-    ['Earth', 'Jupiter', 'Saturn', 'Mars'], 
-    'Jupiter', 
+    10004,
+    4,
+    'SINGLE-RADIO',
+    'Which of the following is the largest planet in our solar system?',
+    ['Earth', 'Jupiter', 'Saturn', 'Mars'],
+    'Jupiter',
     'Jupiter is the largest planet in our solar system.'
 );
 
 let question5 = new Question(
-    10005,  
-    5, 
-    'SINGLE-RADIO',  
-    'Which planets are gas giants?', 
-    ['Mercury', 'Venus', 'Jupiter', 'Saturn'], 
-    'Jupiter',  
+    10005,
+    5,
+    'SINGLE-RADIO',
+    'Which planets are gas giants?',
+    ['Mercury', 'Venus', 'Jupiter', 'Saturn'],
+    'Jupiter',
     'Jupiter and Saturn are gas giants.'
 );
 
 let question6 = new Question(
-    10006,  
-    6, 
-    'FILL-IN-THE-BLANK', 
-    'The sun is a type of ____.', 
-    [], 
-    'star', 
+    10006,
+    6,
+    'FILL-IN-THE-BLANK',
+    'The sun is a type of ____.',
+    [],
+    'star',
     'The sun is a star.',
     '<h3><strong>Questions 6 - 9:</strong></h3> <p>Complete the table below. Choose ONE WORD ONLY from the: passage for each answer. Write your answers in boxes 1-4 on your answer sheet.</p>'
 );
 
 let question7 = new Question(
-    10007,  
-    7, 
-    'SINGLE-SELECTION', 
-    'What is the tallest mountain in the world?', 
-    ['K2', 'Mount Everest', 'Kangchenjunga', 'Lhotse'], 
-    'Mount Everest', 
+    10007,
+    7,
+    'SINGLE-SELECTION',
+    'What is the tallest mountain in the world?',
+    ['K2', 'Mount Everest', 'Kangchenjunga', 'Lhotse'],
+    'Mount Everest',
     'Mount Everest is the tallest mountain in the world.'
 );
 
 let question8 = new Question(
-    10008,  
-    8, 
-    'SINGLE-RADIO', 
-    'Which ocean is the largest?', 
-    ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'], 
-    'Pacific Ocean', 
+    10008,
+    8,
+    'SINGLE-RADIO',
+    'Which ocean is the largest?',
+    ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
+    'Pacific Ocean',
     'The Pacific Ocean is the largest ocean on Earth.'
 );
 
 let question9 = new Question(
-    10009,  
-    9, 
-    'SINGLE-RADIO',  
-    'Which animals are mammals?', 
-    ['Dog', 'Fish', 'Lion', 'Shark'], 
-    'Dog',  
+    10009,
+    9,
+    'SINGLE-RADIO',
+    'Which animals are mammals?',
+    ['Dog', 'Fish', 'Lion', 'Shark'],
+    'Dog',
     'Dog and Lion are mammals.'
 );
 
 // Tạo các phần (Part) với id
 let part1 = new Part(
-    2001,  
+    2001,
     [question1, question2, question3]
 );
 
 let part2 = new Part(
-    2002,  
+    2002,
     [question4, question5, question6]
 );
 
 let part3 = new Part(
-    2003,  
+    2003,
     [question7, question8, question9]
 );
 
 // Tạo quiz với id
 let quiz = new Quiz(
-    3001,  
-    1, 
-    'Jean-Antoine Nollet was a French clergyman and physicist. In 1746 he gathered about two hundred monks into a circle about a mile (1.6 km) in circumference, with pieces of iron wire connecting them. He then discharged a battery of Leyden jars through the human chain and observed that each man reacted at substantially the same time to the electric shock, showing that the speed of electricity’s propagation was very high. Given a more humane detection system, this could be a way of signaling over long distances. In 1748, Nollet invented one of the first electrometers, the electroscope, which detected the presence of an electric charge by using electrostatic attraction and repulsion.<br>After the introduction of the European semaphore lines in 1792, the world’s desire to further its ability to communicate from a distance only grew. People wanted a way to send and receive news from remote locations so that they could better understand what was happening in the world around them - not just what was going on in their immediate town or city. This type of communication not only appealed to the media industry, but also to private individuals and companies who wished to stay in touch with contacts. In 1840 Charles Wheatstone from Britain, with William Cooke, obtained a new patent for a telegraphic arrangement. The new apparatus required only a single pair of wires, but the telegraph was still too costly for general purposes. In 1845, however, Cooke and Wheatstone succeeded in producing the single needle apparatus, which they patented, and from that time the electric telegraph became a practical instrument, soon adopted on all the railway lines of the country.<br>It was the European optical telegraph, or semaphore, that was the predecessor of the electrical recording telegraph that changed the history of communication forever. Building on the success of the optical telegraph, Samuel F. B. Morse completed a working version of the electrical recording telegraph, which only required a single wire to send code of dots and dashes. At first, it was imagined that only a few highly skilled encoders would be able to use it but it soon became clear that many people could become proficient in Morse code. A system of lines strung on telegraph poles began to spread in Europe and America.<br>In the 1840s and 1850s several individuals proposed or advocated construction of a telegraph cable across the Atlantic Ocean, including Edward Thornton and Alonzo Jackman. At that time there was no material available for cable insulation and the first breakthrough came with the discovery of a rubber-like latex called gutta-percha. Introduced to Britain in 1843, gutta-percha is the gum of a tree native to the Malay Peninsula and Malaysia. After the failure of their first cable in 1850, the British brothers John and Jacob Brett laid a successful submarine cable from Dover to Calais in 1851. This used two layers of gutta-percha insulation and an armoured outer layer. With thin wire and thick insulation, it floated and had to be weighed down with lead pipe.<br>In the case of first submarine-cable telegraphy, there was the limitation of knowledge of how its electrical properties were affected by water. The voltage which may be impressed on the cable was limited to a definite value. Moreover, for certain reasons, the cable had an impedance associated with it at the sending end which could make the voltage on the cable differ from the voltage applied to the sending-end apparatus. In fact, the cable was too big for a single boat, so two had to start in the middle of the Atlantic, join their cables and sail in opposite directions. Amazingly, the first official telegram to pass between two continents was a letter of congratulation from Queen Victoria of the United Kingdom to the President of the United States, James Buchanan, on August 16, 1858. However, signal quality declined rapidly, slowing transmission to an almost unusable speed and the cable was destroyed the following month.<br>To complete the link between England and Australia, John Pender formed the British-Australian Telegraph Company. The first stage was to lay a 557nm cable from Singapore to Batavia on the island of Java in 1870. It seemed likely that it would come ashore at the northern port of Darwin from where it might connect around the coast to Queensland and New South Wales. It was an undertaking more ambitious than spanning ocean. Flocks of sheep had to be driven with the 400 workers to provide food. They needed horses and bullock carts and, for the parched interior, camels. In the north, tropical rains left the teams flooded. In the centre, it seemed that they would die of thirst. One critical section in the red heart of Australia involved finding a route through the McDonnell mountain range and then finding water on the other side. The water was not only essential for the construction teams. There had to be telegraph repeater stations every few hundred miles to boost the signal and the staff obviously had to have a supply of water.<br>On August 22, 1872, the Northern and Southern sections of the Overland Telegraph Line were connected, uniting the Australian continent and within a few months, Australia was at last in direct contact with England via the submarine cable, too. This allowed the Australian Government to receive news from around the world almost instantaneously for the first time. It could cost several pounds to send a message and it might take several hours for it to reach its destination on the other side of the globe, but the world would never be the same again. The telegraph was the first form of communication over a great distance and was a landmark in human history.', 
-    'General Knowledge Quiz', 
+    3001,
+    1,
+    'Jean-Antoine Nollet was a French clergyman and physicist. In 1746 he gathered about two hundred monks into a circle about a mile (1.6 km) in circumference, with pieces of iron wire connecting them. He then discharged a battery of Leyden jars through the human chain and observed that each man reacted at substantially the same time to the electric shock, showing that the speed of electricity’s propagation was very high. Given a more humane detection system, this could be a way of signaling over long distances. In 1748, Nollet invented one of the first electrometers, the electroscope, which detected the presence of an electric charge by using electrostatic attraction and repulsion.<br>After the introduction of the European semaphore lines in 1792, the world’s desire to further its ability to communicate from a distance only grew. People wanted a way to send and receive news from remote locations so that they could better understand what was happening in the world around them - not just what was going on in their immediate town or city. This type of communication not only appealed to the media industry, but also to private individuals and companies who wished to stay in touch with contacts. In 1840 Charles Wheatstone from Britain, with William Cooke, obtained a new patent for a telegraphic arrangement. The new apparatus required only a single pair of wires, but the telegraph was still too costly for general purposes. In 1845, however, Cooke and Wheatstone succeeded in producing the single needle apparatus, which they patented, and from that time the electric telegraph became a practical instrument, soon adopted on all the railway lines of the country.<br>It was the European optical telegraph, or semaphore, that was the predecessor of the electrical recording telegraph that changed the history of communication forever. Building on the success of the optical telegraph, Samuel F. B. Morse completed a working version of the electrical recording telegraph, which only required a single wire to send code of dots and dashes. At first, it was imagined that only a few highly skilled encoders would be able to use it but it soon became clear that many people could become proficient in Morse code. A system of lines strung on telegraph poles began to spread in Europe and America.<br>In the 1840s and 1850s several individuals proposed or advocated construction of a telegraph cable across the Atlantic Ocean, including Edward Thornton and Alonzo Jackman. At that time there was no material available for cable insulation and the first breakthrough came with the discovery of a rubber-like latex called gutta-percha. Introduced to Britain in 1843, gutta-percha is the gum of a tree native to the Malay Peninsula and Malaysia. After the failure of their first cable in 1850, the British brothers John and Jacob Brett laid a successful submarine cable from Dover to Calais in 1851. This used two layers of gutta-percha insulation and an armoured outer layer. With thin wire and thick insulation, it floated and had to be weighed down with lead pipe.<br>In the case of first submarine-cable telegraphy, there was the limitation of knowledge of how its electrical properties were affected by water. The voltage which may be impressed on the cable was limited to a definite value. Moreover, for certain reasons, the cable had an impedance associated with it at the sending end which could make the voltage on the cable differ from the voltage applied to the sending-end apparatus. In fact, the cable was too big for a single boat, so two had to start in the middle of the Atlantic, join their cables and sail in opposite directions. Amazingly, the first official telegram to pass between two continents was a letter of congratulation from Queen Victoria of the United Kingdom to the President of the United States, James Buchanan, on August 16, 1858. However, signal quality declined rapidly, slowing transmission to an almost unusable speed and the cable was destroyed the following month.<br>To complete the link between England and Australia, John Pender formed the British-Australian Telegraph Company. The first stage was to lay a 557nm cable from Singapore to Batavia on the island of Java in 1870. It seemed likely that it would come ashore at the northern port of Darwin from where it might connect around the coast to Queensland and New South Wales. It was an undertaking more ambitious than spanning ocean. Flocks of sheep had to be driven with the 400 workers to provide food. They needed horses and bullock carts and, for the parched interior, camels. In the north, tropical rains left the teams flooded. In the centre, it seemed that they would die of thirst. One critical section in the red heart of Australia involved finding a route through the McDonnell mountain range and then finding water on the other side. The water was not only essential for the construction teams. There had to be telegraph repeater stations every few hundred miles to boost the signal and the staff obviously had to have a supply of water.<br>On August 22, 1872, the Northern and Southern sections of the Overland Telegraph Line were connected, uniting the Australian continent and within a few months, Australia was at last in direct contact with England via the submarine cable, too. This allowed the Australian Government to receive news from around the world almost instantaneously for the first time. It could cost several pounds to send a message and it might take several hours for it to reach its destination on the other side of the globe, but the world would never be the same again. The telegraph was the first form of communication over a great distance and was a landmark in human history.',
+    'General Knowledge Quiz',
     30, // 30 phút
     [part1, part2, part3],
     true
@@ -222,53 +264,53 @@ function splitParagraphIntoSentences(paragraph) {
 }
 
 function preserveHyphenatedWords(sentence) {
-	const hyphenatedWordRegex = /\b\w+(-\w+)+\b/g;
-	  
-	const hyphenatedWords = sentence.match(hyphenatedWordRegex) || [];
-	hyphenatedWords.forEach((word, index) => {
-	    sentence = sentence.replace(word, `_HYPO${index}_`);
-	});
-	  
-	return { sentence, hyphenatedWords };
+    const hyphenatedWordRegex = /\b\w+(-\w+)+\b/g;
+
+    const hyphenatedWords = sentence.match(hyphenatedWordRegex) || [];
+    hyphenatedWords.forEach((word, index) => {
+        sentence = sentence.replace(word, `_HYPO${index}_`);
+    });
+
+    return { sentence, hyphenatedWords };
 }
 
 function restoreHyphenatedWords(sentence, hyphenatedWords) {
-	hyphenatedWords.forEach((word, index) => {
-	    sentence = sentence.replace(`_HYPO${index}_`, word);
-	});
-	return sentence;
+    hyphenatedWords.forEach((word, index) => {
+        sentence = sentence.replace(`_HYPO${index}_`, word);
+    });
+    return sentence;
 }
 
 function splitSentenceIntoWords(sentence) {
-	const { sentence: modifiedSentence, hyphenatedWords } = preserveHyphenatedWords(sentence);
+    const { sentence: modifiedSentence, hyphenatedWords } = preserveHyphenatedWords(sentence);
 
-	const doc = nlp(modifiedSentence);
+    const doc = nlp(modifiedSentence);
     const words = doc.terms().out('array');
-    
-	const restoredWords = words.map(word => restoreHyphenatedWords(word, hyphenatedWords));
 
-	return restoredWords;
+    const restoredWords = words.map(word => restoreHyphenatedWords(word, hyphenatedWords));
+
+    return restoredWords;
 }
 
 function makeWordsClickable(paragraph) {
-	const text = quiz.content;
+    const text = quiz.content;
 
-	const passages = text.split('<br>');
+    const passages = text.split('<br>');
 
-	let sentenceIndex = 0;
-	const clickablePassages = passages.map(passage => {
+    let sentenceIndex = 0;
+    const clickablePassages = passages.map(passage => {
         const sentences = splitParagraphIntoSentences(passage.trim());
 
         const clickableSentences = sentences.map(sentence => {
             const words = splitSentenceIntoWords(sentence);
             const clickableWords = words.map((word, wordIndex) => {
                 const exception = [/\b\w+(-\w+)+\b/g, /\b\d+,\d+\b/g, /\b\d+\.\d+\b/g, /\b\w+’\w+\b/g]
-            
+
                 const isException = exception.some(regex => regex.test(word));
 
                 const cleanWord = isException ? word : word.replace(/[^a-zA-Z0-9]/g, '');
                 return `<a href="#" class="vocab-word" data-bs-target="#vocab-offcanvasBottom"
-                            onclick="handleWordClick(this, ${sentenceIndex+1}, ${wordIndex+1}, '${cleanWord}')">${word}</a>`;
+                            onclick="handleWordClick(this, ${sentenceIndex + 1}, ${wordIndex + 1}, '${cleanWord}')">${word}</a>`;
             });
 
             sentenceIndex++;
@@ -276,15 +318,14 @@ function makeWordsClickable(paragraph) {
         });
 
         return `<p class="passage">${clickableSentences.join(' ')}</p>`; // Wrap each passage in a <p>
-	});
+    });
 
-	paragraph.innerHTML = clickablePassages.join('');
+    paragraph.innerHTML = clickablePassages.join('');
 }
 
 function handleWordClick(element, sentenceIndex, wordIndex, word) {
     //debug
     console.log(`Sentence: ${sentenceIndex}, Word: ${wordIndex}, Value: ${word}`);
-
     removeUnderlineWord();
     element.classList.add('active');
 
@@ -294,25 +335,27 @@ function handleWordClick(element, sentenceIndex, wordIndex, word) {
     bsOffcanvas.show();
 }
 
-function removeUnderlineWord(){
+function removeUnderlineWord() {
     const activeWords = document.querySelectorAll('.vocab-word.active');
-    activeWords.forEach(word => word.classList.remove('active')); 
+    activeWords.forEach(word => word.classList.remove('active'));
 }
 
 
-function showWordDefinition(sentenceIndex, wordIndex, word) {
+async function showWordDefinition(sentenceIndex, wordIndex, word) {
     // Thay đổi nội dung với từ được nhấn
+    const id = JSON.parse(localStorage.getItem('quiz')).id;
+    const result = await fetchLookup(id, sentenceIndex, wordIndex, word);
     const vocab = new Vocab(
-        'run',                  // value
-        'verb',                 // word_class
-        'to move swiftly on foot', // meaning
-        '/rʌn/',                // ipa (International Phonetic Alphabet)
-        'I run every morning.', // example
-        'run + object',         // verb_structure
-        'Lorem ipsum odor amet, consectetuer adipiscing elit. Viverra euismod neque euismod vehicula venenatis faucibus scelerisque potenti vehicula. Maximus magna mollis elit molestie; tempor blandit pretium fames. Sem praesent dictumst dolor cubilia integer hac. Vivamus curabitur in rhoncus bibendum lacinia varius netus. Fames efficitur curae semper etiam ante. Interdum luctus nisl per sodales viverra gravida. Erat euismod iaculis non mi diam. Hac tempus volutpat urna convallis, placerat eget hac ante fringilla. Vulputate justo enim feugiat nunc sed vel. Aenean primis praesent eleifend adipiscing sem. Convallis non ipsum rutrum dignissim ornare aenean integer venenatis senectus. Mollis pharetra sapien sociosqu natoque felis; eu ultrices potenti netus. Eros tellus turpis eget nibh ornare sollicitudin. Per dignissim elit suspendisse magna posuere hendrerit proin inceptos. Tortor malesuada amet iaculis tortor gravida. Elementum bibendum conubia luctus laoreet dis congue augue parturient. Donec sem class imperdiet eu quis litora montes leo donec. Ultrices dignissim aenean iaculis gravida eget congue! Pharetra ridiculus lectus finibus parturient ut.' // explanation
+        JSON.parse(result).data.word_display,      // value
+        JSON.parse(result).data.word_class,       // word_class
+        JSON.parse(result).data.meaning, // meaning
+        JSON.parse(result).data.ipa,                // ipa (International Phonetic Alphabet)
+        JSON.parse(result).data.example[0], // example
+        JSON.parse(result).data.collocation,        // verb_structure
+        JSON.parse(result).data.explanation // explanation
     );
-
-    document.getElementById('vocab-value').textContent = vocab.value; 
+    console.log('vocab:', vocab);
+    document.getElementById('vocab-value').textContent = vocab.value;
     document.getElementById('vocab-ipa').textContent = vocab.ipa;
     document.getElementById('vocab-word-class').textContent = vocab.word_class;
     document.getElementById('vocab-meaning').textContent = vocab.meaning;
@@ -327,7 +370,7 @@ function HighlightText() {
     const textElement = document.getElementById('quiz-content-highlight');
 
     // Biến kiểm tra trạng thái chọn văn bản
-    let isSelecting = false;  
+    let isSelecting = false;
     let selectionRange = null;
 
     // Khi người dùng bắt đầu chọn văn bản
@@ -352,22 +395,22 @@ function HighlightText() {
     function highlightSelectedText() {
         const selection = window.getSelection();
         const selectedText = selection.toString();
-    
+
         if (selectedText) {
             const range = selection.getRangeAt(0);
             const parentElement = range.commonAncestorContainer;
-    
+
             // Duyệt qua các phần tử cha để tìm <p id="quiz-content-highlight">
             let paragraphElement = parentElement;
             while (paragraphElement && paragraphElement.tagName !== 'P') {
                 paragraphElement = paragraphElement.parentElement;
             }
-    
+
             if (paragraphElement && paragraphElement.id === 'quiz-content-highlight') {
                 selectedTexts = selectedText.split(/(\n)/);
                 console.log(selectedTexts);
                 const fragment = document.createDocumentFragment();
-                
+
                 selectedTexts.forEach(part => {
                     if (part == '\n') {
                         fragment.appendChild(document.createElement('br'));
@@ -387,16 +430,16 @@ function HighlightText() {
                         }
                     }
                 });
-                
-                range.deleteContents(); 
+
+                range.deleteContents();
                 range.insertNode(fragment);
-    
+
                 // Xóa vùng chọn sau khi highlight
                 selection.removeAllRanges();
             }
         }
     }
-    
+
 
     // Hàm hiển thị menu flyout (hoặc control) khi người dùng chọn văn bản
     function showFlyoutMenuOnText(event) {
@@ -420,8 +463,8 @@ function HighlightText() {
             const highlightOption = document.createElement('button');
             highlightOption.textContent = 'Highlight';
             highlightOption.onclick = () => {
-                highlightSelectedText();  
-                document.body.removeChild(flyout); 
+                highlightSelectedText();
+                document.body.removeChild(flyout);
             };
 
             flyout.appendChild(highlightOption);
@@ -511,14 +554,14 @@ function startCountdown(quiz) {
     }, 1000);
 }
 
-function loadPart(part){
+function loadPart(part) {
     let uiElement = `<div class="part-container">`;
     part.questions.forEach(question => {
         if (question.description) {
-            uiElement += question.description; 
+            uiElement += question.description;
         }
-        const questionUI = loadQuestion(question); 
-        uiElement += questionUI; 
+        const questionUI = loadQuestion(question);
+        uiElement += questionUI;
     });
     uiElement += '</div>';
     return uiElement
@@ -534,7 +577,7 @@ function loadQuestion(question) {
                     <div class="question-order-number" style="margin: 2%">${question.order}</div>
                     <select class="custom-dropdown" onchange="checkAnswered(${question.order}, ${question.id})">
                         <option value="" selected disabled>None</option> 
-                        ${question.options.map(option => `<option value="${option}">${option}</option>`).join('')}
+                        ${question.options.map(option => `<option value="${option.option}">${option.option}</option>`).join('')}
                     </select>
                     <p style="margin: 2%; align-items: center;">${question.content}</p>
                 </div>
@@ -549,12 +592,12 @@ function loadQuestion(question) {
                     <p style="margin-top: 1%">${question.content}</p>
                 </div>
                 <div style="display: flex; flex-direction: column; width: 100%; margin: 0% 2%;">
-                    ${question.options.map((option,index) => `
+                    ${question.options.map((option, index) => `
                         <div class="option" style="display: flex; align-items: center;">
                             <div class="question-order-number" style="margin-left: 2%; margin-right: 2%; align-items: center; font-size: 1em">
                                 ${String.fromCharCode(65 + index)}
                             </div>
-                            <input type="radio" name="question-${question.order}" value="${option}" id="option-${question.order}-${option}" onchange="checkAnswered(${question.order}, ${question.id})">
+                            <input type="radio" name="question-${question.order}" value="${option}" id="option-${question}-${option}" onchange="checkAnswered(${question.order}, ${question.id})">
                             <label for="option-${question.order}-${option}">${option}</label>
                         </div>
                     `).join('')}
@@ -589,7 +632,7 @@ function loadButtonQuestion(quiz) {
     });
 
     const container = document.getElementById('question-buttons');
-    container.innerHTML = ''; 
+    container.innerHTML = '';
     let uiElement = ``;
 
     for (let order = 1; order <= totalQuestion; order++) {
@@ -598,14 +641,14 @@ function loadButtonQuestion(quiz) {
         `;
     }
 
-    container.innerHTML = uiElement; 
+    container.innerHTML = uiElement;
 }
 
 const userAnswers = {}; // Đối tượng lưu câu trả lời của người dùng cần truyền vào api để submit
 
 function checkAnswered(questionOrder, question_id) {
     const question = document.getElementById(`question-${questionOrder}`);
-    const inputs = question.querySelectorAll('input, select'); 
+    const inputs = question.querySelectorAll('input, select');
     const submitTest = document.getElementById('btn_toggle_modal_submit');
 
     let isAnswered = false;
@@ -642,18 +685,18 @@ function checkAnswered(questionOrder, question_id) {
     const button = document.querySelector(`button[data-question-order="${questionOrder}"]`);
     if (button) {
         if (isAnswered) {
-            button.classList.add('answered'); 
+            button.classList.add('answered');
         } else {
-            button.classList.remove('answered'); 
+            button.classList.remove('answered');
         }
     }
 }
 
-function loadQuiz(quiz){
+function loadQuiz(quiz) {
     const quizType = document.getElementById('quiz-type-label');
     const strQuizType = quiz.type === 1 ? "Reading" : "Listening";
     quizType.innerHTML = `MePass - ${strQuizType} Practice`;
-    startCountdown(quiz); 
+    startCountdown(quiz);
     loadButtonQuestion(quiz);
 
     const quizTitle = document.getElementById('quiz-title');
@@ -668,7 +711,7 @@ function loadQuiz(quiz){
     const container = document.getElementById('question-area');
     container.innerHTML = ''; // Clear previous UI
     let uiElement = ``;
-    quiz.parts.forEach(part =>{
+    quiz.parts.forEach(part => {
         const partUI = loadPart(part);
         uiElement += partUI;
     });
@@ -683,19 +726,19 @@ function loadQuiz(quiz){
 // Biến này sẽ chứa giá trị thời gian hoàn thành bài test khi người dùng bấm submit (để tính toán thời gian còn lại)
 let completion_Time = 0;
 // Xử lý sự kiện like hoặc dislike trên vocab offcanvas
-document.addEventListener('DOMContentLoaded', function() {
-    const icons = document.querySelectorAll('.feedback-icon'); 
+document.addEventListener('DOMContentLoaded', function () {
+    const icons = document.querySelectorAll('.feedback-icon');
 
-    icons.forEach(function(icon) {
-        icon.addEventListener('click', function() {
-            const isCheck = icon.getAttribute('data-ischeck') === 'true';  
+    icons.forEach(function (icon) {
+        icon.addEventListener('click', function () {
+            const isCheck = icon.getAttribute('data-ischeck') === 'true';
 
             if (isCheck) {
                 icon.setAttribute('data-ischeck', 'false');
                 icon.classList.remove('fas');
                 icon.classList.add('far');
             } else {
-                icons.forEach(function(otherIcon) {
+                icons.forEach(function (otherIcon) {
                     otherIcon.setAttribute('data-ischeck', 'false');
                     otherIcon.classList.remove('fas');
                     otherIcon.classList.add('far');
@@ -711,96 +754,224 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('flyout-menu-highlight-text').onpointerleave = this.remove();
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('btn_submit_test').addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', async function () {
+    const data = await fetchData();
+    const quizData = JSON.parse(data);
+
+    // Lấy dữ liệu phần (parts) và câu hỏi (questions) từ quizData
+    const parts = quizData.parts.map(partData => {
+        const questions = partData.questions.map(qData => {
+            let content = qData.selection
+                ? qData.selection[0].text
+                : (qData.gap_fill_in_blank ? qData.gap_fill_in_blank.text : '');
+            if (qData.type === 'SINGLE-RADIO') {
+                content = qData.content;
+            }
+
+            // Xử lý lấy các options từ multiple_choice mà không dùng map
+            let selectionOption = [];
+            let answer = ""
+            let explain = ""
+            if (qData.selection_option) {
+                selectionOption = qData.selection_option;
+                answer = qData.selection[0].answer;
+                explain = qData.explain.explanation;
+            } else if (qData.multiple_choice) {
+                selectionOption = [];
+                for (let i = 0; i < qData.multiple_choice.length; i++) {
+                    selectionOption.push(qData.multiple_choice[i].text);
+                    if (qData.multiple_choice[i].correct === true) {
+                        answer = qData.multiple_choice[i].text;
+                    }
+                    explain = qData.explain.explain;
+                }
+            } else if (qData.gap_fill_in_blank) {
+                answer = qData.explain[0].answer;
+                explain = qData.explain[0].explain;
+            }
+
+            return new Question(
+                qData.id,
+                qData.order,
+                qData.type,
+                content,
+                selectionOption, // Truyền danh sách options đã xử lý
+                answer,
+                explain,
+                qData.description || null // Nếu không có description thì gán null
+            );
+        });
+
+        return new Part(partData.id, questions);
+    });
+
+    // Tạo quiz với các phần (parts) đã được tạo
+    const quiz = new Quiz(
+        quizData.id,
+        1, // Giả sử luôn là 1, bạn có thể thay đổi theo yêu cầu
+        quizData.content,
+        quizData.title,
+        quizData.time, // 30 phút
+        parts, // Truyền các phần vào
+        true // Giả sử quiz đã được kích hoạt
+    );
+
+    document.getElementById('btn_submit_test').addEventListener('click', async function () {
         completion_Time = (() => {
             const [minutes, seconds] = document.getElementById('timer').textContent.split(':').map(Number);
             return (minutes * 60) + seconds;
         })();
         const result = getAnswered(quiz, userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
+        const data = await fetchSubmit(result);
+        console.log(result);
     });
 });
 
-
-
 // Hàm logic kiểm tra kết quả đúng sai để gửi api, hàm này được gọi trong checkAnswered
 function getAnswered(quiz, userAnswers) {
-        // Initializing the result structure
-        parts = quiz.parts;
-        const result = {
-            question: [],
-            dictionary: {},
-            quiz: {
-                id: quiz.id,
-                type: quiz.type,
-                completed_duration: completion_Time,
-                summary: {
-                    correct: 0,
-                    total: 0,
-                    left_time: 0,
-                },
+    // Initializing the result structure
+    const parts = quiz.parts;
+    const result = {
+        question: [],
+        dictionary: {},
+        quiz: {
+            quiz: quiz.id,
+            type: quiz.type,
+            completed_duration: completion_Time,
+            status: "reviewed",
+            summary: {
+                correct: 0,
+                total: 0,
+                left_time: 0,
             },
-        };
-    
-        let totalQuestions = 0;
-        let totalCorrect = 0;
-    
-        // Iterate over parts
-        parts.forEach((part, partIndex) => {
-            const partKey = partIndex.toString();
-            result.dictionary[partKey] = []; 
-    
-            part.questions.forEach((question) => {
-                if (!userAnswers.hasOwnProperty(question.id)) {
-                    totalQuestions++;
-                    return; 
-                }
-                const userAnswer = userAnswers[question.id] ; 
-                const isCorrect = question.checkAnswer(userAnswer); 
+        },
+    };
 
-                // Update total counts
+    let totalQuestions = 0;
+    let totalCorrect = 0;
+
+    // Iterate over parts
+    parts.forEach((part, partIndex) => {
+        const partKey = partIndex.toString();
+        result.dictionary[partKey] = [];
+
+        part.questions.forEach((question) => {
+            if (!userAnswers.hasOwnProperty(question.id)) {
                 totalQuestions++;
-                if (isCorrect) totalCorrect++;
-        
-                // Add question to submit list
-                result.question.push({
-                    id: question.id,
-                    success_count: isCorrect ? 1 : 0,
-                    total: 1,
-                });
-        
-                // Add question details to dictionary
-                result.dictionary[partKey].push({
+                return;
+            }
+            const userAnswer = userAnswers[question.id];
+            const isCorrect = question.checkAnswer(userAnswer);
+
+            // Update total counts
+            totalQuestions++;
+            if (isCorrect) totalCorrect++;
+
+            // Add question to submit list
+            result.question.push({
+                id: question.id,
+                success_count: isCorrect ? 1 : 0,
+                total: 1,
+            });
+
+            // Add question details to dictionary
+            result.dictionary[partKey].push({
+                answer: {
                     title: {
                         text: question.content,
                         answer: userAnswer,
-                    },
-                    correct: isCorrect,
-                    order: question.order,
-                    type: question.type,
-                    id_question: question.id,
-                });
-                
+                        id: question.id,
+                    }
+                },
+                correct: isCorrect,
+                question: question.order,
+                type: question.type,
+                id_question: question.id,
             });
+
         });
-    
-        // Update summary
-        result.quiz.summary.correct = totalCorrect;
-        result.quiz.summary.total = totalQuestions;
-        result.quiz.summary.left_time = completion_Time; 
-    
-        return result;
+    });
+
+    // Update summary
+    result.quiz.summary.correct = totalCorrect;
+    result.quiz.summary.total = totalQuestions;
+    const hours = Math.floor(completion_Time / 3600);
+    const minutes = Math.floor((completion_Time % 3600) / 60);
+    const seconds = completion_Time % 60;
+    result.quiz.summary.left_time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    return result;
 }
 
-function initializePage() {
+async function initializePage() {
+    const data = await fetchData();
+    const quizData = JSON.parse(data);
+
+    // Lấy dữ liệu phần (parts) và câu hỏi (questions) từ quizData
+    const parts = quizData.parts.map(partData => {
+        const questions = partData.questions.map(qData => {
+            let content = qData.selection
+                ? qData.selection[0].text
+                : (qData.gap_fill_in_blank ? qData.gap_fill_in_blank.text : '');
+            if (qData.type === 'SINGLE-RADIO') {
+                content = qData.content;
+            }
+
+            // Xử lý lấy các options từ multiple_choice mà không dùng map
+            let selectionOption = [];
+            let answer = ""
+            let explain = ""
+            if (qData.selection_option) {
+                selectionOption = qData.selection_option;
+                answer = qData.selection[0].answer;
+                explain = qData.explain.explanation;
+            } else if (qData.multiple_choice) {
+                selectionOption = [];
+                for (let i = 0; i < qData.multiple_choice.length; i++) {
+                    selectionOption.push(qData.multiple_choice[i].text);
+                    if (qData.multiple_choice[i].correct === true) {
+                        answer = qData.multiple_choice[i].text;
+                    }
+                    explain = qData.explain.explain;
+                }
+            } else if (qData.gap_fill_in_blank) {
+                answer = qData.explain[0].answer;
+                explain = qData.explain[0].explain;
+            }
+
+            return new Question(
+                qData.id,
+                qData.order,
+                qData.type,
+                content,
+                selectionOption, // Truyền danh sách options đã xử lý
+                answer,
+                explain,
+                qData.description || null // Nếu không có description thì gán null
+            );
+        });
+
+        return new Part(partData.id, questions);
+    });
+
+    // Tạo quiz với các phần (parts) đã được tạo
+    const quiz = new Quiz(
+        quizData.id,
+        1, // Giả sử luôn là 1, bạn có thể thay đổi theo yêu cầu
+        quizData.content,
+        quizData.title,
+        quizData.time, // 30 phút
+        parts, // Truyền các phần vào
+        true // Giả sử quiz đã được kích hoạt
+    );
+
     loadQuiz(quiz);
     HighlightText();
 }
- 
 
 window.onload = initializePage;
 window.onpageshow = function (event) {
     if (event.persisted) {
-        initializePage(); 
+        initializePage();
     }
 };

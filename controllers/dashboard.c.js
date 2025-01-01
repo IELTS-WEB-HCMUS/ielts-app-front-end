@@ -17,6 +17,7 @@ module.exports = {
             const suggestQuizList = suggestQuiz.data.items.filter(quiz => 
                 Math.abs(quiz.level - overallScore) <= 0.5
             );         
+
             const statisticList = statistic.data.items.filter(statistic => statistic);  
             req.session.user.profile = {
                 username: userProfile.data.last_name,
