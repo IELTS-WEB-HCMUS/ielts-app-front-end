@@ -12,6 +12,10 @@ module.exports = {
             const tagsearch = await tagsearchM.getTagSearch(access_token);
             const fullquiz = await quizM.getFullQuiz(access_token, req);
 
+            console.log("Tagsearch:", tagsearch.data[4].tags);
+            const tags = fullquiz.data.items.map(item => item.tags);
+            console.log("Tags:", tags);
+
             const totalPages = Math.ceil(fullquiz.data.total / (req.query.page_size || 6));
             const currentPageData = fullquiz.data.items;
 

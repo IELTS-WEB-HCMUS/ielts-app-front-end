@@ -24,14 +24,26 @@ module.exports = {
     getFullQuiz: async (access_token, req) => {
         try {
             const page = req.query.page || 1;   
-            const page_size = req.query.page_size || 3;
+            const page_size = req.query.page_size || 6;
             const mode = req.query.mode || 1;
-            const submitted_status = req.query.submitted_status || 0;
-            const tag_passage = req.query.tagpassage || 1;
-            const tag_question_type = req.query.taglevel || 1;
+            const submitted_status = req.query.submitted_status || null;
+            const tag_passage = req.query.tagpassage || null;
+            const tag_question_type = req.query.taglevel || null;
             const search = req.query.search || '';
             const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-            const response = await fetch(`http://localhost:8080/v1/quizzes?page=${page}&page_size=${page_size}&type=1&mode=${mode}&submitted_status=${submitted_status}&tag_passage=${tag_passage}&tag_question_type=${tag_question_type}&search=${search}`, {
+            
+            let url = `http://localhost:8080/v1/quizzes?page=${page}&page_size=${page_size}&type=1&mode=${mode}&search=${search}`;
+            if (submitted_status) {
+                url += `&submitted_status=${submitted_status}`;
+            }
+            if (tag_passage) {
+                url += `&tag_passage=${tag_passage}`;
+            }
+            if (tag_question_type) {
+                url += `&tag_question_type=${tag_question_type}`;
+            }
+            
+            const response = await fetch(url, {
                 headers: {
                     Authorization: `Bearer ${access_token}`,
                     'Content-Type': 'application/json',

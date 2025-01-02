@@ -19,6 +19,7 @@ module.exports = {
             );         
 
             const statisticList = statistic.data.items.filter(statistic => statistic);  
+            console.log(statisticList);
             req.session.user.profile = {
                 username: userProfile.data.last_name,
                 avatar: userProfile.data.avatar,

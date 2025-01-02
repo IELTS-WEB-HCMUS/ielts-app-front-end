@@ -250,7 +250,7 @@ let part3 = new Part(
 );
 
 // Tạo quiz với id
-let quiz = new Quiz(
+let _quiz = new Quiz(
     3001,
     1,
     'Jean-Antoine Nollet was a French clergyman and physicist. In 1746 he gathered about two hundred monks into a circle about a mile (1.6 km) in circumference, with pieces of iron wire connecting them. He then discharged a battery of Leyden jars through the human chain and observed that each man reacted at substantially the same time to the electric shock, showing that the speed of electricity’s propagation was very high. Given a more humane detection system, this could be a way of signaling over long distances. In 1748, Nollet invented one of the first electrometers, the electroscope, which detected the presence of an electric charge by using electrostatic attraction and repulsion.<br>After the introduction of the European semaphore lines in 1792, the world’s desire to further its ability to communicate from a distance only grew. People wanted a way to send and receive news from remote locations so that they could better understand what was happening in the world around them - not just what was going on in their immediate town or city. This type of communication not only appealed to the media industry, but also to private individuals and companies who wished to stay in touch with contacts. In 1840 Charles Wheatstone from Britain, with William Cooke, obtained a new patent for a telegraphic arrangement. The new apparatus required only a single pair of wires, but the telegraph was still too costly for general purposes. In 1845, however, Cooke and Wheatstone succeeded in producing the single needle apparatus, which they patented, and from that time the electric telegraph became a practical instrument, soon adopted on all the railway lines of the country.<br>It was the European optical telegraph, or semaphore, that was the predecessor of the electrical recording telegraph that changed the history of communication forever. Building on the success of the optical telegraph, Samuel F. B. Morse completed a working version of the electrical recording telegraph, which only required a single wire to send code of dots and dashes. At first, it was imagined that only a few highly skilled encoders would be able to use it but it soon became clear that many people could become proficient in Morse code. A system of lines strung on telegraph poles began to spread in Europe and America.<br>In the 1840s and 1850s several individuals proposed or advocated construction of a telegraph cable across the Atlantic Ocean, including Edward Thornton and Alonzo Jackman. At that time there was no material available for cable insulation and the first breakthrough came with the discovery of a rubber-like latex called gutta-percha. Introduced to Britain in 1843, gutta-percha is the gum of a tree native to the Malay Peninsula and Malaysia. After the failure of their first cable in 1850, the British brothers John and Jacob Brett laid a successful submarine cable from Dover to Calais in 1851. This used two layers of gutta-percha insulation and an armoured outer layer. With thin wire and thick insulation, it floated and had to be weighed down with lead pipe.<br>In the case of first submarine-cable telegraphy, there was the limitation of knowledge of how its electrical properties were affected by water. The voltage which may be impressed on the cable was limited to a definite value. Moreover, for certain reasons, the cable had an impedance associated with it at the sending end which could make the voltage on the cable differ from the voltage applied to the sending-end apparatus. In fact, the cable was too big for a single boat, so two had to start in the middle of the Atlantic, join their cables and sail in opposite directions. Amazingly, the first official telegram to pass between two continents was a letter of congratulation from Queen Victoria of the United Kingdom to the President of the United States, James Buchanan, on August 16, 1858. However, signal quality declined rapidly, slowing transmission to an almost unusable speed and the cable was destroyed the following month.<br>To complete the link between England and Australia, John Pender formed the British-Australian Telegraph Company. The first stage was to lay a 557nm cable from Singapore to Batavia on the island of Java in 1870. It seemed likely that it would come ashore at the northern port of Darwin from where it might connect around the coast to Queensland and New South Wales. It was an undertaking more ambitious than spanning ocean. Flocks of sheep had to be driven with the 400 workers to provide food. They needed horses and bullock carts and, for the parched interior, camels. In the north, tropical rains left the teams flooded. In the centre, it seemed that they would die of thirst. One critical section in the red heart of Australia involved finding a route through the McDonnell mountain range and then finding water on the other side. The water was not only essential for the construction teams. There had to be telegraph repeater stations every few hundred miles to boost the signal and the staff obviously had to have a supply of water.<br>On August 22, 1872, the Northern and Southern sections of the Overland Telegraph Line were connected, uniting the Australian continent and within a few months, Australia was at last in direct contact with England via the submarine cable, too. This allowed the Australian Government to receive news from around the world almost instantaneously for the first time. It could cost several pounds to send a message and it might take several hours for it to reach its destination on the other side of the globe, but the world would never be the same again. The telegraph was the first form of communication over a great distance and was a landmark in human history.',
@@ -301,7 +301,7 @@ function splitSentenceIntoWords(sentence) {
 }
 
 function makeWordsClickable(paragraph) {
-    const text = quiz.content;
+    const text = _quiz.content;
 
     const passages = text.split('<br>');
 
@@ -762,74 +762,14 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('flyout-menu-highlight-text').onpointerleave = this.remove();
 });
 
-document.addEventListener('DOMContentLoaded', async function () {
-    const data = await fetchData();
-    const quizData = JSON.parse(data);
-
-    // Lấy dữ liệu phần (parts) và câu hỏi (questions) từ quizData
-    const parts = quizData.parts.map(partData => {
-        const questions = partData.questions.map(qData => {
-            let content = qData.selection
-                ? qData.selection[0].text
-                : (qData.gap_fill_in_blank ? qData.gap_fill_in_blank.text : '');
-            if (qData.type === 'SINGLE-RADIO') {
-                content = qData.content;
-            }
-
-            // Xử lý lấy các options từ multiple_choice mà không dùng map
-            let selectionOption = [];
-            let answer = ""
-            let explain = ""
-            if (qData.selection_option) {
-                selectionOption = qData.selection_option;
-                answer = qData.selection[0].answer;
-                explain = qData.explain.explanation;
-            } else if (qData.multiple_choice) {
-                selectionOption = [];
-                for (let i = 0; i < qData.multiple_choice.length; i++) {
-                    selectionOption.push(qData.multiple_choice[i].text);
-                    if (qData.multiple_choice[i].correct === true) {
-                        answer = qData.multiple_choice[i].text;
-                    }
-                    explain = qData.explain.explain;
-                }
-            } else if (qData.gap_fill_in_blank) {
-                answer = qData.explain[0].answer;
-                explain = qData.explain[0].explain;
-            }
-
-            return new Question(
-                qData.id,
-                qData.order,
-                qData.type,
-                content,
-                selectionOption, // Truyền danh sách options đã xử lý
-                answer,
-                explain,
-                qData.description || null // Nếu không có description thì gán null
-            );
-        });
-
-        return new Part(partData.id, questions);
-    });
-
-    // Tạo quiz với các phần (parts) đã được tạo
-    const quiz = new Quiz(
-        quizData.id,
-        1, // Giả sử luôn là 1, bạn có thể thay đổi theo yêu cầu
-        quizData.content,
-        quizData.title,
-        quizData.time, // 30 phút
-        parts, // Truyền các phần vào
-        true // Giả sử quiz đã được kích hoạt
-    );
-
+document.addEventListener('DOMContentLoaded', function () {
+    
     document.getElementById('btn_submit_test').addEventListener('click', async function () {
         completion_Time = (() => {
             const [minutes, seconds] = document.getElementById('timer').textContent.split(':').map(Number);
             return (minutes * 60) + seconds;
         })();
-        const result = getAnswered(quiz, userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
+        const result = getAnswered(_quiz, userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
         const data = await fetchSubmit(result);
         window.location.href = `/user/quiz-result?id=${data.data.id}`;
     });
@@ -972,6 +912,7 @@ async function initializePage() {
         parts, // Truyền các phần vào
         true // Giả sử quiz đã được kích hoạt
     );
+    _quiz = quiz;
 
     loadQuiz(quiz);
     HighlightText();

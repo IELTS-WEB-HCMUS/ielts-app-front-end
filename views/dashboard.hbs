@@ -47,7 +47,7 @@
         <div class="container">
             <table id="fresh-table" class="table table-bordered">
                 <thead class="thead-dark">
-                    <th data-field="id" data-sortable="true">ID</th>
+                    {{!-- <th data-field="id" data-sortable="true">ID</th> --}}
                     <th data-field="name" data-sortable="true">TÊN BÀI</th>
                     <th data-field="salary" data-sortable="true">THỜI GIAN NỘP BÀI</th>
                     <th data-field="country" data-sortable="true">THỜI GIAN LÀM BÀI</th>
@@ -57,17 +57,17 @@
                 <tbody>
                     {{#each statistic}}
                     <tr>
-                        <td>{{{ id }}}</td>
+                        {{!-- <td>{{{ id }}}</td> --}}
                         <td>{{{ quiz_title }}}</td>
                         <td>{{{ date_created }}}</td>
                         <td>{{{ completed_duration }}} phút</td>
                         <td>{{{ success }}} / {{{ total }}}</td>
                         <td>
                             <span class="viewresult"
-                                style="margin: 8%; width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"><strong>Xem
+                                style="margin: 8%; width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"
+                                onclick="localStorage.setItem('answer_id', '{{ id }}'); window.location.href = '/user/quiz-result?id={{ id }}';"><strong>Xem
                                     lại</strong></span>
-                            <span id="reso"
-                                onclick="window.location.href='/user/dotest?id={{{ quiz_id }}}'"
+                            <span id="reso" onclick="window.location.href='/user/dotest?id={{{ quiz_id }}}'"
                                 style="width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"><strong>Làm
                                     lại</strong></span>
                         </td>
@@ -190,12 +190,6 @@
             $(this).css('background', 'yellow');
             window.location.href = '/user/dashboard?type=2';
         });
-    });
-
-    $(document).on('click', '.viewresult', function () {
-        const answerId = $(this).closest('tr').find('td').eq(0).text();
-        localStorage.setItem('answer_id', answerId);
-        window.location.href = '/user/quiz-result?id=' + answerId;
     });
 
 </script>

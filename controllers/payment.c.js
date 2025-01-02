@@ -27,6 +27,7 @@ module.exports = {
             }
 
             const data = await response.json();
+            console.log(data);
             res.json({ order_url: data.order_url });
         } catch (error) {
             console.error('Error in buyMoreVocabLookUpTurn:', error.message);

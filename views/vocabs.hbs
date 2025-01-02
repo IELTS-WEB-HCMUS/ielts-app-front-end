@@ -59,7 +59,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="category" class="form-label">Chủ đề</label>
-                            <input type="text" class="form-control" id="category" name="category">
+                            <select class="form-select" id="category" name="category">
+                                {{#each topics}}
+                                <option value="{{id}}">{{id}}</option>
+                                {{/each}}
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 50%; margin-left: 25%;">Lưu</button>
                     </form>
