@@ -19,8 +19,10 @@ router.post('/genotp', (req, res) => {
         body: JSON.stringify(data)
     }).then(response => response.json()).then(result => {
         console.log(result)
-        if (result.code === 1 && result.error_detail === 'email not found') {
+        if (result.code === 1 && result.error_detail === "email not found") {
             res.redirect('/user/forget_password?error=email_not_found');
+        } else if (result.code === 1 && result.error_detail === "google account can't reset password") {
+            res.redirect('/user/forget_password?error=google_account_can_not_reset_password');
         } else if (result.data !== null) {
             res.render('verify_otp_code_page');
         } else {
@@ -49,11 +51,16 @@ router.post('/sendotp', (req, res) => {
         .then(response => response.json())
         .then(result => {
             console.log(result);
-            if (!result.data) {
-                return res.render('verify_otp_code_page', { error: "Mã OTP không đúng. Vui lòng thử lại." });
+            if (result.code === 1 && result.error_detail === "invalid OTP") {
+                res.render('verify_otp_code_page', { error: "Mã OTP không đúng. Vui lòng thử lại.", email: req.session.email });
+            } else if (result.code === 1 && result.error_detail === "OTP expired") {
+                res.render('verify_otp_code_page', { error: "Mã OTP đã hết hạn. Vui lòng gửi lại mã OTP.", email: req.session.email });
+            } else if (!result.data) {
+                res.render('verify_otp_code_page', { error: "Mã OTP không đúng. Vui lòng thử lại." });
+            } else {
+                req.session.verify_token = result.data;
+                res.render('set_new_password');
             }
-            req.session.verify_token = result.data;
-            res.render('set_new_password');
         }).catch(error => {
             console.error('Error when calling API:', error);
             res.render('verify_otp_code_page', { error: "Đã xảy ra lỗi. Vui lòng thử lại sau." });

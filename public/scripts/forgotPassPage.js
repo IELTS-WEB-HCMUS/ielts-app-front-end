@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
         emailError.textContent = 'Email không tồn tại.';
         emailError.style.visibility = 'visible';
     }
+    else if (error === 'google_account_can_not_reset_password') {
+        emailError.textContent = 'Tài khoản Google không thể đổi mật khẩu.';
+        emailError.style.visibility = 'visible';
+    }
 });
 
 function validateEmail(input, errorElement) {
