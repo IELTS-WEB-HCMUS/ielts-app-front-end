@@ -45,6 +45,18 @@ async function fetchLookup(quiz_id, sentence_index, vocab_index, word) {
     });
     console.log('response:', response);
     const data = await response.json();
+    console.log('response json', data);
+
+    if(!response.ok){
+        const errorObject = JSON.parse(data.error.split(" - ")[1]);
+        if(errorObject.error_detail == "record not found"){
+            throw new Error('Hiện tại, từ này chưa có sẵn trong hệ thống. Chúng tôi sẽ cập nhật trong thời gian sớm nhất. Rất mong bạn thông cảm và vui lòng thử lại sau!');
+        }
+        else if (errorObject.error_detail == "vocab usage count exceeded"){
+            throw new Error('Bạn đã sử dụng hết lượt tra từ. Nếu muốn tiếp tục, vui lòng mua thêm lượt để trải nghiệm không bị gián đoạn. Xin cảm ơn!');
+        }
+        console.log('error_detail',errorObject.error_detail);
+    }
     return JSON.stringify(data);
 }
 
@@ -350,26 +362,75 @@ function removeUnderlineWord() {
 
 
 async function showWordDefinition(sentenceIndex, wordIndex, word) {
-    // Thay đổi nội dung với từ được nhấn
-    const id = JSON.parse(localStorage.getItem('quiz')).id;
-    const result = await fetchLookup(id, sentenceIndex, wordIndex, word);
-    const vocab = new Vocab(
-        JSON.parse(result).data.word_display,      // value
-        JSON.parse(result).data.word_class,       // word_class
-        JSON.parse(result).data.meaning, // meaning
-        JSON.parse(result).data.ipa,                // ipa (International Phonetic Alphabet)
-        JSON.parse(result).data.example[0], // example
-        JSON.parse(result).data.collocation,        // verb_structure
-        JSON.parse(result).data.explanation // explanation
-    );
-    console.log('vocab:', vocab);
-    document.getElementById('vocab-value').textContent = vocab.value;
-    document.getElementById('vocab-ipa').textContent = vocab.ipa;
-    document.getElementById('vocab-word-class').textContent = vocab.word_class;
-    document.getElementById('vocab-meaning').textContent = vocab.meaning;
-    document.getElementById('vocab-verb-structure').textContent = vocab.verb_structure;
-    document.getElementById('vocab-example').textContent = vocab.example;
-    document.getElementById('vocab-explanation').textContent = vocab.explanation;
+    try{
+        // Thay đổi nội dung với từ được nhấn
+        const id = JSON.parse(localStorage.getItem('quiz')).id;
+        const result = await fetchLookup(id, sentenceIndex, wordIndex, word);
+        const responseData = JSON.parse(result);
+        const vocab = new Vocab(
+            responseData.data.word_display,      // value
+            responseData.data.word_class,       // word_class
+            responseData.data.meaning, // meaning
+            responseData.data.ipa,                // ipa (International Phonetic Alphabet)
+            responseData.data.example[0], // example
+            responseData.data.collocation,        // verb_structure
+            responseData.data.explanation // explanation
+        );
+        console.log('vocab:', vocab);
+        document.getElementById('vocab-value').textContent = vocab.value;
+        document.getElementById('vocab-ipa').textContent = vocab.ipa;
+        document.getElementById('vocab-word-class').textContent = vocab.word_class;
+        document.getElementById('vocab-meaning').textContent = vocab.meaning;
+        document.getElementById('vocab-verb-structure').textContent = vocab.verb_structure;
+        document.getElementById('vocab-example').textContent = vocab.example;
+        document.getElementById('vocab-explanation').textContent = vocab.explanation;
+    }
+    catch(error){
+        // Đóng offcanvas
+        const offcanvasElement = document.getElementById('vocab-offcanvasBottom');
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+        offcanvasInstance.hide();
+
+        // Tạo modal thông báo lỗi
+        const modalHtml = renderTemplate('modal', {
+            modalId: "ErrorMessageModal",
+            modalLabelId: "modalLabel",
+            modalTitle: "Thông báo lỗi",
+            modalBody: error.message,
+            modalFooter: `
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+            `
+        });
+    
+        document.body.insertAdjacentHTML('beforeend', modalHtml); 
+        const modal = new bootstrap.Modal(document.getElementById('ErrorMessageModal'));
+        modal.show();
+    }
+}
+
+function renderTemplate(templateName, data) {
+    if (templateName === 'modal') {
+        return `
+            <div class="modal fade" id="${data.modalId}" tabindex="-1" aria-labelledby="${data.modalLabelId}" aria-hidden="true" data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="${data.modalLabelId}">${data.modalTitle}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ${data.modalBody}
+                        </div>
+                        <div class="modal-footer">
+                            ${data.modalFooter}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        throw new Error('Template not found');
+    }
 }
 // Chức năng tra từ - End
 
@@ -831,7 +892,23 @@ document.addEventListener('DOMContentLoaded', async function () {
         })();
         const result = getAnswered(quiz, userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
         const data = await fetchSubmit(result);
+        enableBeforeUnload = false;
+        const finishModal = document.getElementById('FinishModal');
+        const modalInstance = bootstrap.Modal.getInstance(finishModal);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
         window.location.href = `/user/quiz-result?id=${data.data.id}`;
+    });
+
+    document.getElementById('btn_exit_dotestpage').addEventListener('click', async function () {
+        enableBeforeUnload = false;
+        const exitModal = document.getElementById('ExitModal');
+        const modalInstance = bootstrap.Modal.getInstance(exitModal);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        window.location.href =`/user/fulltest?mode=0`;
     });
 });
 
@@ -845,7 +922,7 @@ function getAnswered(quiz, userAnswers) {
         quiz: {
             quiz: quiz.id,
             type: quiz.type,
-            completed_duration: completion_Time,
+            completed_duration: quiz.time - completion_Time,
             status: "reviewed",
             summary: {
                 correct: 0,
@@ -977,9 +1054,18 @@ async function initializePage() {
     HighlightText();
 }
 
+let enableBeforeUnload = true;
 window.onload = initializePage;
 window.onpageshow = function (event) {
     if (event.persisted) {
         initializePage();
+        enableBeforeUnload = true;
     }
 };
+
+window.addEventListener('beforeunload', function (event) {
+    if (enableBeforeUnload){
+        event.preventDefault();
+        return (event.returnValue = "");
+    }
+});

@@ -97,10 +97,6 @@
                 document.body.removeChild(flyout);
             }
         });
-        window.addEventListener('beforeunload', function (e) {
-            event.preventDefault();
-            return (event.returnValue = "");
-        });
     </script>
     <script src="../scripts/dotestpage.js"></script>
 </body> 
