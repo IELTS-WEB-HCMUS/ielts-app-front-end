@@ -55,9 +55,8 @@
     <div class="container-row" style="margin-top: 2%;">
         <div class="container-column" style="width: 30%; justify-content:space-evenly;">
             <canvas id="chart"></canvas>
-            <button class="btn btn-primary btn-sm" id="btn-detail"
-                style="margin-top: 1%; margin-left: 20%; margin-right: 20%"
-                onclick="window.location.href='/user/explaination/test_explanation_page'">
+            <button class="btn btn-primary btn-sm reviewresult" id="btn-detail"
+                style="margin-top: 1%; margin-left: 20%; margin-right: 20%">
                 Giải thích chi tiết
             </button>
         </div>
@@ -107,6 +106,21 @@
     }
 
     renderChart("chart", [corret, wrong, notdo]);
+
+    async function fetchAnswerData(id) {
+        const response = await fetch(`http://localhost:3000/user/explaination?id=${id}`);
+        const data = await response.json();
+        console.log(data);
+        localStorage.setItem('quiz_id', data.data.quiz);
+        return JSON.stringify(data);
+    }
+
+    $(document).on('click', '.reviewresult', async function () {
+        const id = localStorage.getItem('answer_id');
+        const data = await fetchAnswerData(id);
+        window.location.href = '/user/explaination/test_explanation_page?id=' + id;
+
+    });
 
 </script>
 

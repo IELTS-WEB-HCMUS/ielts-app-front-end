@@ -28,8 +28,10 @@ module.exports = {
                 answers: answer,
                 time: time
             });
-
             console.log(quizResult.data.detail[0]);
+            quizResult.data.detail[0].forEach(answer => {
+                console.log(answer.answer.title);
+            });
 
         } catch (error) {
             console.error('Error in getResult:', error.message);

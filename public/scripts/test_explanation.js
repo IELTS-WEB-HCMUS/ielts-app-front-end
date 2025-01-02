@@ -1,14 +1,15 @@
 async function fetchQuizData() {
-    const id = JSON.parse(localStorage.getItem('quiz')).id;
+    const id = JSON.parse(localStorage.getItem('quiz_id'));
     const response = await fetch(`http://localhost:3000/user/dotest/detailquiz?id=${id}`);
     const data = await response.json();
     return JSON.stringify(data);
 }
 
 async function fetchAnswerData() {
-    const id = JSON.parse(localStorage.getItem('quiz')).id;
+    const id = localStorage.getItem('answer_id');
     const response = await fetch(`http://localhost:3000/user/explaination?id=${id}`);
     const data = await response.json();
+    console.log(data);
     return JSON.stringify(data);
 }
 
@@ -333,7 +334,7 @@ function loadQuestion(question, answers) {
     let answer = ''; 
 
     if (answerObj) {
-        answer = answerObj.answer; 
+        answer = answerObj.answer.answer; 
         Color = answerObj.correct ? 'green' : 'red'; 
     }
 

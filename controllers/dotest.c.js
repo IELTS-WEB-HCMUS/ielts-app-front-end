@@ -39,11 +39,13 @@ module.exports = {
         try {
             const access_token = req.session.user.access_token;
             const quiz_id = req.query.id;
+            console.log('quiz_id:', quiz_id);
             if (!access_token) {
                 return res.status(401).json({ message: 'Access token is missing' });
             }
 
             const quizDetail = await quizM.submitQuizResult(req, access_token, quiz_id);
+            console.log('quizDetail:', quizDetail);
             res.json(quizDetail);
 
         } catch (error) {

@@ -57,7 +57,7 @@
                 <tbody>
                     {{#each statistic}}
                     <tr>
-                        <td>{{{ quiz_id }}}</td>
+                        <td>{{{ id }}}</td>
                         <td>{{{ quiz_title }}}</td>
                         <td>{{{ date_created }}}</td>
                         <td>{{{ completed_duration }}}'</td>
@@ -66,7 +66,8 @@
                             <span class="viewresult"
                                 style="margin: 8%; width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"><strong>Xem
                                     lại</strong></span>
-                            <span id="reso" onclick="window.location.href='/user/dotest?id={{{ quiz_id }}}'"
+                            <span id="reso"
+                                onclick="window.location.href='/user/dotest?id={{{ quiz_id }}}'"
                                 style="width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"><strong>Làm
                                     lại</strong></span>
                         </td>
@@ -192,9 +193,9 @@
     });
 
     $(document).on('click', '.viewresult', function () {
-        const quizId = $(this).closest('tr').find('td').eq(0).text();
-        localStorage.setItem('quiz_id', quizId);
-        window.location.href = '/user/quiz-result?id=' + quizId;
+        const answerId = $(this).closest('tr').find('td').eq(0).text();
+        localStorage.setItem('answer_id', answerId);
+        window.location.href = '/user/quiz-result?id=' + answerId;
     });
 
 </script>

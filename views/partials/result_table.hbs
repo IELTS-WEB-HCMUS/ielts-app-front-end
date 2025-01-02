@@ -112,9 +112,9 @@
                 <tbody>
                     {{#each answers}}
                     <tr>
-                        <td>{{#if this.answer.title.[0]}}{{{ this.answer.title.[0].id}}}{{/if}}</td>
-                        <td>{{#if this.answer.title.[0]}}{{{ this.answer.title.[0].text}}}{{/if}}</td>
-                        <td>{{{ this.type}}}</td>
+                        <td>{{#if this.answer.title.id}}{{{ this.answer.title.id}}}{{/if}}</td>
+                        <td>{{#if this.answer.title.text}}{{{ this.answer.title.text}}}{{/if}}</td>
+                        <td>{{{ this.type }}}</td>
                         {{#if this.correct}}
                         <td><strong>✔</strong></td>
                         {{else}}
@@ -138,8 +138,19 @@
     </div>
     </div>
 </body>
-<script type="text/javascript">
+<script type="text/javascript"> 
     var $table = $('#fresh-table');
+
+    const answers = {{ answers }};
+    console.log(answers);
+
+    async function fetchAnswerData(id) {
+        const response = await fetch(`http://localhost:3000/user/explaination?id=${id}`);
+        const data = await response.json();
+        console.log(data);
+        localStorage.setItem('quiz_id', data.data.quiz);
+        return JSON.stringify(data);
+    }
 
     $(function () {
         $table.bootstrapTable({
@@ -171,9 +182,11 @@
             }
         });
     });
-    $(document).on('click', '.reviewresult', function () {
-        const id = localStorage.getItem('quiz_id');
+    $(document).on('click', '.reviewresult', async function () {
+        const id = localStorage.getItem('answer_id');
+        const data = await fetchAnswerData(id);
         window.location.href = '/user/explaination/test_explanation_page?id=' + id;
+
     });
 
 </script>

@@ -3,7 +3,7 @@ async function fetchData() {
     const response = await fetch(`http://localhost:3000/user/dotest/detailquiz?id=${id}`);
     const data = await response.json();
     localStorage.setItem('quiz', JSON.stringify(data));
-    localStorage.setItem('quiz_id', JSON.stringify(data).id);
+    localStorage.setItem('quiz_id', data.id);
     return JSON.stringify(data);
 }
 
@@ -19,6 +19,14 @@ async function fetchSubmit(result) {
         }),
     });
     const data = await response.json();
+    console.log('Data returned from server:', data);
+    if (data.data && data.data.id) {
+        console.log('Storing to localStorage:', data.data.id);
+        localStorage.setItem('answer_id', data.data.id);
+    } else {
+        console.error('data.data.id is invalid or missing');
+    }
+
     return data;
 }
 
@@ -823,7 +831,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         })();
         const result = getAnswered(quiz, userAnswers); // Khi bấm nút Nộp bài thì gọi hàm logic này để submit gửi api result
         const data = await fetchSubmit(result);
-        console.log(result);
+        window.location.href = `/user/quiz-result?id=${data.data.id}`;
     });
 });
 
