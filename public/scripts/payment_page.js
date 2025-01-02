@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('free-btn').addEventListener('click', function () {
-        // not implemented
+        window.location.href = '/user/dashboard';
     });
     document.getElementById('premium-btn').addEventListener('click', function () {
         // not implemented

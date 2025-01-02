@@ -48,7 +48,7 @@ form {
     display: flex;
     flex-direction: column;
     width: 30%;
-    padding: 5%;
+    padding: 4%;
     justify-content: center;
     align-items: center;
     margin-top: 2%;
@@ -71,8 +71,7 @@ form {
     height: 2em;
     border-radius: 1.25em;
     border: 1px solid black;
-    margin-top: 0.5em;
-    margin-bottom: 0.2em;
+
     padding-left: 0.9375em;
     padding-right: 0.9375em;
 }
@@ -80,7 +79,7 @@ form {
 .input-group {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: left;
     width: 100%;
     margin-bottom: 10px;
