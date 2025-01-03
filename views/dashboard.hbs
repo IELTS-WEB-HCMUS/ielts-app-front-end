@@ -42,37 +42,19 @@
             style="margin-left: 30%; background: #C1E3FB; border-radius: 3em; border: none; font-size: 1.5em; padding: 0.2em;"><strong>Theo
                 passage</strong></button>
         <button id="button2"
-            style="background: #C1E3FB; border-radius: 3em; border: none; font-size: 1.5em; padding: 0.2em;"><strong>Theo
+            style="background: #C1E3FB; border-radius: 3em; border: none; font-size: 1.5em; padding: 0.2em; margin-bottom: 30px;"><strong>Theo
                 độ khó</strong></button>
         <div class="container">
             <table id="fresh-table" class="table table-bordered">
                 <thead class="thead-dark">
                     {{!-- <th data-field="id" data-sortable="true">ID</th> --}}
-                    <th data-field="name" data-sortable="true">TÊN BÀI</th>
-                    <th data-field="salary" data-sortable="true">THỜI GIAN NỘP BÀI</th>
-                    <th data-field="country" data-sortable="true">THỜI GIAN LÀM BÀI</th>
-                    <th data-field="city" data-sortable="true">ĐIỂM</th>
+                    <th data-field="quiz_title" data-sortable="true">TÊN BÀI</th>
+                    <th data-field="date_created" data-sortable="true">THỜI GIAN NỘP BÀI</th>
+                    <th data-field="completed_duration" data-sortable="true">THỜI GIAN LÀM BÀI</th>
+                    <th data-field="success" data-sortable="true">ĐIỂM</th>
                     <th data-field="actions">HÀNH ĐỘNG</th>
                 </thead>
-                <tbody>
-                    {{#each statistic}}
-                    <tr>
-                        {{!-- <td>{{{ id }}}</td> --}}
-                        <td>{{{ quiz_title }}}</td>
-                        <td>{{{ date_created }}}</td>
-                        <td>{{{ completed_duration }}} phút</td>
-                        <td>{{{ success }}} / {{{ total }}}</td>
-                        <td>
-                            <span class="viewresult"
-                                style="margin: 8%; width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"
-                                onclick="localStorage.setItem('answer_id', '{{ id }}'); window.location.href = '/user/quiz-result?id={{ id }}';"><strong>Xem
-                                    lại</strong></span>
-                            <span id="reso" onclick="window.location.href='/user/dotest?id={{{ quiz_id }}}'"
-                                style="width: 100%; background: #F0F1FA; color: #4F5AED; border-radius: 10%;"><strong>Làm
-                                    lại</strong></span>
-                        </td>
-                    </tr>
-                    {{/each}}
+                <tbody id="table-body-statistic">
                 </tbody>
             </table>
         </div>
@@ -87,28 +69,14 @@
     </div>
 
     <div style="display: flex; margin: 20px 5%; gap: 20px;">
-        <div style="display: flex; flex-direction: column; flex: 2; gap: 20px;">
-            <div style="width: 100%;">
-                {{> goal}}
-            </div>
-            <div style="width: 100%;">
-                {{> calender}}
-            </div>
-        </div>
-
-        <div style="flex: 1;">
-            <div
-                style="background-color: #CBE9FF; padding: 20px; border-radius: 20px; height: 100%; margin-top: -20px;">
-                {{> target}}
-            </div>
-        </div>
+        {{> goal}}
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="/scripts/calendar.js"></script>
 <script src="/scripts/goal.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" defer>
 
     function formatDate(dateString) {
         var date = new Date(dateString);
@@ -133,10 +101,55 @@
             }
         });
     });
-    var $table = $('#fresh-table');
 
-    $(function () {
-        $table.bootstrapTable({
+    $(document).ready(function () {
+        // Initialize the table with pagination when the document is ready
+        $('#fresh-table').bootstrapTable({
+
+            columns: [
+                {
+                    field: 'quiz_title',
+                    title: 'TÊN BÀI',
+                    formatter: function (value) {
+                        return `<strong>${value}</strong>`;
+                    }
+                },
+                {
+                    field: 'date_created',
+                    title: 'THỜI GIAN NỘP BÀI',
+                    formatter: function (value) {
+                        return value ? formatDate(value) : 'N/A'; // Format date or return 'N/A' if no value
+                    }
+                },
+                {
+                    field: 'completed_duration',
+                    title: 'THỜI GIAN LÀM BÀI',
+                    formatter: function (value) {
+                        return value ? `${value} phút` : 'N/A'; // Handle null or empty duration
+                    }
+                },
+                {
+                    field: 'success',
+                    title: 'ĐIỂM',
+                    formatter: function (value, row) {
+                        return value ? `${value} / ${row.total}` : 'N/A'; // Handle null or empty score
+                    }
+                },
+                {
+                    field: 'actions',
+                    title: 'HÀNH ĐỘNG',
+                    formatter: function (value, row) {
+                        return `
+                    <span class="viewresult" onclick="localStorage.setItem('answer_id', '${row.id}'); window.location.href = '/user/quiz-result?id=${row.id}';">
+                        
+                        <strong style="margin-left: 20px; color: purple; background-color: lightyellow;">Xem lại</strong>
+                    </span>
+                    <span id="reso" onclick="window.location.href='/user/dotest?id=${row.quiz_id}'">
+                        <strong style="margin-left: 20px; color: purple; background-color: lightyellow;">Làm lại</strong>
+                    </span>`;
+                    }
+                }
+            ],
             classes: 'table table-hover table-striped',
             search: true,
             showColumns: true,
@@ -154,6 +167,7 @@
                 detailOpen: 'fa-plus',
                 detailClose: 'fa-minus'
             },
+            refreshOptions: { silent: true },
             formatLoadingMessage: function () {
                 return '';
             },
@@ -165,31 +179,128 @@
             }
         });
     });
+
+
 </script>
-<script>
+
+<script type="text/javascript" defer>
+    // Function to format date in 'vi-VN' locale
+    function formatDate(dateString) {
+        var date = new Date(dateString);
+        return date.toLocaleString('vi-VN', {
+            weekday: 'short',  // Optional: Display the day of the week
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
     $(document).ready(function () {
-        $('#button1, #button2').css('background', '#C1E3FB');
+        // Set the button styles based on the active button
+        const setButtonStyle = (activeButtonId, inactiveButtonId) => {
+            $(inactiveButtonId).css('background', '#C1E3FB');
+            $(activeButtonId).css('background', 'yellow');
+        };
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const type = urlParams.get('type');
+        // Function to fetch and render statistics data
+        const fetchAndRenderStatistics = async (type) => {
+            try {
+                // Fetch data from the API
+                const response = await fetch(`/user/dashboard/history?type=${type}`);
+                if (!response.ok) {
+                    console.error('Failed to fetch data:', response.statusText);
+                    return;
+                }
 
-        if (type == '2') {
-            $('#button2').css('background', 'yellow');
-        } else {
-            $('#button1').css('background', 'yellow');
-        }
+                const data = await response.json();
+                console.log(data);
 
-        $('#button1').click(function () {
-            $('#button2').css('background', '#C1E3FB');
-            $(this).css('background', 'yellow');
-            window.location.href = '/user/dashboard?type=1';
+                // Ensure that data.statistic is an array
+                if (!Array.isArray(data.statistic)) {
+                    console.error('Data format is incorrect:', data.statistic);
+                    return;
+                }
+
+                // Load the data into the table
+                $('#fresh-table').bootstrapTable('load', data.statistic);
+                $('#fresh-table').bootstrapTable('refresh');
+            } catch (error) {
+                console.error('Error fetching or rendering statistics:', error);
+            }
+        };
+
+        // Initialize with the first button style and data
+        setButtonStyle('#button1', '#button2');
+        fetchAndRenderStatistics(1);
+
+        // Button click event handlers for switching data type
+        $('#button1').click(async function () {
+            setButtonStyle('#button1', '#button2');
+            await fetchAndRenderStatistics(1);
         });
 
-        $('#button2').click(function () {
-            $('#button1').css('background', '#C1E3FB');
-            $(this).css('background', 'yellow');
-            window.location.href = '/user/dashboard?type=2';
+        $('#button2').click(async function () {
+            setButtonStyle('#button2', '#button1');
+            await fetchAndRenderStatistics(2);
+        });
+
+        // Initialize the table with custom formatters
+        $('#fresh-table').bootstrapTable({
+            columns: [
+                {
+                    field: 'quiz_title',
+                    title: 'TÊN BÀI',
+                    formatter: function (value) {
+                        return `<strong>${value}</strong>`;
+                    }
+                },
+                {
+                    field: 'date_created',
+                    title: 'THỜI GIAN NỘP BÀI',
+                    formatter: function (value) {
+                        return formatDate(value); // Format date properly
+                    }
+                },
+                {
+                    field: 'completed_duration',
+                    title: 'THỜI GIAN LÀM BÀI',
+                    formatter: function (value) {
+                        return `${value} phút`;
+                    }
+                },
+                {
+                    field: 'success',
+                    title: 'ĐIỂM',
+                    formatter: function (value, row) {
+                        return `${value} / ${row.total}`;
+                    }
+                },
+                {
+                    field: 'actions',
+                    title: 'HÀNH ĐỘNG',
+                    formatter: function (value, row) {
+                        return `
+                    <span class="viewresult" onclick="localStorage.setItem('answer_id', '${row.id}'); window.location.href = '/user/quiz-result?id=${row.id}';">
+                        
+                        <strong style="margin-left: 20px; color: purple; background-color: lightyellow;">Xem lại</strong>
+                    </span>
+                    <span id="reso" onclick="window.location.href='/user/dotest?id=${row.quiz_id}'">
+                        <strong style="margin-left: 20px; color: purple; background-color: lightyellow;">Làm lại</strong>
+                    </span>`;
+                    }
+                }
+            ],
+        });
+
+        // Ensure date formatting for any static or dynamically generated content (like date cells)
+        $('td').each(function () {
+            var dateText = $(this).text();
+            // Check if the value contains 'T' indicating it's a date string
+            if (dateText && dateText.includes('T')) {
+                $(this).text(formatDate(dateText));  // Format and update the text
+            }
         });
     });
-
 </script>

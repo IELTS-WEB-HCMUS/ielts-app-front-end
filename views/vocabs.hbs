@@ -35,19 +35,30 @@
                     <form id="vocabForm" action="/user/vocabs/add" method="POST">
                         <div class="mb-3">
                             <label for="value" class="form-label">Từ vựng</label>
-                            <input type="text" class="form-control" id="value" name="value">
+                            <input type="text" class="form-control" id="value" name="value" required>
                         </div>
                         <div class="mb-3">
                             <label for="meaning" class="form-label">Nghĩa của từ</label>
-                            <input type="text" class="form-control" id="meaning" name="meaning">
+                            <input type="text" class="form-control" id="meaning" name="meaning" required>
                         </div>
                         <div class="mb-3">
                             <label for="ipa" class="form-label">IPA</label>
-                            <input type="text" class="form-control" id="ipa" name="ipa">
+                            <input type="text" class="form-control" id="ipa" name="ipa" required>
                         </div>
                         <div class="mb-3">
                             <label for="wordClass" class="form-label">Loại từ</label>
-                            <input type="text" class="form-control" id="word_class" name="word_class">
+                            <select class="form-select" id="word_class" name="word_class">
+                                <option value="noun">Noun</option>
+                                <option value="pronoun">Pronoun</option>
+                                <option value="verb">Verb</option>
+                                <option value="adjective">Adjective</option>
+                                <option value="adverb">Adverb</option>
+                                <option value="preposition">Preposition</option>
+                                <option value="conjunction">Conjunction</option>
+                                <option value="determiner">Determiner</option>
+                                <option value="interjection">Interjection</option>
+                                <option value="article">Article</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="example" class="form-label">Ví dụ</label>

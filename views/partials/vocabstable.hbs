@@ -50,6 +50,7 @@
           <th data-field="name" data-sortable="true">TỪ VỰNG</th>
           <th data-field="status" data-sortable="true">TRẠNG THÁI</th>
           <th data-field="meaning" data-sortable="true">NGHĨA CỦA TỪ</th>
+          <th data-field="ipa" data-sortable="true">IPA</th>
           <th data-field="type" data-sortable="true">LOẠI TỪ</th>
           <th data-field="example" data-sortable="true">VÍ DỤ</th>
           <th data-field="note" data-sortable="true">GHI CHÚ</th>
@@ -63,6 +64,7 @@
             <td><strong id="status" style="color: green; background: lightgray; font-weight: bold;">{{{ status
                 }}}</strong></td>
             <td>{{{ meaning }}}</td>
+            <td>{{{ ipa }}}</td>
             <td>{{{ word_class }}}</td>
             <td>{{{ example }}}</td>
             <td>{{{ note }}}</td>
@@ -95,9 +97,10 @@
       var value = row.find('td:nth-child(2)').text().trim();
       var meaning = row.find('td:nth-child(4)').text().trim();
       var status = row.find('td:nth-child(3) strong').text().trim();
-      var wordClass = row.find('td:nth-child(5)').text().trim();
-      var example = row.find('td:nth-child(6)').text().trim();
-      var note = row.find('td:nth-child(7)').text().trim();
+      var wordClass = row.find('td:nth-child(6)').text().trim();
+      var example = row.find('td:nth-child(7)').text().trim();
+      var note = row.find('td:nth-child(8)').text().trim();
+      var ipa = row.find('td:nth-child(5)').text().trim();
 
       // Set values to the modal form
       $('#edit-id').val(id); // Add this line to set the id
@@ -107,6 +110,7 @@
       $('#edit-word-class').val(wordClass);
       $('#edit-example').val(example);
       $('#edit-note').val(note);
+      $('#edit-ipa').val(ipa);
 
       // Store the id in the modal for later reference
       $('#saveEdit').data('id', id);
@@ -243,6 +247,10 @@
           <div class="form-group">
             <label for="edit-meaning">Nghĩa của từ</label>
             <input type="text" class="form-control" id="edit-meaning" name="meaning" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-ipa">IPA</label>
+            <input type="text" class="form-control" id="edit-ipa" name="ipa" required>
           </div>
           <div class="form-group">
             <label for="edit-word-class">Loại từ</label>

@@ -1,59 +1,310 @@
-<div class="goal-section">
-    <div class="section-header">
-        <i class="fas fa-bullseye"></i>
-        <h2>Mục tiêu bạn muốn</h2>
+<div style="display: flex; flex-direction: column; flex: 2; gap: 20px;">
+    <div style="width: 100%;">
+        <div class="goal-section">
+            <div class="section-header">
+                <i class="fas fa-bullseye"></i>
+                <h2>Mục tiêu bạn muốn</h2>
+            </div>
+            <div class="score-container">
+                <div class="score-box">
+                    <div class="score-label">
+                        <i class="fas fa-chart-line"></i>
+                        Overall Score
+                    </div>
+                    <div class="score-value" id="overall-score">--</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">
+                        <i class="fas fa-book-reader"></i>
+                        Reading
+                    </div>
+                    {{#if targetuser.TargetReading}}
+                    <div class="score-value" id="TargetReading">{{ targetuser.TargetReading }}</div>
+                    {{else}}
+                    <div class="score-value" id="TargetReading">--</div>
+                    {{/if}}
+                </div>
+                <div class="score-box">
+                    <div class="score-label">
+                        <i class="fas fa-headphones"></i>
+                        Listening
+                    </div>
+                    {{#if targetuser.TargetListening}}
+                    <div class="score-value" id="TargetListening">{{ targetuser.TargetListening}}</div>
+                    {{else}}
+                    <div class="score-value" id="TargetListening">--</div>
+                    {{/if}}
+                </div>
+                <div class="score-box">
+                    <div class="score-label">
+                        <i class="fas fa-pencil-alt"></i>
+                        Writing
+                    </div>
+                    {{#if targetuser.TargetWriting}}
+                    <div class="score-value" id="TargetWriting">{{ targetuser.TargetWriting }}</div>
+                    {{else}}
+                    <div class="score-value" id="TargetWriting">--</div>
+                    {{/if}}
+                </div>
+                <div class="score-box">
+                    <div class="score-label">
+                        <i class="fas fa-microphone-alt"></i>
+                        Speaking
+                    </div>
+                    {{#if targetuser.TargetSpeaking}}
+                    <div class="score-value" id="TargetSpeaking">{{ targetuser.TargetSpeaking }}</div>
+                    {{else}}
+                    <div class="score-value" id="TargetSpeaking">--</div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="score-container">
-        <div class="score-box">
-            <div class="score-label">
-                <i class="fas fa-chart-line"></i>
-                Overall Score
-            </div>
-            <div class="score-value" id="overall-score">--</div>
-        </div>
-        <div class="score-box">
-            <div class="score-label">
-                <i class="fas fa-book-reader"></i>
-                Reading
-            </div>
-            {{#if targetuser.TargetReading}}
-            <div class="score-value" id="TargetReading">{{ targetuser.TargetReading }}</div>
-            {{else}}
-            <div class="score-value" id="TargetReading">--</div>
-            {{/if}}
-        </div>
-        <div class="score-box">
-            <div class="score-label">
-                <i class="fas fa-headphones"></i>
-                Listening
-            </div>
-            {{#if targetuser.TargetListening}}
-            <div class="score-value" id="TargetListening">{{ targetuser.TargetListening}}</div>
-            {{else}}
-            <div class="score-value" id="TargetListening">--</div>
-            {{/if}}
-        </div>
-        <div class="score-box">
-            <div class="score-label">
-                <i class="fas fa-pencil-alt"></i>
-                Writing
-            </div>
-            {{#if targetuser.TargetWriting}}
-            <div class="score-value" id="TargetWriting">{{ targetuser.TargetWriting }}</div>
-            {{else}}
-            <div class="score-value" id="TargetWriting">--</div>
-            {{/if}}
-        </div>
-        <div class="score-box">
-            <div class="score-label">
-                <i class="fas fa-microphone-alt"></i>
-                Speaking
-            </div>
-            {{#if targetuser.TargetSpeaking}}
-            <div class="score-value" id="TargetSpeaking">{{ targetuser.TargetSpeaking }}</div>
-            {{else}}
-            <div class="score-value" id="TargetSpeaking">--</div>
-            {{/if}}
-        </div>
+    <div style="width: 100%;">
+        {{> calender}}
     </div>
 </div>
+
+<div style="flex: 1;">
+    <div style="background-color: #CBE9FF; padding: 20px; border-radius: 20px; height: 100%; margin-top: -20px;">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <style>
+                .score-info {
+                    font-size: 20px;
+                    text-align: center;
+                    color: #f5f5f5;
+                    background-color: #333;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    margin-top: 5%;
+                    margin-bottom: 5%;
+                }
+
+                .score-info p {
+                    margin: 0;
+                }
+
+                #targetChart {
+                    max-width: 200px;
+                    max-height: 200px;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                <div>
+                    <h2>Target</h2>
+                </div>
+                <canvas id="targetChart"></canvas>
+                <div class="score-info">
+                </div>
+            </div>
+        </body>
+    </div>
+</div>
+
+<script>
+
+    const read = {{ targetuser.TargetReading }};
+    const listen = {{ targetuser.TargetListening }};
+    const write = {{ targetuser.TargetWriting }};
+    const speak = {{ targetuser.TargetSpeaking }};
+    const percent = {{ percent }};
+    const overall = Math.ceil((read + listen + write + speak) / 4 * 2) / 2;
+    let chart;
+    function createTargetChart(percent) {
+
+        const ctx = document.getElementById('targetChart').getContext('2d');
+        const overallScore = (percent / 100) * overall;
+
+
+        chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [percent * 100 / overall, 100 - (percent * 100 / overall)],
+                    backgroundColor: ['#0f207e', '#ccc'],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                cutout: '75%',
+                plugins: {
+                    tooltip: { enabled: false },
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: `${(percent * 100 / overall).toFixed(1)}%`,
+                        color: '#000000',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        padding: { top: 20, bottom: 0 },
+                    },
+                },
+            },
+        });
+
+        document.querySelector('.score-info').innerHTML = `
+        <p>Target: ${(percent * 100 / overall).toFixed(1)}%</p>
+        <p>Overall Score: ${overallScore.toFixed(1)} / ${overall.toFixed(1)}</p>
+      `;
+    }
+    createTargetChart(percent);
+    const accessToken = "<%= access_token %>";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const skills = ['TargetReading', 'TargetListening', 'TargetSpeaking', 'TargetWriting'];
+        const scores = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0];
+
+        const selectedDateElement = document.getElementById('selected-date');
+        const remainingDaysElement = document.getElementById('remaining-days');
+        const examDateButton = document.getElementById('exam-date-btn');
+        const examDateInput = document.getElementById('exam-date-input');
+
+        let examDate = selectedDateElement.textContent.trim();
+
+        // Initialize Flatpickr for exam date input
+        flatpickr(examDateInput, {
+            dateFormat: "d/m/Y",
+            defaultDate: examDate,
+            onChange: function (selectedDates, dateStr) {
+                examDate = dateStr;
+                selectedDateElement.textContent = examDate;
+                updateRemainingDays(examDate);
+                updateExamInfo();
+            }
+        });
+
+        examDateButton.addEventListener('click', function () {
+            examDateInput.click();
+        });
+
+        function updateRemainingDays(examDateStr) {
+            if (!examDateStr) return;
+
+            const examDateArr = examDateStr.split('/');
+            const examDateObj = new Date(examDateArr[2], examDateArr[1] - 1, examDateArr[0]);
+            const currentDate = new Date();
+            const timeDiff = examDateObj - currentDate;
+
+            if (timeDiff > 0) {
+                const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                remainingDaysElement.textContent = `${daysRemaining} ngày`;
+            } else {
+                remainingDaysElement.textContent = "Ngày thi đã qua";
+            }
+        }
+
+        function roundToIELTS(score) {
+            return parseFloat((Math.round(score * 2) / 2).toFixed(1));
+        }
+
+        function updateOverallScore() {
+            let total = 0;
+            let validScores = 0;
+
+            skills.forEach(skill => {
+                const score = document.getElementById(skill).textContent;
+                if (score && !isNaN(score)) {
+                    total += parseFloat(score);
+                    validScores++;
+                }
+            });
+
+            const overallScoreElement = document.getElementById('overall-score');
+            if (validScores === 4) {
+                const average = total / 4;
+                overallScoreElement.textContent = roundToIELTS(average).toFixed(1);
+                chart.options.plugins.title.text = `${(percent * 100 / (Math.ceil(average * 2) / 2)).toFixed(1)}%`;
+                chart.update();
+                document.querySelector('.score-info').innerHTML = `
+                <p>Overall Score: ${(percent * 100 / (Math.ceil(average * 2) / 2) * (Math.ceil(average * 2) / 2) / 100).toFixed(1)} / ${(Math.ceil(average * 2) / 2).toFixed(1)}</p>
+                `;
+            } else {
+                overallScoreElement.textContent = '--';
+            }
+        }
+
+        function getAllScores() {
+            const allScores = {};
+            skills.forEach(skill => {
+                allScores[skill] = document.getElementById(skill).textContent;
+            });
+            return allScores;
+        }
+
+        async function updateExamInfo() {
+
+            try {
+                const allScores = getAllScores();
+                console.log('Cập nhật:', { allScores, examDate });
+
+                if (!accessToken) {
+                    alert('Không tìm thấy token, vui lòng đăng nhập lại!');
+                    return;
+                }
+
+                const response = await fetch('/user/dashboard/updatetarget', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ allScores, examDate }),
+                });
+
+                if (response.status === 200) {
+                    console.log('Cập nhật thành công:', { allScores, examDate });
+                } else {
+                    console.error('Lỗi khi cập nhật:', response.statusText);
+                    alert('Cập nhật thất bại.');
+                }
+            } catch (error) {
+                console.error('Lỗi kết nối:', error);
+            }
+        }
+
+        skills.forEach(skill => {
+            const scoreElement = document.getElementById(skill);
+            let currentScore = scoreElement.textContent;
+
+            if (currentScore && !currentScore.includes('.')) {
+                currentScore = parseFloat(currentScore).toFixed(1);
+                scoreElement.textContent = currentScore;
+            }
+
+            const scoreBox = scoreElement.parentElement;
+            scoreBox.addEventListener('click', async function () {
+                const scoreValue = prompt(`Chọn điểm ${skill} (0.5-9.0):`, currentScore);
+                const score = parseFloat(scoreValue);
+
+                if (scoreValue && !isNaN(score) && scores.includes(score)) {
+                    currentScore = score.toFixed(1);
+                    scoreElement.textContent = currentScore;
+                    updateOverallScore();
+                    updateExamInfo();
+                } else if (scoreValue !== null) {
+                    alert('Vui lòng nhập điểm hợp lệ (0.5-9.0)');
+                }
+            });
+        });
+
+        if (examDate && examDate !== 'dd/mm/yyyy') {
+            selectedDateElement.textContent = examDate;
+            updateRemainingDays(examDate);
+        } else {
+            selectedDateElement.textContent = 'dd/mm/yyyy';
+            remainingDaysElement.textContent = 'xx ngày';
+        }
+
+        updateOverallScore();
+    });
+</script>
