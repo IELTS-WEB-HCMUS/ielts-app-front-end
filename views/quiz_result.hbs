@@ -48,7 +48,7 @@
         </div>
         <div class="container-column" align="right">
             <p style="margin:0%"><b>Thời gian làm bài:</b></p>
-            <p id="submit-time" style="margin:0%">{{ time }} phút</p>
+            <p id="submit-time" style="margin:0%">{{ time }}</p>
         </div>
     </div>
 
@@ -122,6 +122,23 @@
 
     });
 
+</script>
+
+<script>
+    const timeInSeconds = {{ time }}; // Assuming time is in seconds.
+
+    // Function to format time into hh:mm:ss
+    function formatTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+
+        // Pad single digits with leading zeros
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Set the formatted time to the element with id "submit-time"
+    document.getElementById('submit-time').textContent = formatTime(timeInSeconds);
 </script>
 
 </html>

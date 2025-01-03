@@ -131,8 +131,7 @@
         thành"
         modalFooter='
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-        <button type="button" id="btn_submit_test" class="btn btn-primary">Hoàn
-            thành</button>
+        <button type="button" id="btn_submit_test" class="btn btn-primary">Hoàn thành</button>
         '
         }}
         {{> modal
@@ -142,8 +141,9 @@
         modalBody="Thay đổi của bạn có thể chưa được lưu. Bạn có chắc chắn muốn thoát bài làm"
         modalFooter='
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-        <button type="button" class="btn btn-primary"
-            onclick="window.location.href=\'/user/fulltest?mode=0\'">Thoát</button>
+        {{!-- <button type="button" class="btn btn-primary"
+            onclick="window.location.href=\'/user/fulltest?mode=0\'">Thoát</button> --}}
+        <button type="button" class="btn btn-primary" id="btn_exit_dotestpage">Thoát</button>
         '
         }}
     </div>

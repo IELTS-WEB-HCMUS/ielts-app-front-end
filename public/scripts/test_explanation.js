@@ -480,7 +480,7 @@ function loadQuiz(quiz, answer_quiz,answers){
     quizType.innerHTML = `MePass - ${strQuizType} Practice`;
 
     const timerElement = document.getElementById("timer");
-    timerElement.textContent = convertSecondsToMinutes(quiz.time - answer_quiz.completed_duration);
+    timerElement.textContent = convertSecondsToMinutes(answer_quiz.completed_duration);
     loadButtonQuestion(quiz, answers);
 
     const quizTitle = document.getElementById('quiz-title');
