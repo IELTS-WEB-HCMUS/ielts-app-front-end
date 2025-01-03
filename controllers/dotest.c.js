@@ -67,5 +67,30 @@ module.exports = {
             console.error('Error in FetchLookupVocab:', error.message);
             res.status(500).json({ message: 'Internal server error', error: error.message });
         }
-    }
+    },
+    voteVocab: async (req, res) => {
+        try {
+            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+            const payload = {
+                id: parseInt(req.query.id),
+                type: "vocab",
+                vote_type: req.query.type,
+            };
+
+            const url = new URL(process.env.API_VOTE);
+
+            const response = await fetch(url.toString(), {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${req.session.user.access_token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            return res.json(await response.json());
+        } catch (error) {
+            console.error('Lỗi trong voteVocab:', error.message);
+        }
+    }, 
 };

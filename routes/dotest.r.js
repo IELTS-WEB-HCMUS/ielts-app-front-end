@@ -5,6 +5,7 @@ const { isAuthenticated } = require('../mws/checkLogin');
 router.get('/', isAuthenticated, controllerDoTest.getDotestPage);
 router.get('/detailquiz', isAuthenticated, controllerDoTest.fetchQuizDetail);
 router.post('/submitquiz', isAuthenticated, controllerDoTest.submitQuiz);    
-router.post('/lookup', isAuthenticated, controllerDoTest.fetchLookupVocab);  
+router.post('/lookup', isAuthenticated, controllerDoTest.fetchLookupVocab);
+router.post('/vote', isAuthenticated, controllerDoTest.voteVocab);    
 
 module.exports = router;
