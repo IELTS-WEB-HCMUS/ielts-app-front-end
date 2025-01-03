@@ -76,21 +76,25 @@ module.exports = {
     addVocabs: async (req, res) => {
         try {
             const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+            // Build the payload dynamically, including only non-empty fields
+            const payload = {
+                category: parseInt(req.body.category),
+                value: req.body.value,
+                word_class: req.body.word_class,
+            };
+
+            if (req.body.ipa) payload.ipa = req.body.ipa;
+            if (req.body.meaning) payload.meaning = req.body.meaning;
+            if (req.body.example) payload.example = req.body.example;
+            if (req.body.note) payload.note = req.body.note;
+
             const response = await fetch('http://localhost:8080/api/vocabs/add', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${req.session.user.access_token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    category: parseInt(req.body.category),
-                    ipa: req.body.ipa,
-                    value: req.body.value,
-                    meaning: req.body.meaning,
-                    example: req.body.example,
-                    note: req.body.note,
-                    word_class: req.body.word_class
-                })
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
