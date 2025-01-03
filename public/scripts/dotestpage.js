@@ -271,6 +271,8 @@ let _quiz = new Quiz(
     true
 );
 
+let _vocabLookUpId = 1; // ID của từ đang tra
+
 // Chức năng tra từ - Start
 function showWordIndex(index, word) {
     alert(`The word "${word}" is at index ${index} in the paragraph.`);
@@ -361,11 +363,18 @@ function removeUnderlineWord() {
 
 
 async function showWordDefinition(sentenceIndex, wordIndex, word) {
+    const icons = document.querySelectorAll('.feedback-icon');
+
+    icons.forEach(function (icon) {
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+    });
     try {
         // Thay đổi nội dung với từ được nhấn
         const id = JSON.parse(localStorage.getItem('quiz')).id;
         const result = await fetchLookup(id, sentenceIndex, wordIndex, word);
         const responseData = JSON.parse(result);
+        _vocabLookUpId = responseData.data.id;
         const vocab = new Vocab(
             responseData.data.word_display,      // value
             responseData.data.word_class,       // word_class
@@ -796,13 +805,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const icons = document.querySelectorAll('.feedback-icon');
 
     icons.forEach(function (icon) {
-        icon.addEventListener('click', function () {
+        icon.addEventListener('click', async function () {
             const isCheck = icon.getAttribute('data-ischeck') === 'true';
+            let feedbackType = icon.getAttribute('vote-type');
 
             if (isCheck) {
                 icon.setAttribute('data-ischeck', 'false');
                 icon.classList.remove('fas');
                 icon.classList.add('far');
+
+                if (feedbackType === 'up') {
+                    feedbackType = 'down';
+                } else {
+                    feedbackType = 'up';
+                }
             } else {
                 icons.forEach(function (otherIcon) {
                     otherIcon.setAttribute('data-ischeck', 'false');
@@ -813,6 +829,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 icon.setAttribute('data-ischeck', 'true');
                 icon.classList.remove('far');
                 icon.classList.add('fas');
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/user/dotest/vote?id=${_vocabLookUpId}&type=${feedbackType}`, { // Trigger the POST route
+                    method: 'POST', // Using POST as it's an action
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error("Request failed:", error);
             }
         });
     });
